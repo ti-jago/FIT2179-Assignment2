@@ -7,120 +7,136 @@
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 40px;
-      max-width: 1000px;
+    body { font-family: Arial, sans-serif; margin: 0; background: #f7f5f0; color: #222; }
+
+    .hero {
+      background: #1a1a2e;
+      color: white;
+      padding: 60px 60px 50px;
     }
-    h1 { margin-bottom: 40px; }
-    .chart { margin-bottom: 70px; }
+    .hero h1 { font-size: 2.6rem; margin: 0 0 12px; }
+    .hero h1 span { color: #c8973a; }
+    .hero p { font-size: 1.05rem; color: rgba(255,255,255,0.7); max-width: 650px; margin: 0 0 32px; }
+    .hero-stats { display: flex; gap: 40px; flex-wrap: wrap; }
+    .stat { border-left: 3px solid #0a7e8c; padding-left: 14px; }
+    .stat-n { font-size: 1.8rem; font-weight: bold; }
+    .stat-l { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
+
+    .page { max-width: 1000px; margin: 0 auto; padding: 40px 40px 80px; }
+
+    .section { margin-bottom: 60px; }
+    .section h2 {
+      font-size: 1.4rem;
+      border-left: 4px solid #0a7e8c;
+      padding-left: 12px;
+      margin-bottom: 8px;
+      color: #1a1a2e;
+    }
+    .section p { font-size: 0.95rem; color: #555; max-width: 680px; margin-bottom: 20px; line-height: 1.6; }
+
+    .card {
+      background: white;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      padding: 28px;
+      margin-bottom: 28px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .card h3 { font-size: 1rem; color: #1a1a2e; margin: 0 0 4px; }
+    .card .caption { font-size: 0.8rem; color: #888; margin-bottom: 16px; }
+
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    @media (max-width: 700px) { .grid2 { grid-template-columns: 1fr; } }
+
+    footer { border-top: 1px solid #ddd; padding: 24px 40px; font-size: 0.78rem; color: #888; max-width: 1000px; margin: 0 auto; }
+    footer a { color: #0a7e8c; text-decoration: none; }
   </style>
 </head>
 <body>
 
-<h1>Tourism to Australia Visualisation (2024)</h1>
+<div class="hero">
+  <h1>Who Visits <span>Australia</span> — and What They're Worth</h1>
+  <p>Each year millions of international visitors arrive in Australia, bringing economic value and cultural exchange. This visualisation explores where they come from, how long they stay, how much they spend, and which markets are growing fastest.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-n">9.1M</div><div class="stat-l">Visitor trips, 2024</div></div>
+    <div class="stat"><div class="stat-n">$45B</div><div class="stat-l">Total visitor spend</div></div>
+    <div class="stat"><div class="stat-n">25+</div><div class="stat-l">Source countries tracked</div></div>
+  </div>
+</div>
 
-<h2>Top Countries Visiting Australia</h2>
-<div id="bar" class="chart"></div>
+<div class="page">
 
-<h2>Visitor Spending vs Stay Duration</h2>
-<div id="bubble" class="chart"></div>
+  <div class="section">
+    <h2>Where Visitors Come From</h2>
+    <p>Australia's visitors are dominated by its Asia-Pacific neighbours. New Zealand sends the most trips, while China contributes the highest total spend despite ranking second by trip volume. The map below shows the global distribution at a glance.</p>
+    <div class="card">
+      <h3>Global Visitor Distribution (2024)</h3>
+      <div class="caption">Colour intensity shows number of visitor trips. Hover for details. Source: Tourism Research Australia, IVS 2024.</div>
+      <div id="map"></div>
+    </div>
+    <div class="card">
+      <h3>Top 10 Source Countries by Visitor Trips (2024)</h3>
+      <div class="caption">Trips in thousands. Source: Tourism Research Australia, IVS 2024.</div>
+      <div id="bar"></div>
+    </div>
+  </div>
 
-<h2>Global Visitor Distribution</h2>
-<div id="map" class="chart"></div>
+  <div class="section">
+    <h2>Spend, Stay, and Volume</h2>
+    <p>Trip numbers alone don't capture a visitor's economic value. Chinese visitors spend nearly four times more than New Zealanders despite similar trip counts. Indian visitors stay the longest on average — often visiting friends and family — while Japanese tourists tend to spend more per night.</p>
+    <div class="grid2">
+      <div class="card">
+        <h3>Share of Total Visitor Trips by Region (2024)</h3>
+        <div class="caption">Asia-Pacific dominates Australia's inbound tourism. Source: TRA IVS 2024.</div>
+        <div id="donut"></div>
+      </div>
+      <div class="card">
+        <h3>Nights Stayed vs Total Spend by Country (2024)</h3>
+        <div class="caption">Bubble size = trip volume. Source: TRA IVS 2024.</div>
+        <div id="bubble"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Which Markets Are Growing?</h2>
+    <p>Comparing 2024 to 2025 forecasts reveals which source markets are expanding fastest. The United Kingdom, China, and Hong Kong are among the strongest growers, while Korea and Indonesia show slight declines. Understanding these trends helps Australia's tourism industry plan ahead.</p>
+    <div class="card">
+      <h3>Projected Growth in Visitor Trips: 2024 vs 2025 (%)</h3>
+      <div class="caption">Positive values (teal) indicate growth; negative (orange) indicate decline. Source: TRA IVS 2024.</div>
+      <div id="diverging"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Data sources: <a href="https://www.tra.gov.au" target="_blank">Tourism Research Australia — International Visitor Survey 2024</a> &nbsp;·&nbsp; <a href="https://www.abs.gov.au" target="_blank">ABS Overseas Arrivals and Departures</a><br>
+  Author: ti-jago &nbsp;·&nbsp; FIT2179 Data Visualisation 2, Monash University, S1 2026 &nbsp;·&nbsp; Built with Vega-Lite v5
+</footer>
 
 <script>
   var DATA = "https://raw.githubusercontent.com/ti-jago/FIT2179-Assignment2/refs/heads/main/data/tourism2024_clean.csv";
 
-  // BAR CHART
-  vegaEmbed('#bar', {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 500,
-    "height": 320,
-    "data": {"url": DATA},
-    "transform": [
-      {"filter": "datum.country !== 'Other Asia' && datum.country !== 'Other Europe' && datum.country !== 'Other Countries' && datum.country !== 'Scandinavia'"},
-      {"calculate": "toNumber(datum.trips_2024)", "as": "trips_num"},
-      {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "trips_num", "order": "descending"}]},
-      {"filter": "datum.rank <= 10"}
-    ],
-    "mark": "bar",
-    "encoding": {
-      "y": {"field": "country", "type": "nominal", "sort": {"field": "rank", "order": "ascending"}, "title": "Country"},
-      "x": {"field": "trips_num", "type": "quantitative", "title": "Visitor Trips (thousands)"},
-      "color": {"field": "trips_num", "type": "quantitative", "scale": {"scheme": "tealblues"}, "legend": null},
-      "tooltip": [
-        {"field": "country", "type": "nominal", "title": "Country"},
-        {"field": "trips_num", "type": "quantitative", "title": "Trips (000s)", "format": ","}
-      ]
-    }
-  }, {"actions": false});
-
-  // BUBBLE CHART
-  vegaEmbed('#bubble', {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 500,
-    "height": 400,
-    "data": {"url": DATA},
-    "transform": [
-      {"filter": "datum.country !== 'Other Asia' && datum.country !== 'Other Europe' && datum.country !== 'Other Countries'"},
-      {"calculate": "toNumber(datum.nights_2024)", "as": "nights_num"},
-      {"calculate": "toNumber(datum.spend_2024)", "as": "spend_num"},
-      {"calculate": "toNumber(datum.trips_2024)", "as": "trips_num"}
-    ],
-    "mark": {"type": "point", "filled": true, "opacity": 0.8},
-    "encoding": {
-      "x": {"field": "nights_num", "type": "quantitative", "title": "Total Nights (thousands)"},
-      "y": {"field": "spend_num", "type": "quantitative", "title": "Total Spend ($M AUD)"},
-      "size": {"field": "trips_num", "type": "quantitative", "title": "Trips (000s)", "scale": {"range": [50, 2000]}},
-      "color": {"field": "country", "type": "nominal", "scale": {"scheme": "tableau10"}, "legend": {"title": "Country"}},
-      "tooltip": [
-        {"field": "country", "type": "nominal", "title": "Country"},
-        {"field": "trips_num", "type": "quantitative", "title": "Trips (000s)", "format": ","},
-        {"field": "nights_num", "type": "quantitative", "title": "Nights (000s)", "format": ","},
-        {"field": "spend_num", "type": "quantitative", "title": "Spend ($M)", "format": ","}
-      ]
-    }
-  }, {"actions": false});
-
   // MAP
   vegaEmbed('#map', {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 700,
-    "height": 420,
+    "width": 860, "height": 420,
     "projection": {"type": "naturalEarth1"},
     "layer": [
       {
-        "data": {
-          "url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json",
-          "format": {"type": "topojson", "feature": "countries"}
-        },
+        "data": {"url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json", "format": {"type": "topojson", "feature": "countries"}},
         "mark": {"type": "geoshape", "fill": "#d9d9d9", "stroke": "white", "strokeWidth": 0.5}
       },
       {
-        "data": {
-          "url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json",
-          "format": {"type": "topojson", "feature": "countries"}
-        },
+        "data": {"url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json", "format": {"type": "topojson", "feature": "countries"}},
         "transform": [
-          {
-            "lookup": "properties.name",
-            "from": {
-              "data": {"url": DATA},
-              "key": "country",
-              "fields": ["trips_2024", "spend_2024", "country"]
-            }
-          },
+          {"lookup": "properties.name", "from": {"data": {"url": DATA}, "key": "country", "fields": ["trips_2024","spend_2024","country"]}},
           {"filter": "datum.trips_2024 != null"}
         ],
         "mark": {"type": "geoshape", "stroke": "white", "strokeWidth": 0.5},
         "encoding": {
-          "color": {
-            "field": "trips_2024",
-            "type": "quantitative",
-            "scale": {"scheme": "tealblues", "type": "log"},
-            "legend": {"title": "Trips (000s)"}
-          },
+          "color": {"field": "trips_2024", "type": "quantitative", "scale": {"scheme": "tealblues", "type": "log"}, "legend": {"title": "Trips (000s)"}},
           "tooltip": [
             {"field": "country", "type": "nominal", "title": "Country"},
             {"field": "trips_2024", "type": "quantitative", "title": "Trips (000s)", "format": ","},
@@ -130,7 +146,104 @@
       }
     ]
   }, {"actions": false});
-</script>
 
+  // BAR
+  vegaEmbed('#bar', {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 500, "height": 300,
+    "data": {"url": DATA},
+    "transform": [
+      {"filter": "datum.country !== 'Other Asia' && datum.country !== 'Other Europe' && datum.country !== 'Other Countries' && datum.country !== 'Scandinavia'"},
+      {"calculate": "toNumber(datum.trips_2024)", "as": "trips_num"},
+      {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "trips_num", "order": "descending"}]},
+      {"filter": "datum.rank <= 10"}
+    ],
+    "mark": "bar",
+    "encoding": {
+      "y": {"field": "country", "type": "nominal", "sort": {"field": "rank", "order": "ascending"}, "title": null},
+      "x": {"field": "trips_num", "type": "quantitative", "title": "Visitor Trips (thousands)"},
+      "color": {"field": "trips_num", "type": "quantitative", "scale": {"scheme": "tealblues"}, "legend": null},
+      "tooltip": [
+        {"field": "country", "type": "nominal", "title": "Country"},
+        {"field": "trips_num", "type": "quantitative", "title": "Trips (000s)", "format": ","}
+      ]
+    }
+  }, {"actions": false});
+
+  // BUBBLE
+  vegaEmbed('#bubble', {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 340, "height": 300,
+    "data": {"url": DATA},
+    "transform": [
+      {"filter": "datum.country !== 'Other Asia' && datum.country !== 'Other Europe' && datum.country !== 'Other Countries'"},
+      {"calculate": "toNumber(datum.nights_2024)", "as": "nights_num"},
+      {"calculate": "toNumber(datum.spend_2024)", "as": "spend_num"},
+      {"calculate": "toNumber(datum.trips_2024)", "as": "trips_num"}
+    ],
+    "mark": {"type": "point", "filled": true, "opacity": 0.8},
+    "encoding": {
+      "x": {"field": "nights_num", "type": "quantitative", "title": "Total Nights (000s)"},
+      "y": {"field": "spend_num", "type": "quantitative", "title": "Spend ($M AUD)"},
+      "size": {"field": "trips_num", "type": "quantitative", "scale": {"range": [50, 1500]}, "legend": null},
+      "color": {"field": "country", "type": "nominal", "scale": {"scheme": "tableau10"}, "legend": null},
+      "tooltip": [
+        {"field": "country", "type": "nominal", "title": "Country"},
+        {"field": "trips_num", "type": "quantitative", "title": "Trips (000s)", "format": ","},
+        {"field": "nights_num", "type": "quantitative", "title": "Nights (000s)", "format": ","},
+        {"field": "spend_num", "type": "quantitative", "title": "Spend ($M)", "format": ","}
+      ]
+    }
+  }, {"actions": false});
+
+  // DONUT
+  vegaEmbed('#donut', {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 280, "height": 280,
+    "data": {"url": DATA},
+    "transform": [
+      {"calculate": "toNumber(datum.trips_2024)", "as": "trips_num"},
+      {
+        "calculate": "indexof(['New Zealand','Australia'], datum.country) >= 0 ? 'Pacific' : indexof(['Japan','Hong Kong','Singapore','Malaysia','Indonesia','Taiwan','Thailand','Vietnam','Philippines','South Korea','China','India','Other Asia'], datum.country) >= 0 ? 'Asia' : indexof(['United Kingdom','Germany','Scandinavia','France','Italy','Netherlands','Switzerland','Other Europe'], datum.country) >= 0 ? 'Europe' : indexof(['United States of America','Canada'], datum.country) >= 0 ? 'Americas' : 'Other'",
+        "as": "region"
+      },
+      {"aggregate": [{"op": "sum", "field": "trips_num", "as": "total_trips"}], "groupby": ["region"]}
+    ],
+    "mark": {"type": "arc", "innerRadius": 70},
+    "encoding": {
+      "theta": {"field": "total_trips", "type": "quantitative"},
+      "color": {"field": "region", "type": "nominal", "scale": {"scheme": "tableau10"}, "legend": {"title": "Region"}},
+      "tooltip": [
+        {"field": "region", "type": "nominal", "title": "Region"},
+        {"field": "total_trips", "type": "quantitative", "title": "Trips (000s)", "format": ","}
+      ]
+    }
+  }, {"actions": false});
+
+  // DIVERGING BAR
+  vegaEmbed('#diverging', {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 500, "height": 380,
+    "data": {"url": DATA},
+    "transform": [
+      {"filter": "datum.country !== 'Other Asia' && datum.country !== 'Other Europe' && datum.country !== 'Other Countries'"},
+      {"calculate": "toNumber(datum.trips_change_pct)", "as": "change"},
+      {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "change", "order": "descending"}]}
+    ],
+    "mark": "bar",
+    "encoding": {
+      "y": {"field": "country", "type": "nominal", "sort": {"field": "rank", "order": "ascending"}, "title": null},
+      "x": {"field": "change", "type": "quantitative", "title": "% Change in Trips (2024 to 2025)"},
+      "color": {
+        "condition": {"test": "datum.change >= 0", "value": "#0a7e8c"},
+        "value": "#c8973a"
+      },
+      "tooltip": [
+        {"field": "country", "type": "nominal", "title": "Country"},
+        {"field": "change", "type": "quantitative", "title": "Growth (%)", "format": "+.0f"}
+      ]
+    }
+  }, {"actions": false});
+</script>
 </body>
 </html>
