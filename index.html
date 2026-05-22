@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Tourism to Australia Visualisation</title>
+  <meta charset="utf-8">
+  <title>FIT2179 Data Visualisation 2</title>
 
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
@@ -9,31 +10,38 @@
 
   <style>
     body {
-      font-family: Arial;
+      font-family: Arial, sans-serif;
       margin: 40px;
+      max-width: 1000px;
+    }
+
+    h1 {
+      margin-bottom: 40px;
     }
 
     .chart {
-      margin-bottom: 60px;
+      margin-bottom: 70px;
     }
   </style>
 </head>
 
 <body>
 
-<h1>Tourism to Australia (2024)</h1>
+<h1>Tourism to Australia Visualisation (2024)</h1>
 
-<h2>Where visitors come from</h2>
-<div id="chart1" class="chart"></div>
-<div id="chart2" class="chart"></div>
+<h2>Top Countries Visiting Australia</h2>
+<div id="bar" class="chart"></div>
 
-<h2>Visitor behaviour</h2>
-<div id="chart3" class="chart"></div>
+<h2>Visitor Spending vs Stay Duration</h2>
+<div id="bubble" class="chart"></div>
+
+<h2>Global Visitor Distribution</h2>
+<div id="map" class="chart"></div>
 
 <script>
-vegaEmbed('#chart1', 'charts/bar_top_countries.json');
-vegaEmbed('#chart2', 'charts/map_visitors.json');
-vegaEmbed('#chart3', 'charts/bubble_spend_stay.json');
+  vegaEmbed('#bar', 'charts/bar_top_countries.json');
+  vegaEmbed('#bubble', 'charts/bubble.json');
+  vegaEmbed('#map', 'charts/map2.json');
 </script>
 
 </body>
