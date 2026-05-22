@@ -22,7 +22,7 @@
           "lookup": "properties.name",
           "from": {
             "data": {
-              "url": "https://raw.githubusercontent.com/ti-jago/FIT2179-Assignment2/refs/heads/main/tourism2024_clean.csv"
+              "url": "https://raw.githubusercontent.com/ti-jago/FIT2179-Assignment2/main/data/tourism2024_clean.csv"
             },
             "key": "country",
             "fields": ["trips_2024", "spend_2024", "country"]
