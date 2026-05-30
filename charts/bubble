@@ -13,7 +13,7 @@
   ],
   "mark": {"type": "point", "filled": true, "opacity": 0.8},
   "encoding": {
-    "x": {"field": "nights_2024", "type": "quantitative", "title": "Total Nights (thousands)"},
+    "x": {"field": "nights_2024", "type": "quantitative", "title": "Total Nights (thousands)", "scale": {"type": "log"}},
     "y": {"field": "spend_2024", "type": "quantitative", "title": "Total Spend ($M)"},
     "size": {"field": "trips_2024", "type": "quantitative", "title": "Trips (000s)", "scale": {"range": [50, 2000]}},
     "color": {"field": "country", "type": "nominal", "legend": {"title": "Country"}},
