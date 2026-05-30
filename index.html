@@ -183,7 +183,7 @@
     ],
     "mark": {"type": "point", "filled": true, "opacity": 0.8},
     "encoding": {
-      "x": {"field": "nights_num", "type": "quantitative", "title": "Total Nights (000s)"},
+      "x": {"field": "nights_num", "type": "quantitative", "title": "Total Nights (000s)", "scale": {"type": "log"}},
       "y": {"field": "spend_num", "type": "quantitative", "title": "Spend ($M AUD)"},
       "size": {"field": "trips_num", "type": "quantitative", "scale": {"range": [50, 1500]}, "legend": null},
       "color": {"field": "country", "type": "nominal", "scale": {"scheme": "tableau10"}, "legend": null},
