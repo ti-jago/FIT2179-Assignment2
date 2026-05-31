@@ -1,0 +1,697 @@
+date,country,arrivals
+2019-01,New Zealand,92670
+2019-02,New Zealand,92290
+2019-03,New Zealand,109920
+2019-04,New Zealand,119220
+2019-05,New Zealand,117520
+2019-06,New Zealand,109910
+2019-07,New Zealand,133630
+2019-08,New Zealand,124710
+2019-09,New Zealand,126990
+2019-10,New Zealand,142970
+2019-11,New Zealand,120410
+2019-12,New Zealand,143530
+2020-01,New Zealand,97060
+2020-02,New Zealand,87920
+2020-03,New Zealand,48180
+2020-04,New Zealand,370
+2020-05,New Zealand,1190
+2020-06,New Zealand,1440
+2020-07,New Zealand,500
+2020-08,New Zealand,370
+2020-09,New Zealand,350
+2020-10,New Zealand,900
+2020-11,New Zealand,1640
+2020-12,New Zealand,2520
+2021-01,New Zealand,1580
+2021-02,New Zealand,1570
+2021-03,New Zealand,2060
+2021-04,New Zealand,16320
+2021-05,New Zealand,28510
+2021-06,New Zealand,27390
+2021-07,New Zealand,13160
+2021-08,New Zealand,1010
+2021-09,New Zealand,100
+2021-10,New Zealand,210
+2021-11,New Zealand,1070
+2021-12,New Zealand,3780
+2022-01,New Zealand,2330
+2022-02,New Zealand,4820
+2022-03,New Zealand,18800
+2022-04,New Zealand,42500
+2022-05,New Zealand,46670
+2022-06,New Zealand,57200
+2022-07,New Zealand,79560
+2022-08,New Zealand,75500
+2022-09,New Zealand,82810
+2022-10,New Zealand,98600
+2022-11,New Zealand,91210
+2022-12,New Zealand,97630
+2023-01,New Zealand,65480
+2023-02,New Zealand,78650
+2023-03,New Zealand,95840
+2023-04,New Zealand,112140
+2023-05,New Zealand,98290
+2023-06,New Zealand,106720
+2023-07,New Zealand,115960
+2023-08,New Zealand,105050
+2023-09,New Zealand,128820
+2023-10,New Zealand,123200
+2023-11,New Zealand,116350
+2023-12,New Zealand,125640
+2024-01,New Zealand,94410
+2024-02,New Zealand,105970
+2024-03,New Zealand,115270
+2024-04,New Zealand,115910
+2024-05,New Zealand,116950
+2024-06,New Zealand,103850
+2024-07,New Zealand,121320
+2024-08,New Zealand,112780
+2024-09,New Zealand,118440
+2024-10,New Zealand,139280
+2024-11,New Zealand,115180
+2024-12,New Zealand,133600
+2025-01,New Zealand,96250
+2025-02,New Zealand,88800
+2025-03,New Zealand,104570
+2025-04,New Zealand,123950
+2025-05,New Zealand,117250
+2025-06,New Zealand,119730
+2025-07,New Zealand,122910
+2025-08,New Zealand,114660
+2025-09,New Zealand,135720
+2025-10,New Zealand,140970
+2025-11,New Zealand,127820
+2025-12,New Zealand,142420
+2026-01,New Zealand,102470
+2026-02,New Zealand,85190
+2026-03,New Zealand,115760
+2019-01,United Kingdom,73990
+2019-02,United Kingdom,85330
+2019-03,United Kingdom,74000
+2019-04,United Kingdom,59150
+2019-05,United Kingdom,29980
+2019-06,United Kingdom,28290
+2019-07,United Kingdom,39300
+2019-08,United Kingdom,36130
+2019-09,United Kingdom,41300
+2019-10,United Kingdom,60940
+2019-11,United Kingdom,68880
+2019-12,United Kingdom,118530
+2020-01,United Kingdom,72100
+2020-02,United Kingdom,84750
+2020-03,United Kingdom,39360
+2020-04,United Kingdom,140
+2020-05,United Kingdom,340
+2020-06,United Kingdom,570
+2020-07,United Kingdom,410
+2020-08,United Kingdom,310
+2020-09,United Kingdom,430
+2020-10,United Kingdom,670
+2020-11,United Kingdom,840
+2020-12,United Kingdom,880
+2021-01,United Kingdom,740
+2021-02,United Kingdom,630
+2021-03,United Kingdom,810
+2021-04,United Kingdom,660
+2021-05,United Kingdom,860
+2021-06,United Kingdom,870
+2021-07,United Kingdom,740
+2021-08,United Kingdom,550
+2021-09,United Kingdom,380
+2021-10,United Kingdom,380
+2021-11,United Kingdom,2790
+2021-12,United Kingdom,12480
+2022-01,United Kingdom,9720
+2022-02,United Kingdom,13810
+2022-03,United Kingdom,27960
+2022-04,United Kingdom,31890
+2022-05,United Kingdom,16420
+2022-06,United Kingdom,16720
+2022-07,United Kingdom,25340
+2022-08,United Kingdom,23910
+2022-09,United Kingdom,33500
+2022-10,United Kingdom,47420
+2022-11,United Kingdom,55410
+2022-12,United Kingdom,97090
+2023-01,United Kingdom,55070
+2023-02,United Kingdom,72110
+2023-03,United Kingdom,73490
+2023-04,United Kingdom,42920
+2023-05,United Kingdom,24610
+2023-06,United Kingdom,22700
+2023-07,United Kingdom,32990
+2023-08,United Kingdom,31400
+2023-09,United Kingdom,35950
+2023-10,United Kingdom,50610
+2023-11,United Kingdom,57860
+2023-12,United Kingdom,97170
+2024-01,United Kingdom,62100
+2024-02,United Kingdom,77140
+2024-03,United Kingdom,78820
+2024-04,United Kingdom,40140
+2024-05,United Kingdom,27870
+2024-06,United Kingdom,23230
+2024-07,United Kingdom,32840
+2024-08,United Kingdom,34770
+2024-09,United Kingdom,41980
+2024-10,United Kingdom,55200
+2024-11,United Kingdom,62940
+2024-12,United Kingdom,103730
+2025-01,United Kingdom,71140
+2025-02,United Kingdom,77620
+2025-03,United Kingdom,74520
+2025-04,United Kingdom,55990
+2025-05,United Kingdom,30760
+2025-06,United Kingdom,27900
+2025-07,United Kingdom,56460
+2025-08,United Kingdom,38600
+2025-09,United Kingdom,46900
+2025-10,United Kingdom,59700
+2025-11,United Kingdom,80090
+2025-12,United Kingdom,138610
+2026-01,United Kingdom,79470
+2026-02,United Kingdom,83580
+2026-03,United Kingdom,72130
+2019-01,Germany,18690
+2019-02,Germany,26230
+2019-03,Germany,21970
+2019-04,Germany,13450
+2019-05,Germany,9240
+2019-06,Germany,8350
+2019-07,Germany,14610
+2019-08,Germany,13190
+2019-09,Germany,14420
+2019-10,Germany,18960
+2019-11,Germany,18600
+2019-12,Germany,29380
+2020-01,Germany,18510
+2020-02,Germany,21990
+2020-03,Germany,11770
+2020-04,Germany,170
+2020-05,Germany,20
+2020-06,Germany,70
+2020-07,Germany,60
+2020-08,Germany,30
+2020-09,Germany,50
+2020-10,Germany,110
+2020-11,Germany,140
+2020-12,Germany,110
+2021-01,Germany,120
+2021-02,Germany,110
+2021-03,Germany,150
+2021-04,Germany,120
+2021-05,Germany,180
+2021-06,Germany,140
+2021-07,Germany,150
+2021-08,Germany,80
+2021-09,Germany,70
+2021-10,Germany,60
+2021-11,Germany,310
+2021-12,Germany,1630
+2022-01,Germany,1300
+2022-02,Germany,2130
+2022-03,Germany,4690
+2022-04,Germany,4740
+2022-05,Germany,3500
+2022-06,Germany,3450
+2022-07,Germany,6800
+2022-08,Germany,7100
+2022-09,Germany,8500
+2022-10,Germany,12020
+2022-11,Germany,12230
+2022-12,Germany,18890
+2023-01,Germany,12370
+2023-02,Germany,17970
+2023-03,Germany,16510
+2023-04,Germany,9610
+2023-05,Germany,6520
+2023-06,Germany,6120
+2023-07,Germany,10530
+2023-08,Germany,9710
+2023-09,Germany,10460
+2023-10,Germany,14700
+2023-11,Germany,14740
+2023-12,Germany,22630
+2024-01,Germany,15340
+2024-02,Germany,19580
+2024-03,Germany,20280
+2024-04,Germany,10140
+2024-05,Germany,7040
+2024-06,Germany,6010
+2024-07,Germany,10370
+2024-08,Germany,10100
+2024-09,Germany,11410
+2024-10,Germany,15620
+2024-11,Germany,16260
+2024-12,Germany,26430
+2025-01,Germany,16590
+2025-02,Germany,19800
+2025-03,Germany,19240
+2025-04,Germany,12020
+2025-05,Germany,7350
+2025-06,Germany,6220
+2025-07,Germany,11600
+2025-08,Germany,12530
+2025-09,Germany,12380
+2025-10,Germany,17100
+2025-11,Germany,17810
+2025-12,Germany,26860
+2026-01,Germany,18110
+2026-02,Germany,22090
+2026-03,Germany,18610
+2019-01,Singapore,18290
+2019-02,Singapore,32180
+2019-03,Singapore,38610
+2019-04,Singapore,29850
+2019-05,Singapore,41610
+2019-06,Singapore,59040
+2019-07,Singapore,34020
+2019-08,Singapore,44210
+2019-09,Singapore,36260
+2019-10,Singapore,39430
+2019-11,Singapore,48700
+2019-12,Singapore,56300
+2020-01,Singapore,19420
+2020-02,Singapore,24030
+2020-03,Singapore,13030
+2020-04,Singapore,60
+2020-05,Singapore,100
+2020-06,Singapore,170
+2020-07,Singapore,140
+2020-08,Singapore,130
+2020-09,Singapore,190
+2020-10,Singapore,230
+2020-11,Singapore,350
+2020-12,Singapore,470
+2021-01,Singapore,350
+2021-02,Singapore,210
+2021-03,Singapore,320
+2021-04,Singapore,230
+2021-05,Singapore,570
+2021-06,Singapore,670
+2021-07,Singapore,320
+2021-08,Singapore,360
+2021-09,Singapore,310
+2021-10,Singapore,180
+2021-11,Singapore,3140
+2021-12,Singapore,9170
+2022-01,Singapore,3210
+2022-02,Singapore,5440
+2022-03,Singapore,13590
+2022-04,Singapore,21410
+2022-05,Singapore,26900
+2022-06,Singapore,37040
+2022-07,Singapore,23900
+2022-08,Singapore,29150
+2022-09,Singapore,29690
+2022-10,Singapore,29680
+2022-11,Singapore,37390
+2022-12,Singapore,38400
+2023-01,Singapore,10980
+2023-02,Singapore,19830
+2023-03,Singapore,30840
+2023-04,Singapore,25630
+2023-05,Singapore,39330
+2023-06,Singapore,42610
+2023-07,Singapore,23560
+2023-08,Singapore,31330
+2023-09,Singapore,31140
+2023-10,Singapore,27680
+2023-11,Singapore,37750
+2023-12,Singapore,43330
+2024-01,Singapore,12560
+2024-02,Singapore,26690
+2024-03,Singapore,33510
+2024-04,Singapore,26470
+2024-05,Singapore,47710
+2024-06,Singapore,50610
+2024-07,Singapore,27300
+2024-08,Singapore,41280
+2024-09,Singapore,31370
+2024-10,Singapore,34860
+2024-11,Singapore,39430
+2024-12,Singapore,46110
+2025-01,Singapore,16510
+2025-02,Singapore,21840
+2025-03,Singapore,33940
+2025-04,Singapore,26070
+2025-05,Singapore,43100
+2025-06,Singapore,60860
+2025-07,Singapore,34300
+2025-08,Singapore,41690
+2025-09,Singapore,39590
+2025-10,Singapore,37440
+2025-11,Singapore,42960
+2025-12,Singapore,45410
+2026-01,Singapore,14020
+2026-02,Singapore,29510
+2026-03,Singapore,33330
+2019-01,China,142850
+2019-02,China,206280
+2019-03,China,124370
+2019-04,China,96240
+2019-05,China,94690
+2019-06,China,80680
+2019-07,China,150390
+2019-08,China,128280
+2019-09,China,98990
+2019-10,China,102710
+2019-11,China,101390
+2019-12,China,111800
+2020-01,China,156610
+2020-02,China,21330
+2020-03,China,27940
+2020-04,China,50
+2020-05,China,90
+2020-06,China,180
+2020-07,China,130
+2020-08,China,160
+2020-09,China,200
+2020-10,China,340
+2020-11,China,340
+2020-12,China,320
+2021-01,China,380
+2021-02,China,250
+2021-03,China,260
+2021-04,China,310
+2021-05,China,360
+2021-06,China,360
+2021-07,China,250
+2021-08,China,270
+2021-09,China,140
+2021-10,China,160
+2021-11,China,1030
+2021-12,China,2780
+2022-01,China,3740
+2022-02,China,7720
+2022-03,China,5130
+2022-04,China,3550
+2022-05,China,4250
+2022-06,China,6550
+2022-07,China,12390
+2022-08,China,8390
+2022-09,China,7480
+2022-10,China,7070
+2022-11,China,9100
+2022-12,China,13880
+2023-01,China,14630
+2023-02,China,40430
+2023-03,China,26810
+2023-04,China,32000
+2023-05,China,32210
+2023-06,China,37330
+2023-07,China,79040
+2023-08,China,58790
+2023-09,China,59080
+2023-10,China,43060
+2023-11,China,45880
+2023-12,China,66530
+2024-01,China,71170
+2024-02,China,149770
+2024-03,China,58240
+2024-04,China,58020
+2024-05,China,55130
+2024-06,China,55670
+2024-07,China,103840
+2024-08,China,78550
+2024-09,China,73570
+2024-10,China,61220
+2024-11,China,55800
+2024-12,China,70570
+2025-01,China,114660
+2025-02,China,122680
+2025-03,China,70990
+2025-04,China,73770
+2025-05,China,67350
+2025-06,China,60200
+2025-07,China,112900
+2025-08,China,98720
+2025-09,China,83080
+2025-10,China,78170
+2025-11,China,74500
+2025-12,China,83120
+2026-01,China,78400
+2026-02,China,220170
+2026-03,China,87560
+2019-01,Japan,31200
+2019-02,Japan,44540
+2019-03,Japan,53470
+2019-04,Japan,32760
+2019-05,Japan,27960
+2019-06,Japan,24630
+2019-07,Japan,43000
+2019-08,Japan,63070
+2019-09,Japan,40750
+2019-10,Japan,39700
+2019-11,Japan,45530
+2019-12,Japan,52030
+2020-01,Japan,34020
+2020-02,Japan,43770
+2020-03,Japan,13310
+2020-04,Japan,30
+2020-05,Japan,70
+2020-06,Japan,50
+2020-07,Japan,40
+2020-08,Japan,50
+2020-09,Japan,80
+2020-10,Japan,60
+2020-11,Japan,160
+2020-12,Japan,80
+2021-01,Japan,130
+2021-02,Japan,70
+2021-03,Japan,90
+2021-04,Japan,110
+2021-05,Japan,190
+2021-06,Japan,360
+2021-07,Japan,80
+2021-08,Japan,40
+2021-09,Japan,30
+2021-10,Japan,40
+2021-11,Japan,120
+2021-12,Japan,610
+2022-01,Japan,860
+2022-02,Japan,1170
+2022-03,Japan,2170
+2022-04,Japan,3380
+2022-05,Japan,3430
+2022-06,Japan,3610
+2022-07,Japan,7600
+2022-08,Japan,13080
+2022-09,Japan,7840
+2022-10,Japan,9710
+2022-11,Japan,12450
+2022-12,Japan,14090
+2023-01,Japan,9590
+2023-02,Japan,23890
+2023-03,Japan,26750
+2023-04,Japan,14590
+2023-05,Japan,18550
+2023-06,Japan,15040
+2023-07,Japan,30540
+2023-08,Japan,43550
+2023-09,Japan,25130
+2023-10,Japan,25040
+2023-11,Japan,31050
+2023-12,Japan,34000
+2024-01,Japan,20460
+2024-02,Japan,40790
+2024-03,Japan,44800
+2024-04,Japan,21450
+2024-05,Japan,23010
+2024-06,Japan,20310
+2024-07,Japan,33240
+2024-08,Japan,54420
+2024-09,Japan,32570
+2024-10,Japan,31370
+2024-11,Japan,34840
+2024-12,Japan,40070
+2025-01,Japan,21970
+2025-02,Japan,39480
+2025-03,Japan,46750
+2025-04,Japan,17600
+2025-05,Japan,23220
+2025-06,Japan,21570
+2025-07,Japan,36210
+2025-08,Japan,60610
+2025-09,Japan,34260
+2025-10,Japan,32960
+2025-11,Japan,46440
+2025-12,Japan,42050
+2026-01,Japan,24430
+2026-02,Japan,42770
+2026-03,Japan,53930
+2019-01,India,24660
+2019-02,India,32420
+2019-03,India,33990
+2019-04,India,30920
+2019-05,India,40550
+2019-06,India,34330
+2019-07,India,26040
+2019-08,India,33310
+2019-09,India,32020
+2019-10,India,29040
+2019-11,India,37380
+2019-12,India,44640
+2020-01,India,24450
+2020-02,India,37470
+2020-03,India,20130
+2020-04,India,80
+2020-05,India,110
+2020-06,India,160
+2020-07,India,120
+2020-08,India,220
+2020-09,India,210
+2020-10,India,360
+2020-11,India,330
+2020-12,India,320
+2021-01,India,300
+2021-02,India,320
+2021-03,India,400
+2021-04,India,280
+2021-05,India,120
+2021-06,India,250
+2021-07,India,400
+2021-08,India,410
+2021-09,India,320
+2021-10,India,310
+2021-11,India,2320
+2021-12,India,7530
+2022-01,India,7910
+2022-02,India,11260
+2022-03,India,17280
+2022-04,India,26570
+2022-05,India,31570
+2022-06,India,28570
+2022-07,India,22380
+2022-08,India,32410
+2022-09,India,26470
+2022-10,India,28310
+2022-11,India,35370
+2022-12,India,35230
+2023-01,India,19610
+2023-02,India,31520
+2023-03,India,38790
+2023-04,India,35390
+2023-05,India,41230
+2023-06,India,36680
+2023-07,India,24120
+2023-08,India,30250
+2023-09,India,29370
+2023-10,India,26930
+2023-11,India,37700
+2023-12,India,43970
+2024-01,India,26200
+2024-02,India,36010
+2024-03,India,42390
+2024-04,India,35360
+2024-05,India,44580
+2024-06,India,39550
+2024-07,India,26860
+2024-08,India,34460
+2024-09,India,33200
+2024-10,India,30970
+2024-11,India,41140
+2024-12,India,52740
+2025-01,India,27650
+2025-02,India,39920
+2025-03,India,43370
+2025-04,India,36090
+2025-05,India,47940
+2025-06,India,36770
+2025-07,India,28560
+2025-08,India,35500
+2025-09,India,33870
+2025-10,India,31910
+2025-11,India,43090
+2025-12,India,46860
+2026-01,India,29000
+2026-02,India,38280
+2026-03,India,42380
+2019-01,United States of America,67640
+2019-02,United States of America,84210
+2019-03,United States of America,89180
+2019-04,United States of America,60830
+2019-05,United States of America,56410
+2019-06,United States of America,62690
+2019-07,United States of America,61530
+2019-08,United States of America,51980
+2019-09,United States of America,48380
+2019-10,United States of America,60200
+2019-11,United States of America,75040
+2019-12,United States of America,99900
+2020-01,United States of America,70550
+2020-02,United States of America,78340
+2020-03,United States of America,34330
+2020-04,United States of America,180
+2020-05,United States of America,320
+2020-06,United States of America,710
+2020-07,United States of America,540
+2020-08,United States of America,450
+2020-09,United States of America,610
+2020-10,United States of America,700
+2020-11,United States of America,950
+2020-12,United States of America,1000
+2021-01,United States of America,890
+2021-02,United States of America,670
+2021-03,United States of America,1110
+2021-04,United States of America,880
+2021-05,United States of America,970
+2021-06,United States of America,1440
+2021-07,United States of America,780
+2021-08,United States of America,400
+2021-09,United States of America,230
+2021-10,United States of America,230
+2021-11,United States of America,1710
+2021-12,United States of America,7450
+2022-01,United States of America,4950
+2022-02,United States of America,6700
+2022-03,United States of America,14480
+2022-04,United States of America,17540
+2022-05,United States of America,19210
+2022-06,United States of America,26420
+2022-07,United States of America,27040
+2022-08,United States of America,25730
+2022-09,United States of America,28630
+2022-10,United States of America,37640
+2022-11,United States of America,51220
+2022-12,United States of America,66470
+2023-01,United States of America,49840
+2023-02,United States of America,69560
+2023-03,United States of America,63440
+2023-04,United States of America,46260
+2023-05,United States of America,42380
+2023-06,United States of America,49080
+2023-07,United States of America,55980
+2023-08,United States of America,48240
+2023-09,United States of America,36400
+2023-10,United States of America,51700
+2023-11,United States of America,61660
+2023-12,United States of America,85200
+2024-01,United States of America,63980
+2024-02,United States of America,82790
+2024-03,United States of America,84770
+2024-04,United States of America,47610
+2024-05,United States of America,43980
+2024-06,United States of America,52460
+2024-07,United States of America,42030
+2024-08,United States of America,41070
+2024-09,United States of America,41370
+2024-10,United States of America,54030
+2024-11,United States of America,63230
+2024-12,United States of America,95060
+2025-01,United States of America,72090
+2025-02,United States of America,79290
+2025-03,United States of America,83460
+2025-04,United States of America,49040
+2025-05,United States of America,42360
+2025-06,United States of America,51750
+2025-07,United States of America,50090
+2025-08,United States of America,48120
+2025-09,United States of America,41820
+2025-10,United States of America,56280
+2025-11,United States of America,68080
+2025-12,United States of America,102590
+2026-01,United States of America,76860
+2026-02,United States of America,78010
+2026-03,United States of America,85750
