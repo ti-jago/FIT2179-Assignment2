@@ -8,269 +8,92 @@
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-
   <style>
     :root {
-      --ink:       #0f0e0c;
-      --cream:     #f2ede4;
-      --cream-2:   #e8e2d8;
-      --gold:      #b8863c;
-      --gold-lt:   #e8c97a;
-      --teal:      #0d6e78;
-      --teal-lt:   #c5e8ec;
-      --rust:      #c0522a;
-      --muted:     #7a746c;
-      --border:    #d8d2c8;
-      --white:     #faf8f4;
+      --ink:     #0f0e0c;
+      --cream:   #f2ede4;
+      --cream-2: #e8e2d8;
+      --gold:    #b8863c;
+      --gold-lt: #e8c97a;
+      --teal:    #0d6e78;
+      --teal-lt: #c5e8ec;
+      --rust:    #c0522a;
+      --muted:   #7a746c;
+      --border:  #d8d2c8;
+      --white:   #faf8f4;
     }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.65;overflow-x:hidden}
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    /* HERO */
+    .hero{background:var(--ink);color:var(--cream);position:relative;overflow:hidden;min-height:520px;display:grid;grid-template-columns:1fr 380px}
+    .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 40%,rgba(13,110,120,.25) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 10% 80%,rgba(184,134,60,.15) 0%,transparent 60%);pointer-events:none}
+    .hero-text{padding:72px 64px 64px;position:relative;z-index:1;display:flex;flex-direction:column;justify-content:space-between}
+    .hero-eyebrow{font-family:'DM Sans',sans-serif;font-size:.7rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-lt);margin-bottom:20px}
+    .hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,5.5vw,5rem);font-weight:600;line-height:1;margin-bottom:24px;letter-spacing:-.02em}
+    .hero h1 em{font-style:italic;color:var(--gold-lt)}
+    .hero-lead{font-size:1rem;color:rgba(242,237,228,.65);max-width:520px;line-height:1.7;margin-bottom:48px}
+    .hero-stats{display:flex;gap:0;border-top:1px solid rgba(255,255,255,.12);padding-top:28px}
+    .stat{flex:1;padding-right:28px;border-right:1px solid rgba(255,255,255,.1);margin-right:28px}
+    .stat:last-child{border-right:none;margin-right:0}
+    .stat-n{font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:600;line-height:1;color:var(--white)}
+    .stat-n sup{font-size:1rem;vertical-align:super}
+    .stat-l{font-size:.72rem;color:rgba(242,237,228,.5);margin-top:4px;letter-spacing:.04em}
+    .hero-side{background:rgba(255,255,255,.03);border-left:1px solid rgba(255,255,255,.08);padding:72px 40px 64px;display:flex;flex-direction:column;justify-content:center;gap:28px;position:relative;z-index:1}
+    .hero-fact{padding:20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:4px}
+    .hero-fact-n{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--gold-lt)}
+    .hero-fact-l{font-size:.78rem;color:rgba(242,237,228,.55);margin-top:2px}
 
-    html { scroll-behavior: smooth; }
+    /* NAV */
+    .nav-strip{background:var(--ink);border-top:1px solid rgba(255,255,255,.06);padding:0 64px;display:flex;gap:0;overflow-x:auto}
+    .nav-strip a{color:rgba(242,237,228,.45);text-decoration:none;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500;padding:16px 24px 14px;border-bottom:2px solid transparent;white-space:nowrap;transition:color .2s,border-color .2s}
+    .nav-strip a:hover{color:var(--gold-lt);border-bottom-color:var(--gold)}
 
-    body {
-      background: var(--cream);
-      color: var(--ink);
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 300;
-      line-height: 1.65;
-      overflow-x: hidden;
-    }
+    /* PAGE */
+    .page{max-width:1080px;margin:0 auto;padding:0 48px 100px}
+    .section{padding-top:80px}
+    .section-label{font-size:.68rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:8px}
+    .section h2{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:600;line-height:1.1;color:var(--ink);margin-bottom:16px;letter-spacing:-.01em}
+    .section-rule{width:48px;height:2px;background:var(--gold);margin-bottom:20px}
+    .section-lead{font-size:.98rem;color:var(--muted);max-width:640px;margin-bottom:40px;line-height:1.75}
+    .section-lead strong{color:var(--ink);font-weight:500}
 
-    /* ── HERO ──────────────────────────────────── */
-    .hero {
-      background: var(--ink);
-      color: var(--cream);
-      padding: 0;
-      position: relative;
-      overflow: hidden;
-      min-height: 520px;
-      display: grid;
-      grid-template-columns: 1fr 380px;
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 60% 80% at 80% 40%, rgba(13,110,120,0.25) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 60% at 10% 80%, rgba(184,134,60,0.15) 0%, transparent 60%);
-      pointer-events: none;
-    }
-    .hero-text {
-      padding: 72px 64px 64px;
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .hero-eyebrow {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.7rem;
-      font-weight: 500;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--gold-lt);
-      margin-bottom: 20px;
-    }
-    .hero h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(3rem, 5.5vw, 5rem);
-      font-weight: 600;
-      line-height: 1.0;
-      margin-bottom: 24px;
-      letter-spacing: -0.02em;
-    }
-    .hero h1 em {
-      font-style: italic;
-      color: var(--gold-lt);
-    }
-    .hero-lead {
-      font-size: 1rem;
-      color: rgba(242,237,228,0.65);
-      max-width: 520px;
-      line-height: 1.7;
-      margin-bottom: 48px;
-    }
-    .hero-stats {
-      display: flex;
-      gap: 0;
-      border-top: 1px solid rgba(255,255,255,0.12);
-      padding-top: 28px;
-    }
-    .stat {
-      flex: 1;
-      padding-right: 28px;
-      border-right: 1px solid rgba(255,255,255,0.1);
-      margin-right: 28px;
-    }
-    .stat:last-child { border-right: none; margin-right: 0; }
-    .stat-n {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.6rem;
-      font-weight: 600;
-      line-height: 1;
-      color: var(--white);
-    }
-    .stat-n sup { font-size: 1rem; vertical-align: super; }
-    .stat-l { font-size: 0.72rem; color: rgba(242,237,228,0.5); margin-top: 4px; letter-spacing: 0.04em; }
+    /* CARDS */
+    .card{background:var(--white);border:1px solid var(--border);border-radius:3px;padding:32px 36px;margin-bottom:24px}
+    .card-header{margin-bottom:20px}
+    .card-title{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:var(--ink);margin-bottom:4px}
+    .card-caption{font-size:.78rem;color:var(--muted);line-height:1.5}
+    .card-caption a{color:var(--teal);text-decoration:none}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 
-    .hero-side {
-      background: rgba(255,255,255,0.03);
-      border-left: 1px solid rgba(255,255,255,0.08);
-      padding: 72px 40px 64px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 28px;
-      position: relative;
-      z-index: 1;
-    }
-    .hero-fact {
-      padding: 20px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 4px;
-    }
-    .hero-fact-n {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2rem;
-      font-weight: 600;
-      color: var(--gold-lt);
-    }
-    .hero-fact-l { font-size: 0.78rem; color: rgba(242,237,228,0.55); margin-top: 2px; }
+    /* INSIGHT */
+    .insight{background:var(--ink);color:var(--cream);border-radius:3px;padding:28px 32px;margin-bottom:24px;display:flex;gap:24px;align-items:flex-start}
+    .insight-icon{font-size:1.8rem;flex-shrink:0;margin-top:2px}
+    .insight-text{font-size:.92rem;line-height:1.65;color:rgba(242,237,228,.8)}
+    .insight-text strong{color:var(--gold-lt);font-weight:500}
 
-    /* ── NAV STRIP ─────────────────────────────── */
-    .nav-strip {
-      background: var(--ink);
-      border-top: 1px solid rgba(255,255,255,0.06);
-      padding: 0 64px;
-      display: flex;
-      gap: 0;
-      overflow-x: auto;
-    }
-    .nav-strip a {
-      color: rgba(242,237,228,0.45);
-      text-decoration: none;
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      font-weight: 500;
-      padding: 16px 24px 14px;
-      border-bottom: 2px solid transparent;
-      white-space: nowrap;
-      transition: color 0.2s, border-color 0.2s;
-    }
-    .nav-strip a:hover { color: var(--gold-lt); border-bottom-color: var(--gold); }
+    .divider{border:none;border-top:1px solid var(--border);margin:60px 0 0}
 
-    /* ── PAGE BODY ─────────────────────────────── */
-    .page { max-width: 1080px; margin: 0 auto; padding: 0 48px 100px; }
+    footer{background:var(--ink);color:rgba(242,237,228,.4);padding:40px 64px;font-size:.75rem;line-height:1.8;margin-top:80px}
+    footer a{color:rgba(242,237,228,.6);text-decoration:underline}
+    .footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+    .footer-heading{color:rgba(242,237,228,.7);font-weight:500;margin-bottom:6px;letter-spacing:.08em;font-size:.68rem;text-transform:uppercase}
 
-    /* ── SECTION ───────────────────────────────── */
-    .section { padding-top: 80px; }
-    .section-label {
-      font-size: 0.68rem;
-      font-weight: 500;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--teal);
-      margin-bottom: 8px;
-    }
-    .section h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.4rem;
-      font-weight: 600;
-      line-height: 1.1;
-      color: var(--ink);
-      margin-bottom: 16px;
-      letter-spacing: -0.01em;
-    }
-    .section-rule {
-      width: 48px;
-      height: 2px;
-      background: var(--gold);
-      margin-bottom: 20px;
-    }
-    .section-lead {
-      font-size: 0.98rem;
-      color: var(--muted);
-      max-width: 640px;
-      margin-bottom: 40px;
-      line-height: 1.75;
-    }
-    .section-lead strong { color: var(--ink); font-weight: 500; }
+    .vega-embed{width:100%!important}
+    .vega-embed summary{display:none!important}
 
-    /* ── CARDS ─────────────────────────────────── */
-    .card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      padding: 32px 36px;
-      margin-bottom: 24px;
+    @media(max-width:780px){
+      .grid-2{grid-template-columns:1fr}
+      .hero{grid-template-columns:1fr}
+      .hero-side{display:none}
+      .page{padding:0 20px 60px}
+      .nav-strip{padding:0 20px}
     }
-    .card-header { margin-bottom: 20px; }
-    .card-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--ink);
-      margin-bottom: 4px;
-    }
-    .card-caption { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
-    .card-caption a { color: var(--teal); text-decoration: none; }
-
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
-    @media (max-width: 780px) {
-      .grid-2, .grid-3 { grid-template-columns: 1fr; }
-      .hero { grid-template-columns: 1fr; }
-      .hero-side { display: none; }
-    }
-
-    /* ── INSIGHT CALLOUT ───────────────────────── */
-    .insight {
-      background: var(--ink);
-      color: var(--cream);
-      border-radius: 3px;
-      padding: 28px 32px;
-      margin-bottom: 24px;
-      display: flex;
-      gap: 24px;
-      align-items: flex-start;
-    }
-    .insight-icon { font-size: 1.8rem; flex-shrink: 0; margin-top: 2px; }
-    .insight-text { font-size: 0.92rem; line-height: 1.65; color: rgba(242,237,228,0.8); }
-    .insight-text strong { color: var(--gold-lt); font-weight: 500; }
-
-    /* ── DIVIDER ───────────────────────────────── */
-    .divider {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 60px 0 0;
-    }
-
-    /* ── FOOTER ────────────────────────────────── */
-    footer {
-      background: var(--ink);
-      color: rgba(242,237,228,0.4);
-      padding: 40px 64px;
-      font-size: 0.75rem;
-      line-height: 1.8;
-      margin-top: 80px;
-    }
-    footer a { color: rgba(242,237,228,0.6); text-decoration: underline; }
-    .footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-    .footer-heading { color: rgba(242,237,228,0.7); font-weight: 500; margin-bottom: 6px; letter-spacing: 0.08em; font-size: 0.68rem; text-transform: uppercase; }
-
-    /* vega embed tweaks */
-    .vega-embed { width: 100% !important; }
-    .vega-embed summary { display: none !important; }
   </style>
 </head>
 <body>
 
-<!-- ── HERO ── -->
 <header class="hero">
   <div class="hero-text">
     <div>
@@ -281,53 +104,30 @@
       </p>
     </div>
     <div class="hero-stats">
-      <div class="stat">
-        <div class="stat-n">9.1<sup>M</sup></div>
-        <div class="stat-l">International visitor trips, 2024</div>
-      </div>
-      <div class="stat">
-        <div class="stat-n">$45<sup>B</sup></div>
-        <div class="stat-l">Total visitor spend, AUD</div>
-      </div>
-      <div class="stat">
-        <div class="stat-n">25<sup>+</sup></div>
-        <div class="stat-l">Source countries tracked</div>
-      </div>
+      <div class="stat"><div class="stat-n">9.1<sup>M</sup></div><div class="stat-l">International visitor trips, 2024</div></div>
+      <div class="stat"><div class="stat-n">$45<sup>B</sup></div><div class="stat-l">Total visitor spend, AUD</div></div>
+      <div class="stat"><div class="stat-n">25<sup>+</sup></div><div class="stat-l">Source countries tracked</div></div>
     </div>
   </div>
   <div class="hero-side">
-    <div class="hero-fact">
-      <div class="hero-fact-n">#1 China</div>
-      <div class="hero-fact-l">Highest total visitor spend of any nation — $8B AUD in 2024</div>
-    </div>
-    <div class="hero-fact">
-      <div class="hero-fact-n">#1 NZ</div>
-      <div class="hero-fact-l">Most trips to Australia — 1.26 million in 2024</div>
-    </div>
-    <div class="hero-fact">
-      <div class="hero-fact-n">NSW</div>
-      <div class="hero-fact-l">Most visited state — 314,490 short-term arrivals, March 2026</div>
-    </div>
-    <div class="hero-fact">
-      <div class="hero-fact-n">+23.9%</div>
-      <div class="hero-fact-l">NT fastest growing state for visitor arrivals, 2025–2026</div>
-    </div>
+    <div class="hero-fact"><div class="hero-fact-n">#1 China</div><div class="hero-fact-l">Highest total visitor spend of any nation — $8B AUD in 2024</div></div>
+    <div class="hero-fact"><div class="hero-fact-n">#1 NZ</div><div class="hero-fact-l">Most trips to Australia — 1.26 million in 2024</div></div>
+    <div class="hero-fact"><div class="hero-fact-n">NSW</div><div class="hero-fact-l">Most visited state — 314,490 short-term arrivals, March 2026</div></div>
+    <div class="hero-fact"><div class="hero-fact-n">+23.9%</div><div class="hero-fact-l">NT fastest growing state for visitor arrivals, 2025–2026</div></div>
   </div>
 </header>
 
-<!-- ── NAV ── -->
 <nav class="nav-strip">
   <a href="#origins">01 — Origins</a>
   <a href="#value">02 — Economic Value</a>
-  <a href="#destinations">03 — Australian Destinations</a>
-  <a href="#recovery">04 — Recovery</a>
+  <a href="#patterns">03 — When &amp; Why</a>
+  <a href="#destinations">04 — Destinations</a>
+  <a href="#recovery">05 — Recovery</a>
 </nav>
 
 <div class="page">
 
-  <!-- ══════════════════════════════════════════
-       SECTION 1 — ORIGINS
-  ══════════════════════════════════════════ -->
+  <!-- SECTION 1 — ORIGINS -->
   <section class="section" id="origins">
     <p class="section-label">Section 01</p>
     <h2>Where Visitors Come From</h2>
@@ -364,9 +164,7 @@
 
   <hr class="divider">
 
-  <!-- ══════════════════════════════════════════
-       SECTION 2 — ECONOMIC VALUE
-  ══════════════════════════════════════════ -->
+  <!-- SECTION 2 — ECONOMIC VALUE -->
   <section class="section" id="value">
     <p class="section-label">Section 02</p>
     <h2>Economic Value of Each Market</h2>
@@ -377,9 +175,7 @@
 
     <div class="insight">
       <div class="insight-icon">💡</div>
-      <div class="insight-text">
-        The chart below uses a <strong>logarithmic x-axis</strong> to prevent clustering — many countries have similar night counts at the low end. Bubble size represents trip volume. <strong>China stands alone</strong> in the top-right: high nights, very high spend.
-      </div>
+      <div class="insight-text">The chart below uses a <strong>logarithmic x-axis</strong> to prevent clustering — many countries have similar night counts at the low end. Bubble size represents trip volume. <strong>China stands alone</strong> in the top-right: high nights, very high spend.</div>
     </div>
 
     <div class="card">
@@ -401,11 +197,46 @@
 
   <hr class="divider">
 
-  <!-- ══════════════════════════════════════════
-       SECTION 3 — AUSTRALIAN DESTINATIONS
-  ══════════════════════════════════════════ -->
-  <section class="section" id="destinations">
+  <!-- SECTION 3 — WHEN & WHY -->
+  <section class="section" id="patterns">
     <p class="section-label">Section 03</p>
+    <h2>When They Come &amp; Why They Come</h2>
+    <div class="section-rule"></div>
+    <p class="section-lead">
+      Visitor numbers are not constant throughout the year. Monthly data reveals strong <strong>seasonal peaks in Australian winter</strong> and a near-complete collapse during COVID-19 border closures. The recovery has been uneven — China has been slowest to return, while New Zealand and India rebounded fastest. Meanwhile, the <em>purpose</em> of travel has subtly shifted: <strong>holiday travel now makes up a smaller share</strong> than pre-pandemic, while education and visiting friends &amp; relatives have grown in relative importance.
+    </p>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Monthly Visitor Arrivals by Source Country (Jan 2019 – Mar 2026)</div>
+        <div class="card-caption">Each line is a country. Click a country name in the legend to highlight it; click again to reset. The dashed line marks Australia's border closure in March 2020. Source: <a href="https://www.abs.gov.au" target="_blank">ABS 3401.0 Table 5 — Overseas Arrivals and Departures, 2026</a>.</div>
+      </div>
+      <div id="chart-monthly"></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Why Visitors Come: Purpose of Travel (2019–2025)</div>
+          <div class="card-caption">Normalised stacked bars show the <em>share</em> of arrivals by reason — isolating structural shifts from raw volume changes. Holiday travel's dominance has slightly contracted post-pandemic. Source: ABS 3401.0 Table 6.</div>
+        </div>
+        <div id="chart-reason"></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">How Long They Stay: Duration of Visit (2019–2025)</div>
+          <div class="card-caption">Heatmap of arrival share by intended stay duration. Darker cells = more visitors chose that stay length. Short stays (under 2 weeks) consistently dominate, but longer stays grew in share post-COVID. Source: ABS 3401.0 Table 6.</div>
+        </div>
+        <div id="chart-duration"></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- SECTION 4 — DESTINATIONS -->
+  <section class="section" id="destinations">
+    <p class="section-label">Section 04</p>
     <h2>Where in Australia Do They Go?</h2>
     <div class="section-rule"></div>
     <p class="section-lead">
@@ -432,11 +263,9 @@
 
   <hr class="divider">
 
-  <!-- ══════════════════════════════════════════
-       SECTION 4 — RECOVERY
-  ══════════════════════════════════════════ -->
+  <!-- SECTION 5 — RECOVERY -->
   <section class="section" id="recovery">
-    <p class="section-label">Section 04</p>
+    <p class="section-label">Section 05</p>
     <h2>Australia's Tourism Recovery</h2>
     <div class="section-rule"></div>
     <p class="section-lead">
@@ -445,9 +274,7 @@
 
     <div class="insight">
       <div class="insight-icon">📍</div>
-      <div class="insight-text">
-        <strong>How to read this chart:</strong> Each row is a travel category. The <strong style="color:var(--gold-lt)">gold dot is 2019</strong> (pre-COVID); the <strong style="color:var(--teal-lt)">teal dot is 2026</strong>. A teal dot to the right of the gold dot means full recovery. A teal dot to the left means arrivals are still below pre-COVID levels.
-      </div>
+      <div class="insight-text"><strong>How to read this chart:</strong> Each row is a travel category. The <strong style="color:var(--gold-lt)">gold dot is 2019</strong> (pre-COVID); the <strong style="color:var(--teal-lt)">teal dot is 2026</strong>. A teal dot to the right of the gold dot means full recovery. A teal dot to the left means arrivals are still below pre-COVID levels.</div>
     </div>
 
     <div class="card">
@@ -465,17 +292,16 @@
       </div>
       <div id="bar-grouped"></div>
     </div>
-
   </section>
 
-</div><!-- end .page -->
+</div>
 
 <footer>
   <div class="footer-grid">
     <div>
       <div class="footer-heading">Data Sources</div>
       <a href="https://www.tra.gov.au/en/international/international-tourism-statistics" target="_blank">Tourism Research Australia — International Visitor Survey 2024</a><br>
-      <a href="https://www.abs.gov.au/statistics/industry/tourism-and-transport/overseas-arrivals-and-departures-australia" target="_blank">Australian Bureau of Statistics — Overseas Arrivals and Departures, March 2026</a>
+      <a href="https://www.abs.gov.au/statistics/industry/tourism-and-transport/overseas-arrivals-and-departures-australia" target="_blank">Australian Bureau of Statistics — Overseas Arrivals and Departures, March 2026 (Tables 5 &amp; 6)</a>
     </div>
     <div>
       <div class="footer-heading">Authorship</div>
@@ -486,327 +312,376 @@
 </footer>
 
 <script>
-  var OPT = { actions: false, renderer: "svg" };
-  var DATA  = "https://raw.githubusercontent.com/ti-jago/FIT2179-Assignment2/refs/heads/main/data/tourism2024_clean.csv";
-  var STATE = "https://raw.githubusercontent.com/ti-jago/FIT2179-Assignment2/refs/heads/main/data/visitors_by_state.csv";
-  var STATE_LONG = "https://raw.githubusercontent.com/ti-jago/FIT2179-Assignment2/refs/heads/main/data/visitors_by_state_long.csv";
-  var ARR   = "https://raw.githubusercontent.com/ti-jago/FIT2179-Assignment2/refs/heads/main/data/arrivals.csv";
-  var ARR_LONG = "https://raw.githubusercontent.com/ti-jago/FIT2179-Assignment2/refs/heads/main/data/arrivals_long.csv";
+// ── INLINE DATA (no external CSV requests needed) ─────────────
+const _D = {"tourism":[{"country":"New Zealand","trips_2024":"1260","trips_2025":"1303","trips_change_pct":"3","nights_2024":"14804","nights_2025":"15402","nights_change_pct":"4","spend_2024":"2064","spend_2025":"2410","spend_change_pct":"17"},{"country":"Japan","trips_2024":"362","trips_2025":"385","trips_change_pct":"6","nights_2024":"12931","nights_2025":"14562","nights_change_pct":"13","spend_2024":"1435","spend_2025":"1617","spend_change_pct":"13"},{"country":"Hong Kong","trips_2024":"199","trips_2025":"228","trips_change_pct":"15","nights_2024":"5249","nights_2025":"6736","nights_change_pct":"28","spend_2024":"873","spend_2025":"1128","spend_change_pct":"29"},{"country":"Singapore","trips_2024":"361","trips_2025":"386","trips_change_pct":"7","nights_2024":"5446","nights_2025":"5949","nights_change_pct":"9","spend_2024":"1088","spend_2025":"1122","spend_change_pct":"3"},{"country":"Malaysia","trips_2024":"184","trips_2025":"194","trips_change_pct":"5","nights_2024":"5292","nights_2025":"5274","nights_change_pct":"0","spend_2024":"685","spend_2025":"705","spend_change_pct":"3"},{"country":"Indonesia","trips_2024":"202","trips_2025":"218","trips_change_pct":"8","nights_2024":"10340","nights_2025":"9531","nights_change_pct":"-8","spend_2024":"998","spend_2025":"976","spend_change_pct":"-2"},{"country":"Taiwan","trips_2024":"149","trips_2025":"175","trips_change_pct":"17","nights_2024":"9850","nights_2025":"9515","nights_change_pct":"-3","spend_2024":"903","spend_2025":"978","spend_change_pct":"8"},{"country":"Thailand","trips_2024":"90","trips_2025":"91","trips_change_pct":"2","nights_2024":"5149","nights_2025":"6064","nights_change_pct":"18","spend_2024":"457","spend_2025":"460","spend_change_pct":"1"},{"country":"Vietnam","trips_2024":"160","trips_2025":"154","trips_change_pct":"-4","nights_2024":"6525","nights_2025":"7961","nights_change_pct":"22","spend_2024":"833","spend_2025":"906","spend_change_pct":"9"},{"country":"Philippines","trips_2024":"164","trips_2025":"179","trips_change_pct":"9","nights_2024":"10857","nights_2025":"10901","nights_change_pct":"0","spend_2024":"601","spend_2025":"608","spend_change_pct":"1"},{"country":"South Korea","trips_2024":"342","trips_2025":"363","trips_change_pct":"6","nights_2024":"11038","nights_2025":"9377","nights_change_pct":"-15","spend_2024":"1571","spend_2025":"1445","spend_change_pct":"-8"},{"country":"China","trips_2024":"829","trips_2025":"974","trips_change_pct":"18","nights_2024":"45058","nights_2025":"53414","nights_change_pct":"19","spend_2024":"8065","spend_2025":"11246","spend_change_pct":"39"},{"country":"India","trips_2024":"421","trips_2025":"429","trips_change_pct":"2","nights_2024":"28827","nights_2025":"28355","nights_change_pct":"-2","spend_2024":"1660","spend_2025":"1835","spend_change_pct":"11"},{"country":"Other Asia","trips_2024":"204","trips_2025":"217","trips_change_pct":"7","nights_2024":"14532","nights_2025":"15965","nights_change_pct":"10","spend_2024":"1198","spend_2025":"1282","spend_change_pct":"7"},{"country":"United States of America","trips_2024":"669","trips_2025":"697","trips_change_pct":"4","nights_2024":"12063","nights_2025":"12104","nights_change_pct":"0","spend_2024":"1993","spend_2025":"2396","spend_change_pct":"20"},{"country":"Canada","trips_2024":"154","trips_2025":"161","trips_change_pct":"4","nights_2024":"4506","nights_2025":"5101","nights_change_pct":"13","spend_2024":"555","spend_2025":"665","spend_change_pct":"20"},{"country":"United Kingdom","trips_2024":"605","trips_2025":"721","trips_change_pct":"19","nights_2024":"21858","nights_2025":"28128","nights_change_pct":"29","spend_2024":"2195","spend_2025":"2870","spend_change_pct":"31"},{"country":"Germany","trips_2024":"159","trips_2025":"169","trips_change_pct":"6","nights_2024":"6214","nights_2025":"5741","nights_change_pct":"-8","spend_2024":"612","spend_2025":"685","spend_change_pct":"12"},{"country":"Scandinavia","trips_2024":"82","trips_2025":"86","trips_change_pct":"5","nights_2024":"3346","nights_2025":"3066","nights_change_pct":"-8","spend_2024":"312","spend_2025":"375","spend_change_pct":"20"},{"country":"France","trips_2024":"122","trips_2025":"139","trips_change_pct":"14","nights_2024":"9324","nights_2025":"11342","nights_change_pct":"22","spend_2024":"680","spend_2025":"925","spend_change_pct":"36"},{"country":"Italy","trips_2024":"63","trips_2025":"74","trips_change_pct":"17","nights_2024":"4994","nights_2025":"5007","nights_change_pct":"0","spend_2024":"348","spend_2025":"401","spend_change_pct":"15"},{"country":"Netherlands","trips_2024":"48","trips_2025":"52","trips_change_pct":"8","nights_2024":"1711","nights_2025":"1703","nights_change_pct":"0","spend_2024":"194","spend_2025":"215","spend_change_pct":"11"},{"country":"Switzerland","trips_2024":"41","trips_2025":"44","trips_change_pct":"7","nights_2024":"1366","nights_2025":"1552","nights_change_pct":"14","spend_2024":"199","spend_2025":"262","spend_change_pct":"31"},{"country":"Other Europe","trips_2024":"257","trips_2025":"292","trips_change_pct":"14","nights_2024":"13898","nights_2025":"13051","nights_change_pct":"-6","spend_2024":"1159","spend_2025":"1410","spend_change_pct":"22"},{"country":"Other Countries","trips_2024":"508","trips_2025":"541","trips_change_pct":"7","nights_2024":"29818","nights_2025":"26875","nights_change_pct":"-10","spend_2024":"2230","spend_2025":"2270","spend_change_pct":"2"}],"state":[{"state":"NSW","state_full":"New South Wales","mar_2019":"314010","mar_2024":"282310","mar_2025":"286400","mar_2026":"314490","change_pct":"9.8"},{"state":"Vic.","state_full":"Victoria","mar_2019":"234430","mar_2024":"199120","mar_2025":"212550","mar_2026":"220620","change_pct":"3.8"},{"state":"Qld","state_full":"Queensland","mar_2019":"166420","mar_2024":"159500","mar_2025":"133990","mar_2026":"146390","change_pct":"9.3"},{"state":"SA","state_full":"South Australia","mar_2019":"24700","mar_2024":"22290","mar_2025":"24250","mar_2026":"25140","change_pct":"3.7"},{"state":"WA","state_full":"Western Australia","mar_2019":"74810","mar_2024":"76560","mar_2025":"81900","mar_2026":"87900","change_pct":"7.3"},{"state":"Tas.","state_full":"Tasmania","mar_2019":"8730","mar_2024":"9210","mar_2025":"9540","mar_2026":"10370","change_pct":"8.7"},{"state":"NT","state_full":"Northern Territory","mar_2019":"4920","mar_2024":"3580","mar_2025":"4490","mar_2026":"5570","change_pct":"23.9"},{"state":"ACT","state_full":"Australian Capital Territory","mar_2019":"8280","mar_2024":"8390","mar_2025":"8050","mar_2026":"8470","change_pct":"5.1"}],"state_long":[{"state":"NSW","state_full":"New South Wales","year":"2019","visitors":"314010"},{"state":"NSW","state_full":"New South Wales","year":"2024","visitors":"282310"},{"state":"NSW","state_full":"New South Wales","year":"2025","visitors":"286400"},{"state":"NSW","state_full":"New South Wales","year":"2026","visitors":"314490"},{"state":"Vic.","state_full":"Victoria","year":"2019","visitors":"234430"},{"state":"Vic.","state_full":"Victoria","year":"2024","visitors":"199120"},{"state":"Vic.","state_full":"Victoria","year":"2025","visitors":"212550"},{"state":"Vic.","state_full":"Victoria","year":"2026","visitors":"220620"},{"state":"Qld","state_full":"Queensland","year":"2019","visitors":"166420"},{"state":"Qld","state_full":"Queensland","year":"2024","visitors":"159500"},{"state":"Qld","state_full":"Queensland","year":"2025","visitors":"133990"},{"state":"Qld","state_full":"Queensland","year":"2026","visitors":"146390"},{"state":"SA","state_full":"South Australia","year":"2019","visitors":"24700"},{"state":"SA","state_full":"South Australia","year":"2024","visitors":"22290"},{"state":"SA","state_full":"South Australia","year":"2025","visitors":"24250"},{"state":"SA","state_full":"South Australia","year":"2026","visitors":"25140"},{"state":"WA","state_full":"Western Australia","year":"2019","visitors":"74810"},{"state":"WA","state_full":"Western Australia","year":"2024","visitors":"76560"},{"state":"WA","state_full":"Western Australia","year":"2025","visitors":"81900"},{"state":"WA","state_full":"Western Australia","year":"2026","visitors":"87900"},{"state":"Tas.","state_full":"Tasmania","year":"2019","visitors":"8730"},{"state":"Tas.","state_full":"Tasmania","year":"2024","visitors":"9210"},{"state":"Tas.","state_full":"Tasmania","year":"2025","visitors":"9540"},{"state":"Tas.","state_full":"Tasmania","year":"2026","visitors":"10370"},{"state":"NT","state_full":"Northern Territory","year":"2019","visitors":"4920"},{"state":"NT","state_full":"Northern Territory","year":"2024","visitors":"3580"},{"state":"NT","state_full":"Northern Territory","year":"2025","visitors":"4490"},{"state":"NT","state_full":"Northern Territory","year":"2026","visitors":"5570"},{"state":"ACT","state_full":"Australian Capital Territory","year":"2019","visitors":"8280"},{"state":"ACT","state_full":"Australian Capital Territory","year":"2024","visitors":"8390"},{"state":"ACT","state_full":"Australian Capital Territory","year":"2025","visitors":"8050"},{"state":"ACT","state_full":"Australian Capital Territory","year":"2026","visitors":"8470"}],"arrivals":[{"category":"Short-term visitor arrivals","type":"arrivals","mar_2019":"836350","mar_2024":"761050","mar_2025":"761230","mar_2026":"818990"},{"category":"Long-term visitor arrivals","type":"arrivals","mar_2019":"50030","mar_2024":"57320","mar_2025":"61240","mar_2026":"72100"},{"category":"Short-term resident returns","type":"arrivals","mar_2019":"753510","mar_2024":"767110","mar_2025":"840080","mar_2026":"910450"},{"category":"Long-term resident returns","type":"arrivals","mar_2019":"10980","mar_2024":"13230","mar_2025":"12550","mar_2026":"12420"},{"category":"Short-term visitor departures","type":"departures","mar_2019":"822240","mar_2024":"723320","mar_2025":"742420","mar_2026":"827610"},{"category":"Long-term visitor departures","type":"departures","mar_2019":"18610","mar_2024":"27410","mar_2025":"31000","mar_2026":"34750"},{"category":"Short-term resident departures","type":"departures","mar_2019":"818410","mar_2024":"934190","mar_2025":"872650","mar_2026":"997680"},{"category":"Long-term resident departures","type":"departures","mar_2019":"25060","mar_2024":"25010","mar_2025":"23320","mar_2026":"22400"}],"arrivals_long":[{"category":"Short-term visitor arrivals","type":"Visitor","year":"2019","count":"836350"},{"category":"Short-term visitor arrivals","type":"Visitor","year":"2024","count":"761050"},{"category":"Short-term visitor arrivals","type":"Visitor","year":"2025","count":"761230"},{"category":"Short-term visitor arrivals","type":"Visitor","year":"2026","count":"818990"},{"category":"Long-term visitor arrivals","type":"Visitor","year":"2019","count":"50030"},{"category":"Long-term visitor arrivals","type":"Visitor","year":"2024","count":"57320"},{"category":"Long-term visitor arrivals","type":"Visitor","year":"2025","count":"61240"},{"category":"Long-term visitor arrivals","type":"Visitor","year":"2026","count":"72100"},{"category":"Short-term resident returns","type":"Resident","year":"2019","count":"753510"},{"category":"Short-term resident returns","type":"Resident","year":"2024","count":"767110"},{"category":"Short-term resident returns","type":"Resident","year":"2025","count":"840080"},{"category":"Short-term resident returns","type":"Resident","year":"2026","count":"910450"},{"category":"Long-term resident returns","type":"Resident","year":"2019","count":"10980"},{"category":"Long-term resident returns","type":"Resident","year":"2024","count":"13230"},{"category":"Long-term resident returns","type":"Resident","year":"2025","count":"12550"},{"category":"Long-term resident returns","type":"Resident","year":"2026","count":"12420"}],"monthly":[{"date":"2019-01","country":"New Zealand","arrivals":"92670"},{"date":"2019-02","country":"New Zealand","arrivals":"92290"},{"date":"2019-03","country":"New Zealand","arrivals":"109920"},{"date":"2019-04","country":"New Zealand","arrivals":"119220"},{"date":"2019-05","country":"New Zealand","arrivals":"117520"},{"date":"2019-06","country":"New Zealand","arrivals":"109910"},{"date":"2019-07","country":"New Zealand","arrivals":"133630"},{"date":"2019-08","country":"New Zealand","arrivals":"124710"},{"date":"2019-09","country":"New Zealand","arrivals":"126990"},{"date":"2019-10","country":"New Zealand","arrivals":"142970"},{"date":"2019-11","country":"New Zealand","arrivals":"120410"},{"date":"2019-12","country":"New Zealand","arrivals":"143530"},{"date":"2020-01","country":"New Zealand","arrivals":"97060"},{"date":"2020-02","country":"New Zealand","arrivals":"87920"},{"date":"2020-03","country":"New Zealand","arrivals":"48180"},{"date":"2020-04","country":"New Zealand","arrivals":"370"},{"date":"2020-05","country":"New Zealand","arrivals":"1190"},{"date":"2020-06","country":"New Zealand","arrivals":"1440"},{"date":"2020-07","country":"New Zealand","arrivals":"500"},{"date":"2020-08","country":"New Zealand","arrivals":"370"},{"date":"2020-09","country":"New Zealand","arrivals":"350"},{"date":"2020-10","country":"New Zealand","arrivals":"900"},{"date":"2020-11","country":"New Zealand","arrivals":"1640"},{"date":"2020-12","country":"New Zealand","arrivals":"2520"},{"date":"2021-01","country":"New Zealand","arrivals":"1580"},{"date":"2021-02","country":"New Zealand","arrivals":"1570"},{"date":"2021-03","country":"New Zealand","arrivals":"2060"},{"date":"2021-04","country":"New Zealand","arrivals":"16320"},{"date":"2021-05","country":"New Zealand","arrivals":"28510"},{"date":"2021-06","country":"New Zealand","arrivals":"27390"},{"date":"2021-07","country":"New Zealand","arrivals":"13160"},{"date":"2021-08","country":"New Zealand","arrivals":"1010"},{"date":"2021-09","country":"New Zealand","arrivals":"100"},{"date":"2021-10","country":"New Zealand","arrivals":"210"},{"date":"2021-11","country":"New Zealand","arrivals":"1070"},{"date":"2021-12","country":"New Zealand","arrivals":"3780"},{"date":"2022-01","country":"New Zealand","arrivals":"2330"},{"date":"2022-02","country":"New Zealand","arrivals":"4820"},{"date":"2022-03","country":"New Zealand","arrivals":"18800"},{"date":"2022-04","country":"New Zealand","arrivals":"42500"},{"date":"2022-05","country":"New Zealand","arrivals":"46670"},{"date":"2022-06","country":"New Zealand","arrivals":"57200"},{"date":"2022-07","country":"New Zealand","arrivals":"79560"},{"date":"2022-08","country":"New Zealand","arrivals":"75500"},{"date":"2022-09","country":"New Zealand","arrivals":"82810"},{"date":"2022-10","country":"New Zealand","arrivals":"98600"},{"date":"2022-11","country":"New Zealand","arrivals":"91210"},{"date":"2022-12","country":"New Zealand","arrivals":"97630"},{"date":"2023-01","country":"New Zealand","arrivals":"65480"},{"date":"2023-02","country":"New Zealand","arrivals":"78650"},{"date":"2023-03","country":"New Zealand","arrivals":"95840"},{"date":"2023-04","country":"New Zealand","arrivals":"112140"},{"date":"2023-05","country":"New Zealand","arrivals":"98290"},{"date":"2023-06","country":"New Zealand","arrivals":"106720"},{"date":"2023-07","country":"New Zealand","arrivals":"115960"},{"date":"2023-08","country":"New Zealand","arrivals":"105050"},{"date":"2023-09","country":"New Zealand","arrivals":"128820"},{"date":"2023-10","country":"New Zealand","arrivals":"123200"},{"date":"2023-11","country":"New Zealand","arrivals":"116350"},{"date":"2023-12","country":"New Zealand","arrivals":"125640"},{"date":"2024-01","country":"New Zealand","arrivals":"94410"},{"date":"2024-02","country":"New Zealand","arrivals":"105970"},{"date":"2024-03","country":"New Zealand","arrivals":"115270"},{"date":"2024-04","country":"New Zealand","arrivals":"115910"},{"date":"2024-05","country":"New Zealand","arrivals":"116950"},{"date":"2024-06","country":"New Zealand","arrivals":"103850"},{"date":"2024-07","country":"New Zealand","arrivals":"121320"},{"date":"2024-08","country":"New Zealand","arrivals":"112780"},{"date":"2024-09","country":"New Zealand","arrivals":"118440"},{"date":"2024-10","country":"New Zealand","arrivals":"139280"},{"date":"2024-11","country":"New Zealand","arrivals":"115180"},{"date":"2024-12","country":"New Zealand","arrivals":"133600"},{"date":"2025-01","country":"New Zealand","arrivals":"96250"},{"date":"2025-02","country":"New Zealand","arrivals":"88800"},{"date":"2025-03","country":"New Zealand","arrivals":"104570"},{"date":"2025-04","country":"New Zealand","arrivals":"123950"},{"date":"2025-05","country":"New Zealand","arrivals":"117250"},{"date":"2025-06","country":"New Zealand","arrivals":"119730"},{"date":"2025-07","country":"New Zealand","arrivals":"122910"},{"date":"2025-08","country":"New Zealand","arrivals":"114660"},{"date":"2025-09","country":"New Zealand","arrivals":"135720"},{"date":"2025-10","country":"New Zealand","arrivals":"140970"},{"date":"2025-11","country":"New Zealand","arrivals":"127820"},{"date":"2025-12","country":"New Zealand","arrivals":"142420"},{"date":"2026-01","country":"New Zealand","arrivals":"102470"},{"date":"2026-02","country":"New Zealand","arrivals":"85190"},{"date":"2026-03","country":"New Zealand","arrivals":"115760"},{"date":"2019-01","country":"United Kingdom","arrivals":"73990"},{"date":"2019-02","country":"United Kingdom","arrivals":"85330"},{"date":"2019-03","country":"United Kingdom","arrivals":"74000"},{"date":"2019-04","country":"United Kingdom","arrivals":"59150"},{"date":"2019-05","country":"United Kingdom","arrivals":"29980"},{"date":"2019-06","country":"United Kingdom","arrivals":"28290"},{"date":"2019-07","country":"United Kingdom","arrivals":"39300"},{"date":"2019-08","country":"United Kingdom","arrivals":"36130"},{"date":"2019-09","country":"United Kingdom","arrivals":"41300"},{"date":"2019-10","country":"United Kingdom","arrivals":"60940"},{"date":"2019-11","country":"United Kingdom","arrivals":"68880"},{"date":"2019-12","country":"United Kingdom","arrivals":"118530"},{"date":"2020-01","country":"United Kingdom","arrivals":"72100"},{"date":"2020-02","country":"United Kingdom","arrivals":"84750"},{"date":"2020-03","country":"United Kingdom","arrivals":"39360"},{"date":"2020-04","country":"United Kingdom","arrivals":"140"},{"date":"2020-05","country":"United Kingdom","arrivals":"340"},{"date":"2020-06","country":"United Kingdom","arrivals":"570"},{"date":"2020-07","country":"United Kingdom","arrivals":"410"},{"date":"2020-08","country":"United Kingdom","arrivals":"310"},{"date":"2020-09","country":"United Kingdom","arrivals":"430"},{"date":"2020-10","country":"United Kingdom","arrivals":"670"},{"date":"2020-11","country":"United Kingdom","arrivals":"840"},{"date":"2020-12","country":"United Kingdom","arrivals":"880"},{"date":"2021-01","country":"United Kingdom","arrivals":"740"},{"date":"2021-02","country":"United Kingdom","arrivals":"630"},{"date":"2021-03","country":"United Kingdom","arrivals":"810"},{"date":"2021-04","country":"United Kingdom","arrivals":"660"},{"date":"2021-05","country":"United Kingdom","arrivals":"860"},{"date":"2021-06","country":"United Kingdom","arrivals":"870"},{"date":"2021-07","country":"United Kingdom","arrivals":"740"},{"date":"2021-08","country":"United Kingdom","arrivals":"550"},{"date":"2021-09","country":"United Kingdom","arrivals":"380"},{"date":"2021-10","country":"United Kingdom","arrivals":"380"},{"date":"2021-11","country":"United Kingdom","arrivals":"2790"},{"date":"2021-12","country":"United Kingdom","arrivals":"12480"},{"date":"2022-01","country":"United Kingdom","arrivals":"9720"},{"date":"2022-02","country":"United Kingdom","arrivals":"13810"},{"date":"2022-03","country":"United Kingdom","arrivals":"27960"},{"date":"2022-04","country":"United Kingdom","arrivals":"31890"},{"date":"2022-05","country":"United Kingdom","arrivals":"16420"},{"date":"2022-06","country":"United Kingdom","arrivals":"16720"},{"date":"2022-07","country":"United Kingdom","arrivals":"25340"},{"date":"2022-08","country":"United Kingdom","arrivals":"23910"},{"date":"2022-09","country":"United Kingdom","arrivals":"33500"},{"date":"2022-10","country":"United Kingdom","arrivals":"47420"},{"date":"2022-11","country":"United Kingdom","arrivals":"55410"},{"date":"2022-12","country":"United Kingdom","arrivals":"97090"},{"date":"2023-01","country":"United Kingdom","arrivals":"55070"},{"date":"2023-02","country":"United Kingdom","arrivals":"72110"},{"date":"2023-03","country":"United Kingdom","arrivals":"73490"},{"date":"2023-04","country":"United Kingdom","arrivals":"42920"},{"date":"2023-05","country":"United Kingdom","arrivals":"24610"},{"date":"2023-06","country":"United Kingdom","arrivals":"22700"},{"date":"2023-07","country":"United Kingdom","arrivals":"32990"},{"date":"2023-08","country":"United Kingdom","arrivals":"31400"},{"date":"2023-09","country":"United Kingdom","arrivals":"35950"},{"date":"2023-10","country":"United Kingdom","arrivals":"50610"},{"date":"2023-11","country":"United Kingdom","arrivals":"57860"},{"date":"2023-12","country":"United Kingdom","arrivals":"97170"},{"date":"2024-01","country":"United Kingdom","arrivals":"62100"},{"date":"2024-02","country":"United Kingdom","arrivals":"77140"},{"date":"2024-03","country":"United Kingdom","arrivals":"78820"},{"date":"2024-04","country":"United Kingdom","arrivals":"40140"},{"date":"2024-05","country":"United Kingdom","arrivals":"27870"},{"date":"2024-06","country":"United Kingdom","arrivals":"23230"},{"date":"2024-07","country":"United Kingdom","arrivals":"32840"},{"date":"2024-08","country":"United Kingdom","arrivals":"34770"},{"date":"2024-09","country":"United Kingdom","arrivals":"41980"},{"date":"2024-10","country":"United Kingdom","arrivals":"55200"},{"date":"2024-11","country":"United Kingdom","arrivals":"62940"},{"date":"2024-12","country":"United Kingdom","arrivals":"103730"},{"date":"2025-01","country":"United Kingdom","arrivals":"71140"},{"date":"2025-02","country":"United Kingdom","arrivals":"77620"},{"date":"2025-03","country":"United Kingdom","arrivals":"74520"},{"date":"2025-04","country":"United Kingdom","arrivals":"55990"},{"date":"2025-05","country":"United Kingdom","arrivals":"30760"},{"date":"2025-06","country":"United Kingdom","arrivals":"27900"},{"date":"2025-07","country":"United Kingdom","arrivals":"56460"},{"date":"2025-08","country":"United Kingdom","arrivals":"38600"},{"date":"2025-09","country":"United Kingdom","arrivals":"46900"},{"date":"2025-10","country":"United Kingdom","arrivals":"59700"},{"date":"2025-11","country":"United Kingdom","arrivals":"80090"},{"date":"2025-12","country":"United Kingdom","arrivals":"138610"},{"date":"2026-01","country":"United Kingdom","arrivals":"79470"},{"date":"2026-02","country":"United Kingdom","arrivals":"83580"},{"date":"2026-03","country":"United Kingdom","arrivals":"72130"},{"date":"2019-01","country":"Germany","arrivals":"18690"},{"date":"2019-02","country":"Germany","arrivals":"26230"},{"date":"2019-03","country":"Germany","arrivals":"21970"},{"date":"2019-04","country":"Germany","arrivals":"13450"},{"date":"2019-05","country":"Germany","arrivals":"9240"},{"date":"2019-06","country":"Germany","arrivals":"8350"},{"date":"2019-07","country":"Germany","arrivals":"14610"},{"date":"2019-08","country":"Germany","arrivals":"13190"},{"date":"2019-09","country":"Germany","arrivals":"14420"},{"date":"2019-10","country":"Germany","arrivals":"18960"},{"date":"2019-11","country":"Germany","arrivals":"18600"},{"date":"2019-12","country":"Germany","arrivals":"29380"},{"date":"2020-01","country":"Germany","arrivals":"18510"},{"date":"2020-02","country":"Germany","arrivals":"21990"},{"date":"2020-03","country":"Germany","arrivals":"11770"},{"date":"2020-04","country":"Germany","arrivals":"170"},{"date":"2020-05","country":"Germany","arrivals":"20"},{"date":"2020-06","country":"Germany","arrivals":"70"},{"date":"2020-07","country":"Germany","arrivals":"60"},{"date":"2020-08","country":"Germany","arrivals":"30"},{"date":"2020-09","country":"Germany","arrivals":"50"},{"date":"2020-10","country":"Germany","arrivals":"110"},{"date":"2020-11","country":"Germany","arrivals":"140"},{"date":"2020-12","country":"Germany","arrivals":"110"},{"date":"2021-01","country":"Germany","arrivals":"120"},{"date":"2021-02","country":"Germany","arrivals":"110"},{"date":"2021-03","country":"Germany","arrivals":"150"},{"date":"2021-04","country":"Germany","arrivals":"120"},{"date":"2021-05","country":"Germany","arrivals":"180"},{"date":"2021-06","country":"Germany","arrivals":"140"},{"date":"2021-07","country":"Germany","arrivals":"150"},{"date":"2021-08","country":"Germany","arrivals":"80"},{"date":"2021-09","country":"Germany","arrivals":"70"},{"date":"2021-10","country":"Germany","arrivals":"60"},{"date":"2021-11","country":"Germany","arrivals":"310"},{"date":"2021-12","country":"Germany","arrivals":"1630"},{"date":"2022-01","country":"Germany","arrivals":"1300"},{"date":"2022-02","country":"Germany","arrivals":"2130"},{"date":"2022-03","country":"Germany","arrivals":"4690"},{"date":"2022-04","country":"Germany","arrivals":"4740"},{"date":"2022-05","country":"Germany","arrivals":"3500"},{"date":"2022-06","country":"Germany","arrivals":"3450"},{"date":"2022-07","country":"Germany","arrivals":"6800"},{"date":"2022-08","country":"Germany","arrivals":"7100"},{"date":"2022-09","country":"Germany","arrivals":"8500"},{"date":"2022-10","country":"Germany","arrivals":"12020"},{"date":"2022-11","country":"Germany","arrivals":"12230"},{"date":"2022-12","country":"Germany","arrivals":"18890"},{"date":"2023-01","country":"Germany","arrivals":"12370"},{"date":"2023-02","country":"Germany","arrivals":"17970"},{"date":"2023-03","country":"Germany","arrivals":"16510"},{"date":"2023-04","country":"Germany","arrivals":"9610"},{"date":"2023-05","country":"Germany","arrivals":"6520"},{"date":"2023-06","country":"Germany","arrivals":"6120"},{"date":"2023-07","country":"Germany","arrivals":"10530"},{"date":"2023-08","country":"Germany","arrivals":"9710"},{"date":"2023-09","country":"Germany","arrivals":"10460"},{"date":"2023-10","country":"Germany","arrivals":"14700"},{"date":"2023-11","country":"Germany","arrivals":"14740"},{"date":"2023-12","country":"Germany","arrivals":"22630"},{"date":"2024-01","country":"Germany","arrivals":"15340"},{"date":"2024-02","country":"Germany","arrivals":"19580"},{"date":"2024-03","country":"Germany","arrivals":"20280"},{"date":"2024-04","country":"Germany","arrivals":"10140"},{"date":"2024-05","country":"Germany","arrivals":"7040"},{"date":"2024-06","country":"Germany","arrivals":"6010"},{"date":"2024-07","country":"Germany","arrivals":"10370"},{"date":"2024-08","country":"Germany","arrivals":"10100"},{"date":"2024-09","country":"Germany","arrivals":"11410"},{"date":"2024-10","country":"Germany","arrivals":"15620"},{"date":"2024-11","country":"Germany","arrivals":"16260"},{"date":"2024-12","country":"Germany","arrivals":"26430"},{"date":"2025-01","country":"Germany","arrivals":"16590"},{"date":"2025-02","country":"Germany","arrivals":"19800"},{"date":"2025-03","country":"Germany","arrivals":"19240"},{"date":"2025-04","country":"Germany","arrivals":"12020"},{"date":"2025-05","country":"Germany","arrivals":"7350"},{"date":"2025-06","country":"Germany","arrivals":"6220"},{"date":"2025-07","country":"Germany","arrivals":"11600"},{"date":"2025-08","country":"Germany","arrivals":"12530"},{"date":"2025-09","country":"Germany","arrivals":"12380"},{"date":"2025-10","country":"Germany","arrivals":"17100"},{"date":"2025-11","country":"Germany","arrivals":"17810"},{"date":"2025-12","country":"Germany","arrivals":"26860"},{"date":"2026-01","country":"Germany","arrivals":"18110"},{"date":"2026-02","country":"Germany","arrivals":"22090"},{"date":"2026-03","country":"Germany","arrivals":"18610"},{"date":"2019-01","country":"Singapore","arrivals":"18290"},{"date":"2019-02","country":"Singapore","arrivals":"32180"},{"date":"2019-03","country":"Singapore","arrivals":"38610"},{"date":"2019-04","country":"Singapore","arrivals":"29850"},{"date":"2019-05","country":"Singapore","arrivals":"41610"},{"date":"2019-06","country":"Singapore","arrivals":"59040"},{"date":"2019-07","country":"Singapore","arrivals":"34020"},{"date":"2019-08","country":"Singapore","arrivals":"44210"},{"date":"2019-09","country":"Singapore","arrivals":"36260"},{"date":"2019-10","country":"Singapore","arrivals":"39430"},{"date":"2019-11","country":"Singapore","arrivals":"48700"},{"date":"2019-12","country":"Singapore","arrivals":"56300"},{"date":"2020-01","country":"Singapore","arrivals":"19420"},{"date":"2020-02","country":"Singapore","arrivals":"24030"},{"date":"2020-03","country":"Singapore","arrivals":"13030"},{"date":"2020-04","country":"Singapore","arrivals":"60"},{"date":"2020-05","country":"Singapore","arrivals":"100"},{"date":"2020-06","country":"Singapore","arrivals":"170"},{"date":"2020-07","country":"Singapore","arrivals":"140"},{"date":"2020-08","country":"Singapore","arrivals":"130"},{"date":"2020-09","country":"Singapore","arrivals":"190"},{"date":"2020-10","country":"Singapore","arrivals":"230"},{"date":"2020-11","country":"Singapore","arrivals":"350"},{"date":"2020-12","country":"Singapore","arrivals":"470"},{"date":"2021-01","country":"Singapore","arrivals":"350"},{"date":"2021-02","country":"Singapore","arrivals":"210"},{"date":"2021-03","country":"Singapore","arrivals":"320"},{"date":"2021-04","country":"Singapore","arrivals":"230"},{"date":"2021-05","country":"Singapore","arrivals":"570"},{"date":"2021-06","country":"Singapore","arrivals":"670"},{"date":"2021-07","country":"Singapore","arrivals":"320"},{"date":"2021-08","country":"Singapore","arrivals":"360"},{"date":"2021-09","country":"Singapore","arrivals":"310"},{"date":"2021-10","country":"Singapore","arrivals":"180"},{"date":"2021-11","country":"Singapore","arrivals":"3140"},{"date":"2021-12","country":"Singapore","arrivals":"9170"},{"date":"2022-01","country":"Singapore","arrivals":"3210"},{"date":"2022-02","country":"Singapore","arrivals":"5440"},{"date":"2022-03","country":"Singapore","arrivals":"13590"},{"date":"2022-04","country":"Singapore","arrivals":"21410"},{"date":"2022-05","country":"Singapore","arrivals":"26900"},{"date":"2022-06","country":"Singapore","arrivals":"37040"},{"date":"2022-07","country":"Singapore","arrivals":"23900"},{"date":"2022-08","country":"Singapore","arrivals":"29150"},{"date":"2022-09","country":"Singapore","arrivals":"29690"},{"date":"2022-10","country":"Singapore","arrivals":"29680"},{"date":"2022-11","country":"Singapore","arrivals":"37390"},{"date":"2022-12","country":"Singapore","arrivals":"38400"},{"date":"2023-01","country":"Singapore","arrivals":"10980"},{"date":"2023-02","country":"Singapore","arrivals":"19830"},{"date":"2023-03","country":"Singapore","arrivals":"30840"},{"date":"2023-04","country":"Singapore","arrivals":"25630"},{"date":"2023-05","country":"Singapore","arrivals":"39330"},{"date":"2023-06","country":"Singapore","arrivals":"42610"},{"date":"2023-07","country":"Singapore","arrivals":"23560"},{"date":"2023-08","country":"Singapore","arrivals":"31330"},{"date":"2023-09","country":"Singapore","arrivals":"31140"},{"date":"2023-10","country":"Singapore","arrivals":"27680"},{"date":"2023-11","country":"Singapore","arrivals":"37750"},{"date":"2023-12","country":"Singapore","arrivals":"43330"},{"date":"2024-01","country":"Singapore","arrivals":"12560"},{"date":"2024-02","country":"Singapore","arrivals":"26690"},{"date":"2024-03","country":"Singapore","arrivals":"33510"},{"date":"2024-04","country":"Singapore","arrivals":"26470"},{"date":"2024-05","country":"Singapore","arrivals":"47710"},{"date":"2024-06","country":"Singapore","arrivals":"50610"},{"date":"2024-07","country":"Singapore","arrivals":"27300"},{"date":"2024-08","country":"Singapore","arrivals":"41280"},{"date":"2024-09","country":"Singapore","arrivals":"31370"},{"date":"2024-10","country":"Singapore","arrivals":"34860"},{"date":"2024-11","country":"Singapore","arrivals":"39430"},{"date":"2024-12","country":"Singapore","arrivals":"46110"},{"date":"2025-01","country":"Singapore","arrivals":"16510"},{"date":"2025-02","country":"Singapore","arrivals":"21840"},{"date":"2025-03","country":"Singapore","arrivals":"33940"},{"date":"2025-04","country":"Singapore","arrivals":"26070"},{"date":"2025-05","country":"Singapore","arrivals":"43100"},{"date":"2025-06","country":"Singapore","arrivals":"60860"},{"date":"2025-07","country":"Singapore","arrivals":"34300"},{"date":"2025-08","country":"Singapore","arrivals":"41690"},{"date":"2025-09","country":"Singapore","arrivals":"39590"},{"date":"2025-10","country":"Singapore","arrivals":"37440"},{"date":"2025-11","country":"Singapore","arrivals":"42960"},{"date":"2025-12","country":"Singapore","arrivals":"45410"},{"date":"2026-01","country":"Singapore","arrivals":"14020"},{"date":"2026-02","country":"Singapore","arrivals":"29510"},{"date":"2026-03","country":"Singapore","arrivals":"33330"},{"date":"2019-01","country":"China","arrivals":"142850"},{"date":"2019-02","country":"China","arrivals":"206280"},{"date":"2019-03","country":"China","arrivals":"124370"},{"date":"2019-04","country":"China","arrivals":"96240"},{"date":"2019-05","country":"China","arrivals":"94690"},{"date":"2019-06","country":"China","arrivals":"80680"},{"date":"2019-07","country":"China","arrivals":"150390"},{"date":"2019-08","country":"China","arrivals":"128280"},{"date":"2019-09","country":"China","arrivals":"98990"},{"date":"2019-10","country":"China","arrivals":"102710"},{"date":"2019-11","country":"China","arrivals":"101390"},{"date":"2019-12","country":"China","arrivals":"111800"},{"date":"2020-01","country":"China","arrivals":"156610"},{"date":"2020-02","country":"China","arrivals":"21330"},{"date":"2020-03","country":"China","arrivals":"27940"},{"date":"2020-04","country":"China","arrivals":"50"},{"date":"2020-05","country":"China","arrivals":"90"},{"date":"2020-06","country":"China","arrivals":"180"},{"date":"2020-07","country":"China","arrivals":"130"},{"date":"2020-08","country":"China","arrivals":"160"},{"date":"2020-09","country":"China","arrivals":"200"},{"date":"2020-10","country":"China","arrivals":"340"},{"date":"2020-11","country":"China","arrivals":"340"},{"date":"2020-12","country":"China","arrivals":"320"},{"date":"2021-01","country":"China","arrivals":"380"},{"date":"2021-02","country":"China","arrivals":"250"},{"date":"2021-03","country":"China","arrivals":"260"},{"date":"2021-04","country":"China","arrivals":"310"},{"date":"2021-05","country":"China","arrivals":"360"},{"date":"2021-06","country":"China","arrivals":"360"},{"date":"2021-07","country":"China","arrivals":"250"},{"date":"2021-08","country":"China","arrivals":"270"},{"date":"2021-09","country":"China","arrivals":"140"},{"date":"2021-10","country":"China","arrivals":"160"},{"date":"2021-11","country":"China","arrivals":"1030"},{"date":"2021-12","country":"China","arrivals":"2780"},{"date":"2022-01","country":"China","arrivals":"3740"},{"date":"2022-02","country":"China","arrivals":"7720"},{"date":"2022-03","country":"China","arrivals":"5130"},{"date":"2022-04","country":"China","arrivals":"3550"},{"date":"2022-05","country":"China","arrivals":"4250"},{"date":"2022-06","country":"China","arrivals":"6550"},{"date":"2022-07","country":"China","arrivals":"12390"},{"date":"2022-08","country":"China","arrivals":"8390"},{"date":"2022-09","country":"China","arrivals":"7480"},{"date":"2022-10","country":"China","arrivals":"7070"},{"date":"2022-11","country":"China","arrivals":"9100"},{"date":"2022-12","country":"China","arrivals":"13880"},{"date":"2023-01","country":"China","arrivals":"14630"},{"date":"2023-02","country":"China","arrivals":"40430"},{"date":"2023-03","country":"China","arrivals":"26810"},{"date":"2023-04","country":"China","arrivals":"32000"},{"date":"2023-05","country":"China","arrivals":"32210"},{"date":"2023-06","country":"China","arrivals":"37330"},{"date":"2023-07","country":"China","arrivals":"79040"},{"date":"2023-08","country":"China","arrivals":"58790"},{"date":"2023-09","country":"China","arrivals":"59080"},{"date":"2023-10","country":"China","arrivals":"43060"},{"date":"2023-11","country":"China","arrivals":"45880"},{"date":"2023-12","country":"China","arrivals":"66530"},{"date":"2024-01","country":"China","arrivals":"71170"},{"date":"2024-02","country":"China","arrivals":"149770"},{"date":"2024-03","country":"China","arrivals":"58240"},{"date":"2024-04","country":"China","arrivals":"58020"},{"date":"2024-05","country":"China","arrivals":"55130"},{"date":"2024-06","country":"China","arrivals":"55670"},{"date":"2024-07","country":"China","arrivals":"103840"},{"date":"2024-08","country":"China","arrivals":"78550"},{"date":"2024-09","country":"China","arrivals":"73570"},{"date":"2024-10","country":"China","arrivals":"61220"},{"date":"2024-11","country":"China","arrivals":"55800"},{"date":"2024-12","country":"China","arrivals":"70570"},{"date":"2025-01","country":"China","arrivals":"114660"},{"date":"2025-02","country":"China","arrivals":"122680"},{"date":"2025-03","country":"China","arrivals":"70990"},{"date":"2025-04","country":"China","arrivals":"73770"},{"date":"2025-05","country":"China","arrivals":"67350"},{"date":"2025-06","country":"China","arrivals":"60200"},{"date":"2025-07","country":"China","arrivals":"112900"},{"date":"2025-08","country":"China","arrivals":"98720"},{"date":"2025-09","country":"China","arrivals":"83080"},{"date":"2025-10","country":"China","arrivals":"78170"},{"date":"2025-11","country":"China","arrivals":"74500"},{"date":"2025-12","country":"China","arrivals":"83120"},{"date":"2026-01","country":"China","arrivals":"78400"},{"date":"2026-02","country":"China","arrivals":"220170"},{"date":"2026-03","country":"China","arrivals":"87560"},{"date":"2019-01","country":"Japan","arrivals":"31200"},{"date":"2019-02","country":"Japan","arrivals":"44540"},{"date":"2019-03","country":"Japan","arrivals":"53470"},{"date":"2019-04","country":"Japan","arrivals":"32760"},{"date":"2019-05","country":"Japan","arrivals":"27960"},{"date":"2019-06","country":"Japan","arrivals":"24630"},{"date":"2019-07","country":"Japan","arrivals":"43000"},{"date":"2019-08","country":"Japan","arrivals":"63070"},{"date":"2019-09","country":"Japan","arrivals":"40750"},{"date":"2019-10","country":"Japan","arrivals":"39700"},{"date":"2019-11","country":"Japan","arrivals":"45530"},{"date":"2019-12","country":"Japan","arrivals":"52030"},{"date":"2020-01","country":"Japan","arrivals":"34020"},{"date":"2020-02","country":"Japan","arrivals":"43770"},{"date":"2020-03","country":"Japan","arrivals":"13310"},{"date":"2020-04","country":"Japan","arrivals":"30"},{"date":"2020-05","country":"Japan","arrivals":"70"},{"date":"2020-06","country":"Japan","arrivals":"50"},{"date":"2020-07","country":"Japan","arrivals":"40"},{"date":"2020-08","country":"Japan","arrivals":"50"},{"date":"2020-09","country":"Japan","arrivals":"80"},{"date":"2020-10","country":"Japan","arrivals":"60"},{"date":"2020-11","country":"Japan","arrivals":"160"},{"date":"2020-12","country":"Japan","arrivals":"80"},{"date":"2021-01","country":"Japan","arrivals":"130"},{"date":"2021-02","country":"Japan","arrivals":"70"},{"date":"2021-03","country":"Japan","arrivals":"90"},{"date":"2021-04","country":"Japan","arrivals":"110"},{"date":"2021-05","country":"Japan","arrivals":"190"},{"date":"2021-06","country":"Japan","arrivals":"360"},{"date":"2021-07","country":"Japan","arrivals":"80"},{"date":"2021-08","country":"Japan","arrivals":"40"},{"date":"2021-09","country":"Japan","arrivals":"30"},{"date":"2021-10","country":"Japan","arrivals":"40"},{"date":"2021-11","country":"Japan","arrivals":"120"},{"date":"2021-12","country":"Japan","arrivals":"610"},{"date":"2022-01","country":"Japan","arrivals":"860"},{"date":"2022-02","country":"Japan","arrivals":"1170"},{"date":"2022-03","country":"Japan","arrivals":"2170"},{"date":"2022-04","country":"Japan","arrivals":"3380"},{"date":"2022-05","country":"Japan","arrivals":"3430"},{"date":"2022-06","country":"Japan","arrivals":"3610"},{"date":"2022-07","country":"Japan","arrivals":"7600"},{"date":"2022-08","country":"Japan","arrivals":"13080"},{"date":"2022-09","country":"Japan","arrivals":"7840"},{"date":"2022-10","country":"Japan","arrivals":"9710"},{"date":"2022-11","country":"Japan","arrivals":"12450"},{"date":"2022-12","country":"Japan","arrivals":"14090"},{"date":"2023-01","country":"Japan","arrivals":"9590"},{"date":"2023-02","country":"Japan","arrivals":"23890"},{"date":"2023-03","country":"Japan","arrivals":"26750"},{"date":"2023-04","country":"Japan","arrivals":"14590"},{"date":"2023-05","country":"Japan","arrivals":"18550"},{"date":"2023-06","country":"Japan","arrivals":"15040"},{"date":"2023-07","country":"Japan","arrivals":"30540"},{"date":"2023-08","country":"Japan","arrivals":"43550"},{"date":"2023-09","country":"Japan","arrivals":"25130"},{"date":"2023-10","country":"Japan","arrivals":"25040"},{"date":"2023-11","country":"Japan","arrivals":"31050"},{"date":"2023-12","country":"Japan","arrivals":"34000"},{"date":"2024-01","country":"Japan","arrivals":"20460"},{"date":"2024-02","country":"Japan","arrivals":"40790"},{"date":"2024-03","country":"Japan","arrivals":"44800"},{"date":"2024-04","country":"Japan","arrivals":"21450"},{"date":"2024-05","country":"Japan","arrivals":"23010"},{"date":"2024-06","country":"Japan","arrivals":"20310"},{"date":"2024-07","country":"Japan","arrivals":"33240"},{"date":"2024-08","country":"Japan","arrivals":"54420"},{"date":"2024-09","country":"Japan","arrivals":"32570"},{"date":"2024-10","country":"Japan","arrivals":"31370"},{"date":"2024-11","country":"Japan","arrivals":"34840"},{"date":"2024-12","country":"Japan","arrivals":"40070"},{"date":"2025-01","country":"Japan","arrivals":"21970"},{"date":"2025-02","country":"Japan","arrivals":"39480"},{"date":"2025-03","country":"Japan","arrivals":"46750"},{"date":"2025-04","country":"Japan","arrivals":"17600"},{"date":"2025-05","country":"Japan","arrivals":"23220"},{"date":"2025-06","country":"Japan","arrivals":"21570"},{"date":"2025-07","country":"Japan","arrivals":"36210"},{"date":"2025-08","country":"Japan","arrivals":"60610"},{"date":"2025-09","country":"Japan","arrivals":"34260"},{"date":"2025-10","country":"Japan","arrivals":"32960"},{"date":"2025-11","country":"Japan","arrivals":"46440"},{"date":"2025-12","country":"Japan","arrivals":"42050"},{"date":"2026-01","country":"Japan","arrivals":"24430"},{"date":"2026-02","country":"Japan","arrivals":"42770"},{"date":"2026-03","country":"Japan","arrivals":"53930"},{"date":"2019-01","country":"India","arrivals":"24660"},{"date":"2019-02","country":"India","arrivals":"32420"},{"date":"2019-03","country":"India","arrivals":"33990"},{"date":"2019-04","country":"India","arrivals":"30920"},{"date":"2019-05","country":"India","arrivals":"40550"},{"date":"2019-06","country":"India","arrivals":"34330"},{"date":"2019-07","country":"India","arrivals":"26040"},{"date":"2019-08","country":"India","arrivals":"33310"},{"date":"2019-09","country":"India","arrivals":"32020"},{"date":"2019-10","country":"India","arrivals":"29040"},{"date":"2019-11","country":"India","arrivals":"37380"},{"date":"2019-12","country":"India","arrivals":"44640"},{"date":"2020-01","country":"India","arrivals":"24450"},{"date":"2020-02","country":"India","arrivals":"37470"},{"date":"2020-03","country":"India","arrivals":"20130"},{"date":"2020-04","country":"India","arrivals":"80"},{"date":"2020-05","country":"India","arrivals":"110"},{"date":"2020-06","country":"India","arrivals":"160"},{"date":"2020-07","country":"India","arrivals":"120"},{"date":"2020-08","country":"India","arrivals":"220"},{"date":"2020-09","country":"India","arrivals":"210"},{"date":"2020-10","country":"India","arrivals":"360"},{"date":"2020-11","country":"India","arrivals":"330"},{"date":"2020-12","country":"India","arrivals":"320"},{"date":"2021-01","country":"India","arrivals":"300"},{"date":"2021-02","country":"India","arrivals":"320"},{"date":"2021-03","country":"India","arrivals":"400"},{"date":"2021-04","country":"India","arrivals":"280"},{"date":"2021-05","country":"India","arrivals":"120"},{"date":"2021-06","country":"India","arrivals":"250"},{"date":"2021-07","country":"India","arrivals":"400"},{"date":"2021-08","country":"India","arrivals":"410"},{"date":"2021-09","country":"India","arrivals":"320"},{"date":"2021-10","country":"India","arrivals":"310"},{"date":"2021-11","country":"India","arrivals":"2320"},{"date":"2021-12","country":"India","arrivals":"7530"},{"date":"2022-01","country":"India","arrivals":"7910"},{"date":"2022-02","country":"India","arrivals":"11260"},{"date":"2022-03","country":"India","arrivals":"17280"},{"date":"2022-04","country":"India","arrivals":"26570"},{"date":"2022-05","country":"India","arrivals":"31570"},{"date":"2022-06","country":"India","arrivals":"28570"},{"date":"2022-07","country":"India","arrivals":"22380"},{"date":"2022-08","country":"India","arrivals":"32410"},{"date":"2022-09","country":"India","arrivals":"26470"},{"date":"2022-10","country":"India","arrivals":"28310"},{"date":"2022-11","country":"India","arrivals":"35370"},{"date":"2022-12","country":"India","arrivals":"35230"},{"date":"2023-01","country":"India","arrivals":"19610"},{"date":"2023-02","country":"India","arrivals":"31520"},{"date":"2023-03","country":"India","arrivals":"38790"},{"date":"2023-04","country":"India","arrivals":"35390"},{"date":"2023-05","country":"India","arrivals":"41230"},{"date":"2023-06","country":"India","arrivals":"36680"},{"date":"2023-07","country":"India","arrivals":"24120"},{"date":"2023-08","country":"India","arrivals":"30250"},{"date":"2023-09","country":"India","arrivals":"29370"},{"date":"2023-10","country":"India","arrivals":"26930"},{"date":"2023-11","country":"India","arrivals":"37700"},{"date":"2023-12","country":"India","arrivals":"43970"},{"date":"2024-01","country":"India","arrivals":"26200"},{"date":"2024-02","country":"India","arrivals":"36010"},{"date":"2024-03","country":"India","arrivals":"42390"},{"date":"2024-04","country":"India","arrivals":"35360"},{"date":"2024-05","country":"India","arrivals":"44580"},{"date":"2024-06","country":"India","arrivals":"39550"},{"date":"2024-07","country":"India","arrivals":"26860"},{"date":"2024-08","country":"India","arrivals":"34460"},{"date":"2024-09","country":"India","arrivals":"33200"},{"date":"2024-10","country":"India","arrivals":"30970"},{"date":"2024-11","country":"India","arrivals":"41140"},{"date":"2024-12","country":"India","arrivals":"52740"},{"date":"2025-01","country":"India","arrivals":"27650"},{"date":"2025-02","country":"India","arrivals":"39920"},{"date":"2025-03","country":"India","arrivals":"43370"},{"date":"2025-04","country":"India","arrivals":"36090"},{"date":"2025-05","country":"India","arrivals":"47940"},{"date":"2025-06","country":"India","arrivals":"36770"},{"date":"2025-07","country":"India","arrivals":"28560"},{"date":"2025-08","country":"India","arrivals":"35500"},{"date":"2025-09","country":"India","arrivals":"33870"},{"date":"2025-10","country":"India","arrivals":"31910"},{"date":"2025-11","country":"India","arrivals":"43090"},{"date":"2025-12","country":"India","arrivals":"46860"},{"date":"2026-01","country":"India","arrivals":"29000"},{"date":"2026-02","country":"India","arrivals":"38280"},{"date":"2026-03","country":"India","arrivals":"42380"},{"date":"2019-01","country":"United States of America","arrivals":"67640"},{"date":"2019-02","country":"United States of America","arrivals":"84210"},{"date":"2019-03","country":"United States of America","arrivals":"89180"},{"date":"2019-04","country":"United States of America","arrivals":"60830"},{"date":"2019-05","country":"United States of America","arrivals":"56410"},{"date":"2019-06","country":"United States of America","arrivals":"62690"},{"date":"2019-07","country":"United States of America","arrivals":"61530"},{"date":"2019-08","country":"United States of America","arrivals":"51980"},{"date":"2019-09","country":"United States of America","arrivals":"48380"},{"date":"2019-10","country":"United States of America","arrivals":"60200"},{"date":"2019-11","country":"United States of America","arrivals":"75040"},{"date":"2019-12","country":"United States of America","arrivals":"99900"},{"date":"2020-01","country":"United States of America","arrivals":"70550"},{"date":"2020-02","country":"United States of America","arrivals":"78340"},{"date":"2020-03","country":"United States of America","arrivals":"34330"},{"date":"2020-04","country":"United States of America","arrivals":"180"},{"date":"2020-05","country":"United States of America","arrivals":"320"},{"date":"2020-06","country":"United States of America","arrivals":"710"},{"date":"2020-07","country":"United States of America","arrivals":"540"},{"date":"2020-08","country":"United States of America","arrivals":"450"},{"date":"2020-09","country":"United States of America","arrivals":"610"},{"date":"2020-10","country":"United States of America","arrivals":"700"},{"date":"2020-11","country":"United States of America","arrivals":"950"},{"date":"2020-12","country":"United States of America","arrivals":"1000"},{"date":"2021-01","country":"United States of America","arrivals":"890"},{"date":"2021-02","country":"United States of America","arrivals":"670"},{"date":"2021-03","country":"United States of America","arrivals":"1110"},{"date":"2021-04","country":"United States of America","arrivals":"880"},{"date":"2021-05","country":"United States of America","arrivals":"970"},{"date":"2021-06","country":"United States of America","arrivals":"1440"},{"date":"2021-07","country":"United States of America","arrivals":"780"},{"date":"2021-08","country":"United States of America","arrivals":"400"},{"date":"2021-09","country":"United States of America","arrivals":"230"},{"date":"2021-10","country":"United States of America","arrivals":"230"},{"date":"2021-11","country":"United States of America","arrivals":"1710"},{"date":"2021-12","country":"United States of America","arrivals":"7450"},{"date":"2022-01","country":"United States of America","arrivals":"4950"},{"date":"2022-02","country":"United States of America","arrivals":"6700"},{"date":"2022-03","country":"United States of America","arrivals":"14480"},{"date":"2022-04","country":"United States of America","arrivals":"17540"},{"date":"2022-05","country":"United States of America","arrivals":"19210"},{"date":"2022-06","country":"United States of America","arrivals":"26420"},{"date":"2022-07","country":"United States of America","arrivals":"27040"},{"date":"2022-08","country":"United States of America","arrivals":"25730"},{"date":"2022-09","country":"United States of America","arrivals":"28630"},{"date":"2022-10","country":"United States of America","arrivals":"37640"},{"date":"2022-11","country":"United States of America","arrivals":"51220"},{"date":"2022-12","country":"United States of America","arrivals":"66470"},{"date":"2023-01","country":"United States of America","arrivals":"49840"},{"date":"2023-02","country":"United States of America","arrivals":"69560"},{"date":"2023-03","country":"United States of America","arrivals":"63440"},{"date":"2023-04","country":"United States of America","arrivals":"46260"},{"date":"2023-05","country":"United States of America","arrivals":"42380"},{"date":"2023-06","country":"United States of America","arrivals":"49080"},{"date":"2023-07","country":"United States of America","arrivals":"55980"},{"date":"2023-08","country":"United States of America","arrivals":"48240"},{"date":"2023-09","country":"United States of America","arrivals":"36400"},{"date":"2023-10","country":"United States of America","arrivals":"51700"},{"date":"2023-11","country":"United States of America","arrivals":"61660"},{"date":"2023-12","country":"United States of America","arrivals":"85200"},{"date":"2024-01","country":"United States of America","arrivals":"63980"},{"date":"2024-02","country":"United States of America","arrivals":"82790"},{"date":"2024-03","country":"United States of America","arrivals":"84770"},{"date":"2024-04","country":"United States of America","arrivals":"47610"},{"date":"2024-05","country":"United States of America","arrivals":"43980"},{"date":"2024-06","country":"United States of America","arrivals":"52460"},{"date":"2024-07","country":"United States of America","arrivals":"42030"},{"date":"2024-08","country":"United States of America","arrivals":"41070"},{"date":"2024-09","country":"United States of America","arrivals":"41370"},{"date":"2024-10","country":"United States of America","arrivals":"54030"},{"date":"2024-11","country":"United States of America","arrivals":"63230"},{"date":"2024-12","country":"United States of America","arrivals":"95060"},{"date":"2025-01","country":"United States of America","arrivals":"72090"},{"date":"2025-02","country":"United States of America","arrivals":"79290"},{"date":"2025-03","country":"United States of America","arrivals":"83460"},{"date":"2025-04","country":"United States of America","arrivals":"49040"},{"date":"2025-05","country":"United States of America","arrivals":"42360"},{"date":"2025-06","country":"United States of America","arrivals":"51750"},{"date":"2025-07","country":"United States of America","arrivals":"50090"},{"date":"2025-08","country":"United States of America","arrivals":"48120"},{"date":"2025-09","country":"United States of America","arrivals":"41820"},{"date":"2025-10","country":"United States of America","arrivals":"56280"},{"date":"2025-11","country":"United States of America","arrivals":"68080"},{"date":"2025-12","country":"United States of America","arrivals":"102590"},{"date":"2026-01","country":"United States of America","arrivals":"76860"},{"date":"2026-02","country":"United States of America","arrivals":"78010"},{"date":"2026-03","country":"United States of America","arrivals":"85750"}],"reason":[{"year":"2019","reason":"Convention/conference","arrivals":"329660"},{"year":"2019","reason":"Business","arrivals":"675790"},{"year":"2019","reason":"Visiting friends/relatives","arrivals":"2845920"},{"year":"2019","reason":"Holiday","arrivals":"4475720"},{"year":"2019","reason":"Employment","arrivals":"215650"},{"year":"2019","reason":"Education","arrivals":"620420"},{"year":"2019","reason":"Other & not stated","arrivals":"302720"},{"year":"2020","reason":"Convention/conference","arrivals":"38050"},{"year":"2020","reason":"Business","arrivals":"120370"},{"year":"2020","reason":"Visiting friends/relatives","arrivals":"552510"},{"year":"2020","reason":"Holiday","arrivals":"789340"},{"year":"2020","reason":"Employment","arrivals":"67220"},{"year":"2020","reason":"Education","arrivals":"180260"},{"year":"2020","reason":"Other & not stated","arrivals":"79950"},{"year":"2021","reason":"Convention/conference","arrivals":"1920"},{"year":"2021","reason":"Business","arrivals":"20930"},{"year":"2021","reason":"Visiting friends/relatives","arrivals":"148010"},{"year":"2021","reason":"Holiday","arrivals":"21370"},{"year":"2021","reason":"Employment","arrivals":"22750"},{"year":"2021","reason":"Education","arrivals":"8400"},{"year":"2021","reason":"Other & not stated","arrivals":"22850"},{"year":"2022","reason":"Convention/conference","arrivals":"119830"},{"year":"2022","reason":"Business","arrivals":"267410"},{"year":"2022","reason":"Visiting friends/relatives","arrivals":"1767680"},{"year":"2022","reason":"Holiday","arrivals":"1056350"},{"year":"2022","reason":"Employment","arrivals":"149960"},{"year":"2022","reason":"Education","arrivals":"199880"},{"year":"2022","reason":"Other & not stated","arrivals":"133230"},{"year":"2023","reason":"Convention/conference","arrivals":"242550"},{"year":"2023","reason":"Business","arrivals":"445420"},{"year":"2023","reason":"Visiting friends/relatives","arrivals":"2628030"},{"year":"2023","reason":"Holiday","arrivals":"2885050"},{"year":"2023","reason":"Employment","arrivals":"287630"},{"year":"2023","reason":"Education","arrivals":"415240"},{"year":"2023","reason":"Other & not stated","arrivals":"283540"},{"year":"2024","reason":"Convention/conference","arrivals":"252910"},{"year":"2024","reason":"Business","arrivals":"470640"},{"year":"2024","reason":"Visiting friends/relatives","arrivals":"2809890"},{"year":"2024","reason":"Holiday","arrivals":"3607920"},{"year":"2024","reason":"Employment","arrivals":"327710"},{"year":"2024","reason":"Education","arrivals":"492230"},{"year":"2024","reason":"Other & not stated","arrivals":"309650"},{"year":"2025","reason":"Convention/conference","arrivals":"276530"},{"year":"2025","reason":"Business","arrivals":"486190"},{"year":"2025","reason":"Visiting friends/relatives","arrivals":"2955550"},{"year":"2025","reason":"Holiday","arrivals":"3976590"},{"year":"2025","reason":"Employment","arrivals":"363790"},{"year":"2025","reason":"Education","arrivals":"560140"},{"year":"2025","reason":"Other & not stated","arrivals":"318620"},{"year":"2026","reason":"Convention/conference","arrivals":"60990"},{"year":"2026","reason":"Business","arrivals":"125950"},{"year":"2026","reason":"Visiting friends/relatives","arrivals":"725160"},{"year":"2026","reason":"Holiday","arrivals":"1139420"},{"year":"2026","reason":"Employment","arrivals":"122750"},{"year":"2026","reason":"Education","arrivals":"219930"},{"year":"2026","reason":"Other & not stated","arrivals":"84700"}],"duration":[{"year":"2019","duration":"Under 1 week","arrivals":"2561590"},{"year":"2019","duration":"1 and under 2 weeks","arrivals":"2807670"},{"year":"2019","duration":"2 weeks and under 1 month","arrivals":"1855060"},{"year":"2019","duration":"1 and under 2 months","arrivals":"727200"},{"year":"2019","duration":"2 and under 3 months","arrivals":"355490"},{"year":"2019","duration":"3 and under 6 months","arrivals":"594900"},{"year":"2019","duration":"6 and under 12 months","arrivals":"564010"},{"year":"2020","duration":"Under 1 week","arrivals":"448600"},{"year":"2020","duration":"1 and under 2 weeks","arrivals":"432520"},{"year":"2020","duration":"2 weeks and under 1 month","arrivals":"366250"},{"year":"2020","duration":"1 and under 2 months","arrivals":"169520"},{"year":"2020","duration":"2 and under 3 months","arrivals":"82520"},{"year":"2020","duration":"3 and under 6 months","arrivals":"152430"},{"year":"2020","duration":"6 and under 12 months","arrivals":"175920"},{"year":"2021","duration":"Under 1 week","arrivals":"34780"},{"year":"2021","duration":"1 and under 2 weeks","arrivals":"34550"},{"year":"2021","duration":"2 weeks and under 1 month","arrivals":"47270"},{"year":"2021","duration":"1 and under 2 months","arrivals":"42500"},{"year":"2021","duration":"2 and under 3 months","arrivals":"24480"},{"year":"2021","duration":"3 and under 6 months","arrivals":"31070"},{"year":"2021","duration":"6 and under 12 months","arrivals":"31620"},{"year":"2022","duration":"Under 1 week","arrivals":"624270"},{"year":"2022","duration":"1 and under 2 weeks","arrivals":"834080"},{"year":"2022","duration":"2 weeks and under 1 month","arrivals":"858190"},{"year":"2022","duration":"1 and under 2 months","arrivals":"441820"},{"year":"2022","duration":"2 and under 3 months","arrivals":"229160"},{"year":"2022","duration":"3 and under 6 months","arrivals":"351770"},{"year":"2022","duration":"6 and under 12 months","arrivals":"355050"},{"year":"2023","duration":"Under 1 week","arrivals":"1635470"},{"year":"2023","duration":"1 and under 2 weeks","arrivals":"1890230"},{"year":"2023","duration":"2 weeks and under 1 month","arrivals":"1527750"},{"year":"2023","duration":"1 and under 2 months","arrivals":"700630"},{"year":"2023","duration":"2 and under 3 months","arrivals":"338390"},{"year":"2023","duration":"3 and under 6 months","arrivals":"523580"},{"year":"2023","duration":"6 and under 12 months","arrivals":"571400"},{"year":"2024","duration":"Under 1 week","arrivals":"1995770"},{"year":"2024","duration":"1 and under 2 weeks","arrivals":"2365810"},{"year":"2024","duration":"2 weeks and under 1 month","arrivals":"1648450"},{"year":"2024","duration":"1 and under 2 months","arrivals":"706740"},{"year":"2024","duration":"2 and under 3 months","arrivals":"357610"},{"year":"2024","duration":"3 and under 6 months","arrivals":"575500"},{"year":"2024","duration":"6 and under 12 months","arrivals":"621040"},{"year":"2025","duration":"Under 1 week","arrivals":"2131110"},{"year":"2025","duration":"1 and under 2 weeks","arrivals":"2586190"},{"year":"2025","duration":"2 weeks and under 1 month","arrivals":"1798010"},{"year":"2025","duration":"1 and under 2 months","arrivals":"761520"},{"year":"2025","duration":"2 and under 3 months","arrivals":"388680"},{"year":"2025","duration":"3 and under 6 months","arrivals":"618230"},{"year":"2025","duration":"6 and under 12 months","arrivals":"653630"},{"year":"2026","duration":"Under 1 week","arrivals":"578880"},{"year":"2026","duration":"1 and under 2 weeks","arrivals":"682280"},{"year":"2026","duration":"2 weeks and under 1 month","arrivals":"476690"},{"year":"2026","duration":"1 and under 2 months","arrivals":"208860"},{"year":"2026","duration":"2 and under 3 months","arrivals":"103520"},{"year":"2026","duration":"3 and under 6 months","arrivals":"191450"},{"year":"2026","duration":"6 and under 12 months","arrivals":"237220"}]};
 
-  // ── 1. WORLD MAP ──────────────────────────────────────────────
-  vegaEmbed('#map-world', {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": "container", "height": 420,
-    "projection": {"type": "naturalEarth1"},
-    "layer": [
-      {
-        "data": {"url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json", "format": {"type": "topojson", "feature": "countries"}},
-        "mark": {"type": "geoshape", "fill": "#d8d2c8", "stroke": "#f2ede4", "strokeWidth": 0.5}
-      },
-      {
-        "data": {"url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json", "format": {"type": "topojson", "feature": "countries"}},
-        "transform": [
-          {"lookup": "properties.name", "from": {"data": {"url": DATA}, "key": "country", "fields": ["trips_2024","spend_2024","country"]}},
-          {"filter": "datum.trips_2024 != null"},
-          {"calculate": "toNumber(datum.trips_2024)", "as": "trips_num"}
-        ],
-        "mark": {"type": "geoshape", "stroke": "#f2ede4", "strokeWidth": 0.5},
-        "encoding": {
-          "color": {
-            "field": "trips_num", "type": "quantitative",
-            "scale": {"scheme": "tealblues", "type": "log"},
-            "legend": {"title": "Trips (000s)", "labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10, "labelFontSize": 9}
-          },
-          "tooltip": [
-            {"field": "country", "type": "nominal", "title": "Country"},
-            {"field": "trips_num", "type": "quantitative", "title": "Trips (000s)", "format": ","},
-            {"field": "spend_2024", "type": "quantitative", "title": "Spend ($M AUD)", "format": ","}
-          ]
-        }
-      }
-    ]
-  }, OPT);
+function inlineData(key) { return {"values": _D[key]}; }
 
-  // ── 2. BAR TOP 10 ─────────────────────────────────────────────
-  vegaEmbed('#bar-top10', {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": "container", "height": 300,
-    "data": {"url": DATA},
-    "transform": [
-      {"filter": "datum.country !== 'Other Asia' && datum.country !== 'Other Europe' && datum.country !== 'Other Countries' && datum.country !== 'Scandinavia'"},
-      {"calculate": "toNumber(datum.trips_2024)", "as": "trips_num"},
-      {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "trips_num", "order": "descending"}]},
-      {"filter": "datum.rank <= 10"}
-    ],
-    "layer": [
-      {
-        "mark": "bar",
-        "encoding": {
-          "y": {"field": "country", "type": "nominal", "sort": {"field": "rank", "order": "ascending"}, "title": null, "axis": {"labelFont": "DM Sans", "labelFontSize": 11}},
-          "x": {"field": "trips_num", "type": "quantitative", "title": "Visitor Trips (thousands)", "axis": {"labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10}},
-          "color": {"field": "trips_num", "type": "quantitative", "scale": {"scheme": "tealblues"}, "legend": null},
-          "tooltip": [
-            {"field": "country", "type": "nominal", "title": "Country"},
-            {"field": "trips_num", "type": "quantitative", "title": "Trips (000s)", "format": ","}
-          ]
-        }
-      },
-      {
-        "mark": {"type": "text", "align": "left", "dx": 4, "fontSize": 10, "color": "#7a746c"},
-        "encoding": {
-          "y": {"field": "country", "type": "nominal", "sort": {"field": "rank", "order": "ascending"}},
-          "x": {"field": "trips_num", "type": "quantitative"},
-          "text": {"field": "trips_num", "type": "quantitative", "format": ","}
-        }
-      }
-    ]
-  }, OPT);
+const OPT = {actions:false, renderer:"svg"};
 
-  // ── 3. DONUT ──────────────────────────────────────────────────
-  vegaEmbed('#donut-region', {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": "container", "height": 300,
-    "data": {"url": DATA},
-    "transform": [
-      {"calculate": "toNumber(datum.trips_2024)", "as": "trips_num"},
-      {
-        "calculate": "indexof(['New Zealand'], datum.country) >= 0 ? 'Pacific' : indexof(['Japan','Hong Kong','Singapore','Malaysia','Indonesia','Taiwan','Thailand','Vietnam','Philippines','South Korea','China','India','Other Asia'], datum.country) >= 0 ? 'Asia' : indexof(['United Kingdom','Germany','Scandinavia','France','Italy','Netherlands','Switzerland','Other Europe'], datum.country) >= 0 ? 'Europe' : indexof(['United States of America','Canada'], datum.country) >= 0 ? 'Americas' : 'Other'",
-        "as": "region"
-      },
-      {"aggregate": [{"op": "sum", "field": "trips_num", "as": "total_trips"}], "groupby": ["region"]}
-    ],
-    "mark": {"type": "arc", "innerRadius": 80, "outerRadius": 130},
-    "encoding": {
-      "theta": {"field": "total_trips", "type": "quantitative"},
-      "color": {
-        "field": "region", "type": "nominal",
-        "scale": {"domain": ["Asia","Pacific","Europe","Americas","Other"], "range": ["#0d6e78","#b8863c","#5a9ea8","#c0522a","#a89880"]},
-        "legend": {"title": "Region", "labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10}
-      },
-      "tooltip": [
-        {"field": "region", "type": "nominal", "title": "Region"},
-        {"field": "total_trips", "type": "quantitative", "title": "Trips (000s)", "format": ","}
-      ]
+// World map still fetches TopoJSON (external, cannot be inlined)
+const WORLD_TOPO = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
+const AUS_GEO    = "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.geojson";
+
+// ── 1. WORLD MAP ──────────────────────────────────────────────
+vegaEmbed('#map-world', {
+  "$schema":"https://vega.github.io/schema/vega-lite/v5.json",
+  "width":"container","height":420,
+  "projection":{"type":"naturalEarth1"},
+  "layer":[
+    {"data":{"url":WORLD_TOPO,"format":{"type":"topojson","feature":"countries"}},
+     "mark":{"type":"geoshape","fill":"#d8d2c8","stroke":"#f2ede4","strokeWidth":0.5}},
+    {"data":{"url":WORLD_TOPO,"format":{"type":"topojson","feature":"countries"}},
+     "transform":[
+       {"lookup":"properties.name",
+        "from":{"data":inlineData('tourism'),"key":"country","fields":["trips_2024","spend_2024","country"]}},
+       {"filter":"datum.trips_2024 != null"},
+       {"calculate":"toNumber(datum.trips_2024)","as":"trips_num"}
+     ],
+     "mark":{"type":"geoshape","stroke":"#f2ede4","strokeWidth":0.5},
+     "encoding":{
+       "color":{"field":"trips_num","type":"quantitative","scale":{"scheme":"tealblues","type":"log"},
+                "legend":{"title":"Trips (000s)","labelFont":"DM Sans","titleFont":"DM Sans","titleFontSize":10,"labelFontSize":9}},
+       "tooltip":[
+         {"field":"country","type":"nominal","title":"Country"},
+         {"field":"trips_num","type":"quantitative","title":"Trips (000s)","format":","},
+         {"field":"spend_2024","type":"quantitative","title":"Spend ($M AUD)","format":","}
+       ]
+     }}
+  ]
+}, OPT);
+
+// ── 2. BAR TOP 10 ─────────────────────────────────────────────
+vegaEmbed('#bar-top10', {
+  "$schema":"https://vega.github.io/schema/vega-lite/v5.json",
+  "width":"container","height":300,
+  "data":inlineData('tourism'),
+  "transform":[
+    {"filter":"datum.country !== 'Other Asia' && datum.country !== 'Other Europe' && datum.country !== 'Other Countries' && datum.country !== 'Scandinavia'"},
+    {"calculate":"toNumber(datum.trips_2024)","as":"trips_num"},
+    {"window":[{"op":"rank","as":"rank"}],"sort":[{"field":"trips_num","order":"descending"}]},
+    {"filter":"datum.rank <= 10"}
+  ],
+  "layer":[
+    {"mark":"bar",
+     "encoding":{
+       "y":{"field":"country","type":"nominal","sort":{"field":"rank","order":"ascending"},"title":null,
+            "axis":{"labelFont":"DM Sans","labelFontSize":11}},
+       "x":{"field":"trips_num","type":"quantitative","title":"Visitor Trips (thousands)",
+            "axis":{"labelFont":"DM Sans","titleFont":"DM Sans","titleFontSize":10}},
+       "color":{"field":"trips_num","type":"quantitative","scale":{"scheme":"tealblues"},"legend":null},
+       "tooltip":[{"field":"country","type":"nominal","title":"Country"},
+                  {"field":"trips_num","type":"quantitative","title":"Trips (000s)","format":","}]
+     }},
+    {"mark":{"type":"text","align":"left","dx":4,"fontSize":10,"color":"#7a746c"},
+     "encoding":{
+       "y":{"field":"country","type":"nominal","sort":{"field":"rank","order":"ascending"}},
+       "x":{"field":"trips_num","type":"quantitative"},
+       "text":{"field":"trips_num","type":"quantitative","format":","}
+     }}
+  ]
+}, OPT);
+
+// ── 3. DONUT ──────────────────────────────────────────────────
+vegaEmbed('#donut-region', {
+  "$schema":"https://vega.github.io/schema/vega-lite/v5.json",
+  "width":"container","height":300,
+  "data":inlineData('tourism'),
+  "transform":[
+    {"calculate":"toNumber(datum.trips_2024)","as":"trips_num"},
+    {"calculate":"indexof(['New Zealand'],datum.country)>=0?'Pacific':indexof(['Japan','Hong Kong','Singapore','Malaysia','Indonesia','Taiwan','Thailand','Vietnam','Philippines','South Korea','China','India','Other Asia'],datum.country)>=0?'Asia':indexof(['United Kingdom','Germany','Scandinavia','France','Italy','Netherlands','Switzerland','Other Europe'],datum.country)>=0?'Europe':indexof(['United States of America','Canada'],datum.country)>=0?'Americas':'Other'","as":"region"},
+    {"aggregate":[{"op":"sum","field":"trips_num","as":"total_trips"}],"groupby":["region"]}
+  ],
+  "mark":{"type":"arc","innerRadius":80,"outerRadius":130},
+  "encoding":{
+    "theta":{"field":"total_trips","type":"quantitative"},
+    "color":{"field":"region","type":"nominal",
+             "scale":{"domain":["Asia","Pacific","Europe","Americas","Other"],"range":["#0d6e78","#b8863c","#5a9ea8","#c0522a","#a89880"]},
+             "legend":{"title":"Region","labelFont":"DM Sans","titleFont":"DM Sans","titleFontSize":10}},
+    "tooltip":[{"field":"region","type":"nominal","title":"Region"},
+               {"field":"total_trips","type":"quantitative","title":"Trips (000s)","format":","}]
+  }
+}, OPT);
+
+// ── 4. BUBBLE ─────────────────────────────────────────────────
+vegaEmbed('#bubble', {
+  "$schema":"https://vega.github.io/schema/vega-lite/v5.json",
+  "width":"container","height":400,
+  "data":inlineData('tourism'),
+  "transform":[
+    {"filter":"datum.country !== 'Other Asia' && datum.country !== 'Other Europe' && datum.country !== 'Other Countries'"},
+    {"calculate":"toNumber(datum.nights_2024)","as":"nights_num"},
+    {"calculate":"toNumber(datum.spend_2024)","as":"spend_num"},
+    {"calculate":"toNumber(datum.trips_2024)","as":"trips_num"}
+  ],
+  "layer":[
+    {"mark":{"type":"point","filled":true,"opacity":0.75},
+     "encoding":{
+       "x":{"field":"nights_num","type":"quantitative","title":"Total Nights Stayed (000s, log scale)","scale":{"type":"log"},
+            "axis":{"labelFont":"DM Sans","titleFont":"DM Sans","titleFontSize":10}},
+       "y":{"field":"spend_num","type":"quantitative","title":"Total Spend ($M AUD)",
+            "axis":{"labelFont":"DM Sans","titleFont":"DM Sans","titleFontSize":10}},
+       "size":{"field":"trips_num","type":"quantitative","scale":{"range":[40,2200]},"legend":null},
+       "color":{"field":"country","type":"nominal","scale":{"scheme":"tableau10"},"legend":null},
+       "tooltip":[{"field":"country","type":"nominal","title":"Country"},
+                  {"field":"trips_num","type":"quantitative","title":"Trips (000s)","format":","},
+                  {"field":"nights_num","type":"quantitative","title":"Nights (000s)","format":","},
+                  {"field":"spend_num","type":"quantitative","title":"Spend ($M)","format":","}]
+     }},
+    {"mark":{"type":"text","fontSize":9,"dy":-10,"color":"#7a746c"},
+     "transform":[{"filter":"datum.spend_num > 1000"}],
+     "encoding":{
+       "x":{"field":"nights_num","type":"quantitative","scale":{"type":"log"}},
+       "y":{"field":"spend_num","type":"quantitative"},
+       "text":{"field":"country","type":"nominal"}
+     }}
+  ]
+}, OPT);
+
+// ── 5. DIVERGING BAR ──────────────────────────────────────────
+vegaEmbed('#diverging', {
+  "$schema":"https://vega.github.io/schema/vega-lite/v5.json",
+  "width":"container","height":400,
+  "data":inlineData('tourism'),
+  "transform":[
+    {"filter":"datum.country !== 'Other Asia' && datum.country !== 'Other Europe' && datum.country !== 'Other Countries'"},
+    {"calculate":"toNumber(datum.trips_change_pct)","as":"change"},
+    {"window":[{"op":"rank","as":"rank"}],"sort":[{"field":"change","order":"descending"}]}
+  ],
+  "layer":[
+    {"mark":"bar",
+     "encoding":{
+       "y":{"field":"country","type":"nominal","sort":{"field":"rank","order":"ascending"},"title":null,
+            "axis":{"labelFont":"DM Sans","labelFontSize":11}},
+       "x":{"field":"change","type":"quantitative","title":"% Change in Visitor Trips (2024 to 2025)",
+            "axis":{"labelFont":"DM Sans","titleFont":"DM Sans","titleFontSize":10}},
+       "color":{"condition":{"test":"datum.change >= 0","value":"#0d6e78"},"value":"#c0522a"},
+       "tooltip":[{"field":"country","type":"nominal","title":"Country"},
+                  {"field":"change","type":"quantitative","title":"Growth (%)","format":"+.0f"}]
+     }},
+    {"mark":{"type":"rule","color":"#0f0e0c","strokeWidth":1},
+     "encoding":{"x":{"datum":0}}}
+  ]
+}, OPT);
+
+// ── 6. MONTHLY LINE CHART ─────────────────────────────────────
+vegaEmbed('#chart-monthly', {
+  "$schema":"https://vega.github.io/schema/vega-lite/v5.json",
+  "width":"container","height":380,
+  "data":inlineData('monthly'),
+  "transform":[
+    {"calculate":"toNumber(datum.arrivals)","as":"arrivals_num"},
+    {"calculate":"utcParse(datum.date + '-01', '%Y-%m-%d')","as":"date_parsed"}
+  ],
+  "layer":[
+    {"mark":{"type":"line","interpolate":"monotone","strokeWidth":2},
+     "encoding":{
+       "x":{"field":"date_parsed","type":"temporal","title":"Month",
+            "axis":{"format":"%Y","tickCount":"year","labelFont":"DM Sans","titleFont":"DM Sans","titleFontSize":10,"gridColor":"#e8e2d8"}},
+       "y":{"field":"arrivals_num","type":"quantitative","title":"Short-term Visitor Arrivals",
+            "axis":{"labelFont":"DM Sans","titleFont":"DM Sans","titleFontSize":10,"format":",","gridColor":"#e8e2d8"}},
+       "color":{"field":"country","type":"nominal","scale":{"scheme":"tableau10"},
+                "legend":{"title":"Country","labelFont":"DM Sans","titleFont":"DM Sans","titleFontSize":10,"orient":"right"}},
+       "opacity":{"condition":{"param":"hover","value":1},"value":0.2},
+       "strokeWidth":{"condition":{"param":"hover","value":3},"value":1.5},
+       "tooltip":[{"field":"country","type":"nominal","title":"Country"},
+                  {"field":"date","type":"nominal","title":"Month"},
+                  {"field":"arrivals_num","type":"quantitative","title":"Arrivals","format":","}]
+     },
+     "params":[{"name":"hover","select":{"type":"point","fields":["country"],"on":"pointerover"},"bind":"legend"}]
+    },
+    {"mark":{"type":"rule","color":"#7a746c","strokeDash":[4,4],"strokeWidth":1},
+     "data":{"values":[{"x":"2020-03"}]},
+     "transform":[{"calculate":"utcParse(datum.x + '-01', '%Y-%m-%d')","as":"date_parsed"}],
+     "encoding":{"x":{"field":"date_parsed","type":"temporal"}}
+    },
+    {"mark":{"type":"text","align":"left","dx":4,"dy":-8,"fontSize":9,"fontStyle":"italic","color":"#7a746c"},
+     "data":{"values":[{"x":"2020-03","label":"Borders close"}]},
+     "transform":[{"calculate":"utcParse(datum.x + '-01', '%Y-%m-%d')","as":"date_parsed"}],
+     "encoding":{"x":{"field":"date_parsed","type":"temporal"},"y":{"value":10},"text":{"field":"label","type":"nominal"}}
     }
-  }, OPT);
+  ]
+}, OPT);
 
-  // ── 4. BUBBLE ─────────────────────────────────────────────────
-  vegaEmbed('#bubble', {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": "container", "height": 400,
-    "data": {"url": DATA},
-    "transform": [
-      {"filter": "datum.country !== 'Other Asia' && datum.country !== 'Other Europe' && datum.country !== 'Other Countries'"},
-      {"calculate": "toNumber(datum.nights_2024)", "as": "nights_num"},
-      {"calculate": "toNumber(datum.spend_2024)", "as": "spend_num"},
-      {"calculate": "toNumber(datum.trips_2024)", "as": "trips_num"}
-    ],
-    "layer": [
-      {
-        "mark": {"type": "point", "filled": true, "opacity": 0.75},
-        "encoding": {
-          "x": {"field": "nights_num", "type": "quantitative", "title": "Total Nights Stayed (000s, log scale)", "scale": {"type": "log"}, "axis": {"labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10}},
-          "y": {"field": "spend_num", "type": "quantitative", "title": "Total Spend ($M AUD)", "axis": {"labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10}},
-          "size": {"field": "trips_num", "type": "quantitative", "scale": {"range": [40, 2200]}, "legend": null},
-          "color": {"field": "country", "type": "nominal", "scale": {"scheme": "tableau10"}, "legend": null},
-          "tooltip": [
-            {"field": "country", "type": "nominal", "title": "Country"},
-            {"field": "trips_num", "type": "quantitative", "title": "Trips (000s)", "format": ","},
-            {"field": "nights_num", "type": "quantitative", "title": "Nights (000s)", "format": ","},
-            {"field": "spend_num", "type": "quantitative", "title": "Spend ($M)", "format": ","}
-          ]
-        }
-      },
-      {
-        "mark": {"type": "text", "fontSize": 9, "dy": -10, "color": "#7a746c"},
-        "transform": [{"filter": "datum.spend_num > 1000"}],
-        "encoding": {
-          "x": {"field": "nights_num", "type": "quantitative", "scale": {"type": "log"}},
-          "y": {"field": "spend_num", "type": "quantitative"},
-          "text": {"field": "country", "type": "nominal"}
-        }
-      }
-    ]
-  }, OPT);
+// ── 7. STACKED BAR — REASON FOR JOURNEY ──────────────────────
+vegaEmbed('#chart-reason', {
+  "$schema":"https://vega.github.io/schema/vega-lite/v5.json",
+  "width":"container","height":320,
+  "data":inlineData('reason'),
+  "transform":[
+    {"filter":"datum.year >= 2019 && datum.year <= 2025"},
+    {"filter":"datum.reason !== 'Other & not stated'"},
+    {"calculate":"toNumber(datum.arrivals)","as":"arrivals_num"},
+    {"calculate":"toString(datum.year)","as":"year_str"},
+    {"calculate":"datum.reason === 'Holiday' ? 0 : datum.reason === 'Visiting friends/relatives' ? 1 : datum.reason === 'Business' ? 2 : datum.reason === 'Education' ? 3 : datum.reason === 'Convention/conference' ? 4 : 5","as":"sort_order"}
+  ],
+  "mark":{"type":"bar","cornerRadiusTopLeft":2,"cornerRadiusTopRight":2},
+  "encoding":{
+    "x":{"field":"year_str","type":"ordinal","title":"Year","axis":{"labelFont":"DM Sans","titleFont":"DM Sans","titleFontSize":10}},
+    "y":{"field":"arrivals_num","type":"quantitative","title":"Share of Arrivals","stack":"normalize",
+         "axis":{"labelFont":"DM Sans","titleFont":"DM Sans","titleFontSize":10,"format":".0%"}},
+    "color":{"field":"reason","type":"nominal",
+             "sort":{"field":"sort_order","order":"ascending"},
+             "scale":{"domain":["Holiday","Visiting friends/relatives","Business","Education","Convention/conference"],
+                      "range":["#0d6e78","#b8863c","#5a9ea8","#c0522a","#a89880"]},
+             "legend":{"title":"Reason","labelFont":"DM Sans","titleFont":"DM Sans","titleFontSize":10,"orient":"right"}},
+    "order":{"field":"sort_order","type":"quantitative"},
+    "tooltip":[{"field":"reason","type":"nominal","title":"Reason"},
+               {"field":"year_str","type":"nominal","title":"Year"},
+               {"field":"arrivals_num","type":"quantitative","title":"Arrivals","format":","}]
+  }
+}, OPT);
 
-  // ── 5. DIVERGING BAR ──────────────────────────────────────────
-  vegaEmbed('#diverging', {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": "container", "height": 400,
-    "data": {"url": DATA},
-    "transform": [
-      {"filter": "datum.country !== 'Other Asia' && datum.country !== 'Other Europe' && datum.country !== 'Other Countries'"},
-      {"calculate": "toNumber(datum.trips_change_pct)", "as": "change"},
-      {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "change", "order": "descending"}]}
-    ],
-    "layer": [
-      {
-        "mark": "bar",
-        "encoding": {
-          "y": {"field": "country", "type": "nominal", "sort": {"field": "rank", "order": "ascending"}, "title": null, "axis": {"labelFont": "DM Sans", "labelFontSize": 11}},
-          "x": {"field": "change", "type": "quantitative", "title": "% Change in Visitor Trips (2024 to 2025)", "axis": {"labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10}},
-          "color": {
-            "condition": {"test": "datum.change >= 0", "value": "#0d6e78"},
-            "value": "#c0522a"
-          },
-          "tooltip": [
-            {"field": "country", "type": "nominal", "title": "Country"},
-            {"field": "change", "type": "quantitative", "title": "Growth (%)", "format": "+.0f"}
-          ]
-        }
-      },
-      {
-        "mark": {"type": "rule", "color": "#0f0e0c", "strokeWidth": 1},
-        "encoding": {"x": {"datum": 0}}
-      }
-    ]
-  }, OPT);
+// ── 8. HEATMAP — DURATION OF STAY ────────────────────────────
+vegaEmbed('#chart-duration', {
+  "$schema":"https://vega.github.io/schema/vega-lite/v5.json",
+  "width":"container","height":320,
+  "data":inlineData('duration'),
+  "transform":[
+    {"filter":"datum.year >= 2019 && datum.year <= 2025"},
+    {"calculate":"toNumber(datum.arrivals)","as":"arrivals_num"},
+    {"calculate":"toString(datum.year)","as":"year_str"},
+    {"joinaggregate":[{"op":"sum","field":"arrivals_num","as":"year_total"}],"groupby":["year_str"]},
+    {"calculate":"datum.arrivals_num / datum.year_total","as":"share"},
+    {"calculate":"datum.duration === 'Under 1 week' ? 0 : datum.duration === '1 and under 2 weeks' ? 1 : datum.duration === '2 weeks and under 1 month' ? 2 : datum.duration === '1 and under 2 months' ? 3 : datum.duration === '2 and under 3 months' ? 4 : datum.duration === '3 and under 6 months' ? 5 : 6","as":"dur_order"}
+  ],
+  "mark":{"type":"rect"},
+  "encoding":{
+    "x":{"field":"year_str","type":"ordinal","title":"Year","axis":{"labelFont":"DM Sans","titleFont":"DM Sans","titleFontSize":10}},
+    "y":{"field":"duration","type":"ordinal","sort":{"field":"dur_order","order":"ascending"},"title":"Intended Duration",
+         "axis":{"labelFont":"DM Sans","titleFont":"DM Sans","titleFontSize":10,"labelLimit":200}},
+    "color":{"field":"share","type":"quantitative","scale":{"scheme":"tealblues","domain":[0,0.35]},
+             "legend":{"title":"Share","format":".0%","labelFont":"DM Sans","titleFont":"DM Sans","titleFontSize":10,"gradientLength":120}},
+    "tooltip":[{"field":"duration","type":"nominal","title":"Duration"},
+               {"field":"year_str","type":"nominal","title":"Year"},
+               {"field":"share","type":"quantitative","title":"Share","format":".1%"},
+               {"field":"arrivals_num","type":"quantitative","title":"Arrivals","format":","}]
+  }
+}, OPT);
 
-  // ── 6. AUSTRALIA MAP ──────────────────────────────────────────
-  vegaEmbed('#map-aus', {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": "container", "height": 340,
-    "projection": {"type": "mercator"},
-    "layer": [
-      {
-        "data": {"url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.geojson", "format": {"type": "json", "property": "features"}},
-        "mark": {"type": "geoshape", "fill": "#d8d2c8", "stroke": "#f2ede4", "strokeWidth": 1}
-      },
-      {
-        "data": {"url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.geojson", "format": {"type": "json", "property": "features"}},
-        "transform": [
-          {"lookup": "properties.STATE_NAME", "from": {"data": {"url": STATE}, "key": "state_full", "fields": ["mar_2026","mar_2019","change_pct","state"]}}
-        ],
-        "mark": {"type": "geoshape", "stroke": "#f2ede4", "strokeWidth": 1},
-        "encoding": {
-          "color": {
-            "field": "mar_2026", "type": "quantitative",
-            "scale": {"scheme": "tealblues"},
-            "legend": {"title": "Arrivals (Mar 2026)", "labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10}
-          },
-          "tooltip": [
-            {"field": "properties.STATE_NAME", "type": "nominal", "title": "State"},
-            {"field": "mar_2026", "type": "quantitative", "title": "Mar 2026 Arrivals", "format": ","},
-            {"field": "mar_2019", "type": "quantitative", "title": "Mar 2019 Arrivals", "format": ","},
-            {"field": "change_pct", "type": "quantitative", "title": "2025→2026 Growth (%)", "format": "+.1f"}
-          ]
-        }
-      }
-    ]
-  }, OPT);
+// ── 9. AUSTRALIA MAP ──────────────────────────────────────────
+vegaEmbed('#map-aus', {
+  "$schema":"https://vega.github.io/schema/vega-lite/v5.json",
+  "width":"container","height":340,
+  "projection":{"type":"mercator"},
+  "layer":[
+    {"data":{"url":AUS_GEO,"format":{"type":"json","property":"features"}},
+     "mark":{"type":"geoshape","fill":"#d8d2c8","stroke":"#f2ede4","strokeWidth":1}},
+    {"data":{"url":AUS_GEO,"format":{"type":"json","property":"features"}},
+     "transform":[
+       {"lookup":"properties.STATE_NAME",
+        "from":{"data":inlineData('state'),"key":"state_full","fields":["mar_2026","mar_2019","change_pct","state"]}}
+     ],
+     "mark":{"type":"geoshape","stroke":"#f2ede4","strokeWidth":1},
+     "encoding":{
+       "color":{"field":"mar_2026","type":"quantitative","scale":{"scheme":"tealblues"},
+                "legend":{"title":"Arrivals (Mar 2026)","labelFont":"DM Sans","titleFont":"DM Sans","titleFontSize":10}},
+       "tooltip":[{"field":"properties.STATE_NAME","type":"nominal","title":"State"},
+                  {"field":"mar_2026","type":"quantitative","title":"Mar 2026 Arrivals","format":","},
+                  {"field":"mar_2019","type":"quantitative","title":"Mar 2019 Arrivals","format":","},
+                  {"field":"change_pct","type":"quantitative","title":"2025→2026 Growth (%)","format":"+.1f"}]
+     }}
+  ]
+}, OPT);
 
-  // ── 7. STATE LINE CHART ───────────────────────────────────────
-  vegaEmbed('#line-states', {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": "container", "height": 340,
-    "data": {"url": STATE_LONG},
-    "transform": [
-      {"calculate": "toNumber(datum.visitors)", "as": "v"},
-      {"calculate": "toString(datum.year)", "as": "yr"}
-    ],
-    "mark": {"type": "line", "point": {"filled": true, "size": 60}},
-    "encoding": {
-      "x": {"field": "yr", "type": "ordinal", "title": "Year (March snapshot)", "axis": {"labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10}},
-      "y": {"field": "v", "type": "quantitative", "title": "Short-term Visitor Arrivals", "axis": {"labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10}},
-      "color": {
-        "field": "state_full", "type": "nominal",
-        "scale": {"scheme": "tableau10"},
-        "legend": {"title": "State", "labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10}
-      },
-      "tooltip": [
-        {"field": "state_full", "type": "nominal", "title": "State"},
-        {"field": "yr", "type": "nominal", "title": "Year"},
-        {"field": "v", "type": "quantitative", "title": "Arrivals", "format": ","}
-      ]
-    }
-  }, OPT);
+// ── 10. STATE LINE CHART ──────────────────────────────────────
+vegaEmbed('#line-states', {
+  "$schema":"https://vega.github.io/schema/vega-lite/v5.json",
+  "width":"container","height":340,
+  "data":inlineData('state_long'),
+  "transform":[
+    {"calculate":"toNumber(datum.visitors)","as":"v"},
+    {"calculate":"toString(datum.year)","as":"yr"}
+  ],
+  "mark":{"type":"line","point":{"filled":true,"size":60}},
+  "encoding":{
+    "x":{"field":"yr","type":"ordinal","title":"Year (March snapshot)",
+         "axis":{"labelFont":"DM Sans","titleFont":"DM Sans","titleFontSize":10}},
+    "y":{"field":"v","type":"quantitative","title":"Short-term Visitor Arrivals",
+         "axis":{"labelFont":"DM Sans","titleFont":"DM Sans","titleFontSize":10}},
+    "color":{"field":"state_full","type":"nominal","scale":{"scheme":"tableau10"},
+             "legend":{"title":"State","labelFont":"DM Sans","titleFont":"DM Sans","titleFontSize":10}},
+    "tooltip":[{"field":"state_full","type":"nominal","title":"State"},
+               {"field":"yr","type":"nominal","title":"Year"},
+               {"field":"v","type":"quantitative","title":"Arrivals","format":","}]
+  }
+}, OPT);
 
-  // ── 8. CONNECTED DOT PLOT ─────────────────────────────────────
-  vegaEmbed('#dot-recovery', {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": "container", "height": 220,
-    "data": {"url": ARR},
-    "transform": [
-      {"filter": "datum.type === 'arrivals'"},
-      {"filter": "datum.category !== 'Short-term resident returns' && datum.category !== 'Long-term resident returns'"},
-      {"calculate": "toNumber(datum.mar_2019)", "as": "v2019"},
-      {"calculate": "toNumber(datum.mar_2026)", "as": "v2026"}
-    ],
-    "layer": [
-      {
-        "mark": {"type": "rule", "strokeWidth": 2.5, "color": "#d8d2c8"},
-        "encoding": {
-          "y": {"field": "category", "type": "nominal", "title": null, "axis": {"labelFont": "DM Sans", "labelFontSize": 11}},
-          "x": {"field": "v2019", "type": "quantitative", "title": "Number of Arrivals (March)", "axis": {"labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10}},
-          "x2": {"field": "v2026"}
-        }
-      },
-      {
-        "mark": {"type": "point", "filled": true, "size": 140, "opacity": 1},
-        "encoding": {
-          "y": {"field": "category", "type": "nominal"},
-          "x": {"field": "v2019", "type": "quantitative"},
-          "color": {"value": "#b8863c"},
-          "tooltip": [{"field": "category", "type": "nominal"}, {"field": "v2019", "type": "quantitative", "title": "Mar 2019", "format": ","}]
-        }
-      },
-      {
-        "mark": {"type": "point", "filled": true, "size": 140, "opacity": 1},
-        "encoding": {
-          "y": {"field": "category", "type": "nominal"},
-          "x": {"field": "v2026", "type": "quantitative"},
-          "color": {"value": "#0d6e78"},
-          "tooltip": [{"field": "category", "type": "nominal"}, {"field": "v2026", "type": "quantitative", "title": "Mar 2026", "format": ","}]
-        }
-      },
-      {
-        "mark": {"type": "text", "align": "right", "dx": -10, "fontSize": 9, "fontStyle": "italic"},
-        "encoding": {
-          "y": {"field": "category", "type": "nominal"},
-          "x": {"field": "v2019", "type": "quantitative"},
-          "text": {"value": "2019"},
-          "color": {"value": "#b8863c"}
-        }
-      },
-      {
-        "mark": {"type": "text", "align": "left", "dx": 10, "fontSize": 9, "fontStyle": "italic"},
-        "encoding": {
-          "y": {"field": "category", "type": "nominal"},
-          "x": {"field": "v2026", "type": "quantitative"},
-          "text": {"value": "2026"},
-          "color": {"value": "#0d6e78"}
-        }
-      }
-    ]
-  }, OPT);
+// ── 11. CONNECTED DOT PLOT ────────────────────────────────────
+vegaEmbed('#dot-recovery', {
+  "$schema":"https://vega.github.io/schema/vega-lite/v5.json",
+  "width":"container","height":220,
+  "data":inlineData('arrivals'),
+  "transform":[
+    {"filter":"datum.type === 'arrivals'"},
+    {"filter":"datum.category !== 'Short-term resident returns' && datum.category !== 'Long-term resident returns'"},
+    {"calculate":"toNumber(datum.mar_2019)","as":"v2019"},
+    {"calculate":"toNumber(datum.mar_2026)","as":"v2026"}
+  ],
+  "layer":[
+    {"mark":{"type":"rule","strokeWidth":2.5,"color":"#d8d2c8"},
+     "encoding":{
+       "y":{"field":"category","type":"nominal","title":null,"axis":{"labelFont":"DM Sans","labelFontSize":11}},
+       "x":{"field":"v2019","type":"quantitative","title":"Number of Arrivals (March)",
+            "axis":{"labelFont":"DM Sans","titleFont":"DM Sans","titleFontSize":10}},
+       "x2":{"field":"v2026"}
+     }},
+    {"mark":{"type":"point","filled":true,"size":140,"opacity":1},
+     "encoding":{
+       "y":{"field":"category","type":"nominal"},
+       "x":{"field":"v2019","type":"quantitative"},
+       "color":{"value":"#b8863c"},
+       "tooltip":[{"field":"category","type":"nominal"},{"field":"v2019","type":"quantitative","title":"Mar 2019","format":","}]
+     }},
+    {"mark":{"type":"point","filled":true,"size":140,"opacity":1},
+     "encoding":{
+       "y":{"field":"category","type":"nominal"},
+       "x":{"field":"v2026","type":"quantitative"},
+       "color":{"value":"#0d6e78"},
+       "tooltip":[{"field":"category","type":"nominal"},{"field":"v2026","type":"quantitative","title":"Mar 2026","format":","}]
+     }},
+    {"mark":{"type":"text","align":"right","dx":-10,"fontSize":9,"fontStyle":"italic"},
+     "encoding":{
+       "y":{"field":"category","type":"nominal"},
+       "x":{"field":"v2019","type":"quantitative"},
+       "text":{"value":"2019"},
+       "color":{"value":"#b8863c"}
+     }},
+    {"mark":{"type":"text","align":"left","dx":10,"fontSize":9,"fontStyle":"italic"},
+     "encoding":{
+       "y":{"field":"category","type":"nominal"},
+       "x":{"field":"v2026","type":"quantitative"},
+       "text":{"value":"2026"},
+       "color":{"value":"#0d6e78"}
+     }}
+  ]
+}, OPT);
 
-  // ── 9. GROUPED BAR ────────────────────────────────────────────
-  vegaEmbed('#bar-grouped', {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": "container", "height": 300,
-    "data": {"url": ARR_LONG},
-    "transform": [
-      {"filter": "datum.type === 'Visitor'"},
-      {"calculate": "toNumber(datum.count)", "as": "count_num"},
-      {"calculate": "toString(datum.year)", "as": "year_str"}
-    ],
-    "mark": {"type": "bar"},
-    "encoding": {
-      "x": {"field": "year_str", "type": "ordinal", "title": "Year (March snapshot)", "axis": {"labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10}},
-      "y": {"field": "count_num", "type": "quantitative", "title": "Arrivals", "axis": {"labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10}},
-      "xOffset": {"field": "category", "type": "nominal"},
-      "color": {
-        "field": "category", "type": "nominal",
-        "scale": {"domain": ["Short-term visitor arrivals","Long-term visitor arrivals"], "range": ["#0d6e78","#b8863c"]},
-        "legend": {"title": "Category", "labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10}
-      },
-      "tooltip": [
-        {"field": "category", "type": "nominal", "title": "Category"},
-        {"field": "year_str", "type": "nominal", "title": "Year"},
-        {"field": "count_num", "type": "quantitative", "title": "Arrivals", "format": ","}
-      ]
-    }
-  }, OPT);
+// ── 12. GROUPED BAR ───────────────────────────────────────────
+vegaEmbed('#bar-grouped', {
+  "$schema":"https://vega.github.io/schema/vega-lite/v5.json",
+  "width":"container","height":300,
+  "data":inlineData('arrivals_long'),
+  "transform":[
+    {"filter":"datum.type === 'Visitor'"},
+    {"calculate":"toNumber(datum.count)","as":"count_num"},
+    {"calculate":"toString(datum.year)","as":"year_str"}
+  ],
+  "mark":{"type":"bar"},
+  "encoding":{
+    "x":{"field":"year_str","type":"ordinal","title":"Year (March snapshot)",
+         "axis":{"labelFont":"DM Sans","titleFont":"DM Sans","titleFontSize":10}},
+    "y":{"field":"count_num","type":"quantitative","title":"Arrivals",
+         "axis":{"labelFont":"DM Sans","titleFont":"DM Sans","titleFontSize":10}},
+    "xOffset":{"field":"category","type":"nominal"},
+    "color":{"field":"category","type":"nominal",
+             "scale":{"domain":["Short-term visitor arrivals","Long-term visitor arrivals"],"range":["#0d6e78","#b8863c"]},
+             "legend":{"title":"Category","labelFont":"DM Sans","titleFont":"DM Sans","titleFontSize":10}},
+    "tooltip":[{"field":"category","type":"nominal","title":"Category"},
+               {"field":"year_str","type":"nominal","title":"Year"},
+               {"field":"count_num","type":"quantitative","title":"Arrivals","format":","}]
+  }
+}, OPT);
 
 </script>
 </body>
