@@ -1,156 +1,536 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>FIT2179 Data Visualisation 2</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Australia's International Tourism — 2024</title>
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; background: #f7f5f0; color: #222; }
+    :root {
+      --ink:       #0f0e0c;
+      --cream:     #f2ede4;
+      --cream-2:   #e8e2d8;
+      --gold:      #b8863c;
+      --gold-lt:   #e8c97a;
+      --teal:      #0d6e78;
+      --teal-lt:   #c5e8ec;
+      --rust:      #c0522a;
+      --muted:     #7a746c;
+      --border:    #d8d2c8;
+      --white:     #faf8f4;
+    }
 
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* ── HERO ──────────────────────────────────── */
     .hero {
-      background: #1a1a2e;
-      color: white;
-      padding: 60px 60px 50px;
+      background: var(--ink);
+      color: var(--cream);
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+      min-height: 520px;
+      display: grid;
+      grid-template-columns: 1fr 380px;
     }
-    .hero h1 { font-size: 2.6rem; margin: 0 0 12px; }
-    .hero h1 span { color: #c8973a; }
-    .hero p { font-size: 1.05rem; color: rgba(255,255,255,0.7); max-width: 650px; margin: 0 0 32px; }
-    .hero-stats { display: flex; gap: 40px; flex-wrap: wrap; }
-    .stat { border-left: 3px solid #0a7e8c; padding-left: 14px; }
-    .stat-n { font-size: 1.8rem; font-weight: bold; }
-    .stat-l { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 80% 40%, rgba(13,110,120,0.25) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 10% 80%, rgba(184,134,60,0.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-text {
+      padding: 72px 64px 64px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .hero-eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold-lt);
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 5.5vw, 5rem);
+      font-weight: 600;
+      line-height: 1.0;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--gold-lt);
+    }
+    .hero-lead {
+      font-size: 1rem;
+      color: rgba(242,237,228,0.65);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 48px;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 0;
+      border-top: 1px solid rgba(255,255,255,0.12);
+      padding-top: 28px;
+    }
+    .stat {
+      flex: 1;
+      padding-right: 28px;
+      border-right: 1px solid rgba(255,255,255,0.1);
+      margin-right: 28px;
+    }
+    .stat:last-child { border-right: none; margin-right: 0; }
+    .stat-n {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.6rem;
+      font-weight: 600;
+      line-height: 1;
+      color: var(--white);
+    }
+    .stat-n sup { font-size: 1rem; vertical-align: super; }
+    .stat-l { font-size: 0.72rem; color: rgba(242,237,228,0.5); margin-top: 4px; letter-spacing: 0.04em; }
 
-    .page { max-width: 1000px; margin: 0 auto; padding: 40px 40px 80px; }
+    .hero-side {
+      background: rgba(255,255,255,0.03);
+      border-left: 1px solid rgba(255,255,255,0.08);
+      padding: 72px 40px 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 28px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-fact {
+      padding: 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 4px;
+    }
+    .hero-fact-n {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--gold-lt);
+    }
+    .hero-fact-l { font-size: 0.78rem; color: rgba(242,237,228,0.55); margin-top: 2px; }
 
-    .section { margin-bottom: 60px; }
-    .section h2 {
-      font-size: 1.4rem;
-      border-left: 4px solid #0a7e8c;
-      padding-left: 12px;
+    /* ── NAV STRIP ─────────────────────────────── */
+    .nav-strip {
+      background: var(--ink);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 0 64px;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+    }
+    .nav-strip a {
+      color: rgba(242,237,228,0.45);
+      text-decoration: none;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 500;
+      padding: 16px 24px 14px;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .nav-strip a:hover { color: var(--gold-lt); border-bottom-color: var(--gold); }
+
+    /* ── PAGE BODY ─────────────────────────────── */
+    .page { max-width: 1080px; margin: 0 auto; padding: 0 48px 100px; }
+
+    /* ── SECTION ───────────────────────────────── */
+    .section { padding-top: 80px; }
+    .section-label {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--teal);
       margin-bottom: 8px;
-      color: #1a1a2e;
     }
-    .section p { font-size: 0.95rem; color: #555; max-width: 680px; margin-bottom: 20px; line-height: 1.6; }
+    .section h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      font-weight: 600;
+      line-height: 1.1;
+      color: var(--ink);
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+    .section-rule {
+      width: 48px;
+      height: 2px;
+      background: var(--gold);
+      margin-bottom: 20px;
+    }
+    .section-lead {
+      font-size: 0.98rem;
+      color: var(--muted);
+      max-width: 640px;
+      margin-bottom: 40px;
+      line-height: 1.75;
+    }
+    .section-lead strong { color: var(--ink); font-weight: 500; }
 
+    /* ── CARDS ─────────────────────────────────── */
     .card {
-      background: white;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-      padding: 28px;
-      margin-bottom: 28px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 32px 36px;
+      margin-bottom: 24px;
     }
-    .card h3 { font-size: 1rem; color: #1a1a2e; margin: 0 0 4px; }
-    .card .caption { font-size: 0.8rem; color: #888; margin-bottom: 16px; }
+    .card-header { margin-bottom: 20px; }
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .card-caption { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+    .card-caption a { color: var(--teal); text-decoration: none; }
 
-    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-    @media (max-width: 700px) { .grid2 { grid-template-columns: 1fr; } }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+    @media (max-width: 780px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-side { display: none; }
+    }
 
-    footer { border-top: 1px solid #ddd; padding: 24px 40px; font-size: 0.78rem; color: #888; max-width: 1000px; margin: 0 auto; }
-    footer a { color: #0a7e8c; text-decoration: none; }
+    /* ── INSIGHT CALLOUT ───────────────────────── */
+    .insight {
+      background: var(--ink);
+      color: var(--cream);
+      border-radius: 3px;
+      padding: 28px 32px;
+      margin-bottom: 24px;
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+    }
+    .insight-icon { font-size: 1.8rem; flex-shrink: 0; margin-top: 2px; }
+    .insight-text { font-size: 0.92rem; line-height: 1.65; color: rgba(242,237,228,0.8); }
+    .insight-text strong { color: var(--gold-lt); font-weight: 500; }
+
+    /* ── DIVIDER ───────────────────────────────── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 60px 0 0;
+    }
+
+    /* ── FOOTER ────────────────────────────────── */
+    footer {
+      background: var(--ink);
+      color: rgba(242,237,228,0.4);
+      padding: 40px 64px;
+      font-size: 0.75rem;
+      line-height: 1.8;
+      margin-top: 80px;
+    }
+    footer a { color: rgba(242,237,228,0.6); text-decoration: underline; }
+    .footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .footer-heading { color: rgba(242,237,228,0.7); font-weight: 500; margin-bottom: 6px; letter-spacing: 0.08em; font-size: 0.68rem; text-transform: uppercase; }
+
+    /* vega embed tweaks */
+    .vega-embed { width: 100% !important; }
+    .vega-embed summary { display: none !important; }
   </style>
 </head>
 <body>
 
-<div class="hero">
-  <h1>Who is Visiting <span>Australia</span>? </h1>
-  <p>Each year millions of visitors arrive on Australian shores to experience the country's culture and natural beauty. This visualisation explores where they come from, how long they stay, how much they spend, and which markets are growing fastest.</p>
-  <div class="hero-stats">
-    <div class="stat"><div class="stat-n">9.1M</div><div class="stat-l">Visitor trips, 2024</div></div>
-    <div class="stat"><div class="stat-n">$45B</div><div class="stat-l">Total visitor spend</div></div>
-    <div class="stat"><div class="stat-n">25+</div><div class="stat-l">Source countries tracked</div></div>
+<!-- ── HERO ── -->
+<header class="hero">
+  <div class="hero-text">
+    <div>
+      <p class="hero-eyebrow">FIT2179 Data Visualisation 2 &nbsp;·&nbsp; Monash University &nbsp;·&nbsp; S1 2026</p>
+      <h1>Who Visits<br><em>Australia</em>,<br>and What<br>They're Worth</h1>
+      <p class="hero-lead">
+        International tourism is one of Australia's most significant industries. This visualisation traces where visitors come from, what they spend, which Australian states they choose — and how tourism is recovering in a post-pandemic world.
+      </p>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-n">9.1<sup>M</sup></div>
+        <div class="stat-l">International visitor trips, 2024</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n">$45<sup>B</sup></div>
+        <div class="stat-l">Total visitor spend, AUD</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n">25<sup>+</sup></div>
+        <div class="stat-l">Source countries tracked</div>
+      </div>
+    </div>
   </div>
-</div>
+  <div class="hero-side">
+    <div class="hero-fact">
+      <div class="hero-fact-n">#1 China</div>
+      <div class="hero-fact-l">Highest total visitor spend of any nation — $8B AUD in 2024</div>
+    </div>
+    <div class="hero-fact">
+      <div class="hero-fact-n">#1 NZ</div>
+      <div class="hero-fact-l">Most trips to Australia — 1.26 million in 2024</div>
+    </div>
+    <div class="hero-fact">
+      <div class="hero-fact-n">NSW</div>
+      <div class="hero-fact-l">Most visited state — 314,490 short-term arrivals, March 2026</div>
+    </div>
+    <div class="hero-fact">
+      <div class="hero-fact-n">+23.9%</div>
+      <div class="hero-fact-l">NT fastest growing state for visitor arrivals, 2025–2026</div>
+    </div>
+  </div>
+</header>
+
+<!-- ── NAV ── -->
+<nav class="nav-strip">
+  <a href="#origins">01 — Origins</a>
+  <a href="#value">02 — Economic Value</a>
+  <a href="#destinations">03 — Australian Destinations</a>
+  <a href="#recovery">04 — Recovery</a>
+</nav>
 
 <div class="page">
 
-  <div class="section">
+  <!-- ══════════════════════════════════════════
+       SECTION 1 — ORIGINS
+  ══════════════════════════════════════════ -->
+  <section class="section" id="origins">
+    <p class="section-label">Section 01</p>
     <h2>Where Visitors Come From</h2>
-    <p>Australia's visitors largely arrive from the Asia-Pacific region. New Zealand sends the most trips, while China contributes the highest total spending by a visiting nation. The map below shows the global distribution.</p>
-    <div class="card">
-      <h3>Global Visitor Distribution (2024)</h3>
-      <div class="caption">Colour intensity shows number of visitor trips.</div>
-      <div id="map"></div>
-    </div>
-    <div class="card">
-      <h3>Top 10 Source Countries by Visitor Trips (2024)</h3>
-      <div class="caption">Trips in thousands.</div>
-      <div id="bar"></div>
-    </div>
-  </div>
+    <div class="section-rule"></div>
+    <p class="section-lead">
+      Australia's inbound tourism is dominated by its Asia-Pacific neighbours. <strong>New Zealand leads in trip volume</strong>, driven by the ease of trans-Tasman travel, while <strong>China and India</strong> represent the largest long-haul markets. Europe and the Americas, though smaller in volume, tend to stay longer and spend more per trip.
+    </p>
 
-  <div class="section">
-    <h2>Spend, Stay, and Volume</h2>
-    <p>Trip numbers alone don't show the full picture economically. Chinese visitors spend nearly four times more than New Zealanders, despite similar (slightly less) trip counts. Indian visitors stay the longest on average, while Japanese tourists spend more per night.</p>
-    <div class="grid2">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Global Origin of Visitors to Australia (2024)</div>
+        <div class="card-caption">Colour intensity shows visitor trip volume. Grey countries have no recorded data. Hover over a country for details. Source: <a href="https://www.tra.gov.au" target="_blank">Tourism Research Australia, IVS 2024</a>.</div>
+      </div>
+      <div id="map-world"></div>
+    </div>
+
+    <div class="grid-2">
       <div class="card">
-        <h3>Share of Total Visitor Trips by Region (2024)</h3>
-        <div class="caption">Asia-Pacific dominates tourism.</div>
-        <div id="donut"></div>
+        <div class="card-header">
+          <div class="card-title">Top 10 Source Countries by Trip Volume</div>
+          <div class="card-caption">Visitor trips, thousands, 2024. Source: TRA IVS 2024.</div>
+        </div>
+        <div id="bar-top10"></div>
       </div>
       <div class="card">
-        <h3>Nights Stayed vs Total Spend by Country (2024)</h3>
-        <div class="caption">Bubble size = trip volume.</div>
-        <div id="bubble"></div>
+        <div class="card-header">
+          <div class="card-title">Share of Trips by World Region</div>
+          <div class="card-caption">Asia-Pacific accounts for over two thirds of all inbound visits. Source: TRA IVS 2024.</div>
+        </div>
+        <div id="donut-region"></div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div class="section">
-    <h2>Which Markets Are Growing?</h2>
-    <p>Comparing 2024 to 2025 forecasts reveals which source markets are expanding fastest. The United Kingdom, China, and Hong Kong are among the strongest growers, while Korea and Indonesia show slight declines. Understanding these trends helps Australia's tourism industry plan ahead.</p>
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════════
+       SECTION 2 — ECONOMIC VALUE
+  ══════════════════════════════════════════ -->
+  <section class="section" id="value">
+    <p class="section-label">Section 02</p>
+    <h2>Economic Value of Each Market</h2>
+    <div class="section-rule"></div>
+    <p class="section-lead">
+      Trip counts are only part of the story. <strong>China spends nearly four times more</strong> than New Zealand despite similar trip volumes. Indian visitors stay the longest — averaging over 60 nights — largely due to visiting friends and family. Understanding spend and duration helps prioritise which markets to cultivate.
+    </p>
+
+    <div class="insight">
+      <div class="insight-icon">💡</div>
+      <div class="insight-text">
+        The chart below uses a <strong>logarithmic x-axis</strong> to prevent clustering — many countries have similar night counts at the low end. Bubble size represents trip volume. <strong>China stands alone</strong> in the top-right: high nights, very high spend.
+      </div>
+    </div>
+
     <div class="card">
-      <h3>Chabge in Growth in Visitor Trips: 2024 vs 2025 (%)</h3>
-      <div class="caption">Positive values in teal indicate growth and negative (orange) indicate decline.</div>
+      <div class="card-header">
+        <div class="card-title">Nights Stayed vs Total Spend vs Trip Volume (2024)</div>
+        <div class="card-caption">Each bubble is a country. X axis (log scale) = total visitor nights. Y axis = total spend $M AUD. Bubble size = trip volume. Hover for details. Source: TRA IVS 2024.</div>
+      </div>
+      <div id="bubble"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Projected Growth in Visitor Trips: 2024 → 2025</div>
+        <div class="card-caption">Teal bars show growth; orange shows decline. The UK shows the strongest growth among traditional long-haul markets. Source: TRA IVS 2024.</div>
+      </div>
       <div id="diverging"></div>
     </div>
-  </div>
+  </section>
 
-</div>
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════════
+       SECTION 3 — AUSTRALIAN DESTINATIONS
+  ══════════════════════════════════════════ -->
+  <section class="section" id="destinations">
+    <p class="section-label">Section 03</p>
+    <h2>Where in Australia Do They Go?</h2>
+    <div class="section-rule"></div>
+    <p class="section-lead">
+      Once visitors arrive, their destinations are far from evenly distributed. <strong>New South Wales and Victoria</strong> capture the majority of arrivals, driven by Sydney and Melbourne's global appeal. Western Australia has recovered strongly beyond pre-COVID levels, while the <strong>Northern Territory is growing fastest</strong> — up 23.9% in a single year.
+    </p>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Short-Term Visitor Arrivals by State (March 2026)</div>
+          <div class="card-caption">Darker shading = more arrivals. Hover for state details. Source: <a href="https://www.abs.gov.au" target="_blank">ABS Overseas Arrivals and Departures, March 2026</a>.</div>
+        </div>
+        <div id="map-aus"></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Visitor Arrivals by State — All Four Snapshots</div>
+          <div class="card-caption">March snapshots: 2019 (pre-COVID), 2024, 2025, 2026. Each line is a state. Source: ABS.</div>
+        </div>
+        <div id="line-states"></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════════
+       SECTION 4 — RECOVERY
+  ══════════════════════════════════════════ -->
+  <section class="section" id="recovery">
+    <p class="section-label">Section 04</p>
+    <h2>Australia's Tourism Recovery</h2>
+    <div class="section-rule"></div>
+    <p class="section-lead">
+      COVID-19 effectively shut down international tourism to Australia for two years. The path back has been uneven — <strong>short-term visitor arrivals still haven't fully recovered</strong> to 2019 levels nationally, while long-term arrivals have surpassed them. The chart below contrasts where each category stood in 2019 versus today.
+    </p>
+
+    <div class="insight">
+      <div class="insight-icon">📍</div>
+      <div class="insight-text">
+        <strong>How to read this chart:</strong> Each row is a travel category. The <strong style="color:var(--gold-lt)">gold dot is 2019</strong> (pre-COVID); the <strong style="color:var(--teal-lt)">teal dot is 2026</strong>. A teal dot to the right of the gold dot means full recovery. A teal dot to the left means arrivals are still below pre-COVID levels.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Pre-COVID vs Today: Visitor Arrival Categories (March 2019 vs March 2026)</div>
+        <div class="card-caption">Gold = March 2019. Teal = March 2026. Connected line shows direction of change. Source: ABS Overseas Arrivals and Departures.</div>
+      </div>
+      <div id="dot-recovery"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Visitor Arrivals Across All Snapshots by Category</div>
+        <div class="card-caption">Grouped bar chart showing March 2019, 2024, 2025, and 2026 for each visitor category. Source: ABS Overseas Arrivals and Departures.</div>
+      </div>
+      <div id="bar-grouped"></div>
+    </div>
+
+  </section>
+
+</div><!-- end .page -->
 
 <footer>
-  Data sources: <a href="https://www.tra.gov.au" target="_blank">Tourism Research Australia — International Visitor Survey 2024</a> &nbsp;·&nbsp; <a href="https://www.abs.gov.au" target="_blank">ABS Overseas Arrivals and Departures</a><br>
-  Author: Tim Gordon &nbsp;·&nbsp;  &nbsp;·&nbsp; 
+  <div class="footer-grid">
+    <div>
+      <div class="footer-heading">Data Sources</div>
+      <a href="https://www.tra.gov.au/en/international/international-tourism-statistics" target="_blank">Tourism Research Australia — International Visitor Survey 2024</a><br>
+      <a href="https://www.abs.gov.au/statistics/industry/tourism-and-transport/overseas-arrivals-and-departures-australia" target="_blank">Australian Bureau of Statistics — Overseas Arrivals and Departures, March 2026</a>
+    </div>
+    <div>
+      <div class="footer-heading">Authorship</div>
+      Tim Gordon &nbsp;·&nbsp; FIT2179 Data Visualisation 2, Monash University &nbsp;·&nbsp; Semester 1, 2026<br>
+      Built with <a href="https://vega.github.io/vega-lite/" target="_blank">Vega-Lite v5</a>. AI tools used for grammar checking and code assistance (acknowledged per LearnHQ guidelines).
+    </div>
+  </div>
 </footer>
 
 <script>
-  var DATA = "https://raw.githubusercontent.com/ti-jago/FIT2179-Assignment2/refs/heads/main/data/tourism2024_clean.csv";
+  var OPT = { actions: false, renderer: "svg" };
+  var DATA  = "https://raw.githubusercontent.com/ti-jago/FIT2179-Assignment2/refs/heads/main/data/tourism2024_clean.csv";
+  var STATE = "https://raw.githubusercontent.com/ti-jago/FIT2179-Assignment2/refs/heads/main/data/visitors_by_state.csv";
+  var STATE_LONG = "https://raw.githubusercontent.com/ti-jago/FIT2179-Assignment2/refs/heads/main/data/visitors_by_state_long.csv";
+  var ARR   = "https://raw.githubusercontent.com/ti-jago/FIT2179-Assignment2/refs/heads/main/data/arrivals.csv";
+  var ARR_LONG = "https://raw.githubusercontent.com/ti-jago/FIT2179-Assignment2/refs/heads/main/data/arrivals_long.csv";
 
-  // MAP
-  vegaEmbed('#map', {
+  // ── 1. WORLD MAP ──────────────────────────────────────────────
+  vegaEmbed('#map-world', {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 860, "height": 420,
+    "width": "container", "height": 420,
     "projection": {"type": "naturalEarth1"},
     "layer": [
       {
         "data": {"url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json", "format": {"type": "topojson", "feature": "countries"}},
-        "mark": {"type": "geoshape", "fill": "#d9d9d9", "stroke": "white", "strokeWidth": 0.5}
+        "mark": {"type": "geoshape", "fill": "#d8d2c8", "stroke": "#f2ede4", "strokeWidth": 0.5}
       },
       {
         "data": {"url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json", "format": {"type": "topojson", "feature": "countries"}},
         "transform": [
           {"lookup": "properties.name", "from": {"data": {"url": DATA}, "key": "country", "fields": ["trips_2024","spend_2024","country"]}},
-          {"filter": "datum.trips_2024 != null"}
+          {"filter": "datum.trips_2024 != null"},
+          {"calculate": "toNumber(datum.trips_2024)", "as": "trips_num"}
         ],
-        "mark": {"type": "geoshape", "stroke": "white", "strokeWidth": 0.5},
+        "mark": {"type": "geoshape", "stroke": "#f2ede4", "strokeWidth": 0.5},
         "encoding": {
-          "color": {"field": "trips_2024", "type": "quantitative", "scale": {"scheme": "tealblues", "type": "log"}, "legend": {"title": "Trips (000s)"}},
+          "color": {
+            "field": "trips_num", "type": "quantitative",
+            "scale": {"scheme": "tealblues", "type": "log"},
+            "legend": {"title": "Trips (000s)", "labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10, "labelFontSize": 9}
+          },
           "tooltip": [
             {"field": "country", "type": "nominal", "title": "Country"},
-            {"field": "trips_2024", "type": "quantitative", "title": "Trips (000s)", "format": ","},
-            {"field": "spend_2024", "type": "quantitative", "title": "Spend ($M)", "format": ","}
+            {"field": "trips_num", "type": "quantitative", "title": "Trips (000s)", "format": ","},
+            {"field": "spend_2024", "type": "quantitative", "title": "Spend ($M AUD)", "format": ","}
           ]
         }
       }
     ]
-  }, {"actions": false});
+  }, OPT);
 
-  // BAR
-  vegaEmbed('#bar', {
+  // ── 2. BAR TOP 10 ─────────────────────────────────────────────
+  vegaEmbed('#bar-top10', {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 500, "height": 300,
+    "width": "container", "height": 300,
     "data": {"url": DATA},
     "transform": [
       {"filter": "datum.country !== 'Other Asia' && datum.country !== 'Other Europe' && datum.country !== 'Other Countries' && datum.country !== 'Scandinavia'"},
@@ -158,22 +538,62 @@
       {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "trips_num", "order": "descending"}]},
       {"filter": "datum.rank <= 10"}
     ],
-    "mark": "bar",
+    "layer": [
+      {
+        "mark": "bar",
+        "encoding": {
+          "y": {"field": "country", "type": "nominal", "sort": {"field": "rank", "order": "ascending"}, "title": null, "axis": {"labelFont": "DM Sans", "labelFontSize": 11}},
+          "x": {"field": "trips_num", "type": "quantitative", "title": "Visitor Trips (thousands)", "axis": {"labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10}},
+          "color": {"field": "trips_num", "type": "quantitative", "scale": {"scheme": "tealblues"}, "legend": null},
+          "tooltip": [
+            {"field": "country", "type": "nominal", "title": "Country"},
+            {"field": "trips_num", "type": "quantitative", "title": "Trips (000s)", "format": ","}
+          ]
+        }
+      },
+      {
+        "mark": {"type": "text", "align": "left", "dx": 4, "fontSize": 10, "color": "#7a746c"},
+        "encoding": {
+          "y": {"field": "country", "type": "nominal", "sort": {"field": "rank", "order": "ascending"}},
+          "x": {"field": "trips_num", "type": "quantitative"},
+          "text": {"field": "trips_num", "type": "quantitative", "format": ","}
+        }
+      }
+    ]
+  }, OPT);
+
+  // ── 3. DONUT ──────────────────────────────────────────────────
+  vegaEmbed('#donut-region', {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container", "height": 300,
+    "data": {"url": DATA},
+    "transform": [
+      {"calculate": "toNumber(datum.trips_2024)", "as": "trips_num"},
+      {
+        "calculate": "indexof(['New Zealand'], datum.country) >= 0 ? 'Pacific' : indexof(['Japan','Hong Kong','Singapore','Malaysia','Indonesia','Taiwan','Thailand','Vietnam','Philippines','South Korea','China','India','Other Asia'], datum.country) >= 0 ? 'Asia' : indexof(['United Kingdom','Germany','Scandinavia','France','Italy','Netherlands','Switzerland','Other Europe'], datum.country) >= 0 ? 'Europe' : indexof(['United States of America','Canada'], datum.country) >= 0 ? 'Americas' : 'Other'",
+        "as": "region"
+      },
+      {"aggregate": [{"op": "sum", "field": "trips_num", "as": "total_trips"}], "groupby": ["region"]}
+    ],
+    "mark": {"type": "arc", "innerRadius": 80, "outerRadius": 130},
     "encoding": {
-      "y": {"field": "country", "type": "nominal", "sort": {"field": "rank", "order": "ascending"}, "title": null},
-      "x": {"field": "trips_num", "type": "quantitative", "title": "Visitor Trips (thousands)"},
-      "color": {"field": "trips_num", "type": "quantitative", "scale": {"scheme": "tealblues"}, "legend": null},
+      "theta": {"field": "total_trips", "type": "quantitative"},
+      "color": {
+        "field": "region", "type": "nominal",
+        "scale": {"domain": ["Asia","Pacific","Europe","Americas","Other"], "range": ["#0d6e78","#b8863c","#5a9ea8","#c0522a","#a89880"]},
+        "legend": {"title": "Region", "labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10}
+      },
       "tooltip": [
-        {"field": "country", "type": "nominal", "title": "Country"},
-        {"field": "trips_num", "type": "quantitative", "title": "Trips (000s)", "format": ","}
+        {"field": "region", "type": "nominal", "title": "Region"},
+        {"field": "total_trips", "type": "quantitative", "title": "Trips (000s)", "format": ","}
       ]
     }
-  }, {"actions": false});
+  }, OPT);
 
-  // BUBBLE
+  // ── 4. BUBBLE ─────────────────────────────────────────────────
   vegaEmbed('#bubble', {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 340, "height": 300,
+    "width": "container", "height": 400,
     "data": {"url": DATA},
     "transform": [
       {"filter": "datum.country !== 'Other Asia' && datum.country !== 'Other Europe' && datum.country !== 'Other Countries'"},
@@ -181,69 +601,213 @@
       {"calculate": "toNumber(datum.spend_2024)", "as": "spend_num"},
       {"calculate": "toNumber(datum.trips_2024)", "as": "trips_num"}
     ],
-    "mark": {"type": "point", "filled": true, "opacity": 0.8},
-    "encoding": {
-      "x": {"field": "nights_num", "type": "quantitative", "title": "Total Nights (000s)", "scale": {"type": "log"}},
-      "y": {"field": "spend_num", "type": "quantitative", "title": "Spend ($M AUD)"},
-      "size": {"field": "trips_num", "type": "quantitative", "scale": {"range": [50, 1500]}, "legend": null},
-      "color": {"field": "country", "type": "nominal", "scale": {"scheme": "tableau10"}, "legend": null},
-      "tooltip": [
-        {"field": "country", "type": "nominal", "title": "Country"},
-        {"field": "trips_num", "type": "quantitative", "title": "Trips (000s)", "format": ","},
-        {"field": "nights_num", "type": "quantitative", "title": "Nights (000s)", "format": ","},
-        {"field": "spend_num", "type": "quantitative", "title": "Spend ($M)", "format": ","}
-      ]
-    }
-  }, {"actions": false});
-
-  // DONUT
-  vegaEmbed('#donut', {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 280, "height": 280,
-    "data": {"url": DATA},
-    "transform": [
-      {"calculate": "toNumber(datum.trips_2024)", "as": "trips_num"},
+    "layer": [
       {
-        "calculate": "indexof(['New Zealand','Australia'], datum.country) >= 0 ? 'Pacific' : indexof(['Japan','Hong Kong','Singapore','Malaysia','Indonesia','Taiwan','Thailand','Vietnam','Philippines','South Korea','China','India','Other Asia'], datum.country) >= 0 ? 'Asia' : indexof(['United Kingdom','Germany','Scandinavia','France','Italy','Netherlands','Switzerland','Other Europe'], datum.country) >= 0 ? 'Europe' : indexof(['United States of America','Canada'], datum.country) >= 0 ? 'Americas' : 'Other'",
-        "as": "region"
+        "mark": {"type": "point", "filled": true, "opacity": 0.75},
+        "encoding": {
+          "x": {"field": "nights_num", "type": "quantitative", "title": "Total Nights Stayed (000s, log scale)", "scale": {"type": "log"}, "axis": {"labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10}},
+          "y": {"field": "spend_num", "type": "quantitative", "title": "Total Spend ($M AUD)", "axis": {"labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10}},
+          "size": {"field": "trips_num", "type": "quantitative", "scale": {"range": [40, 2200]}, "legend": null},
+          "color": {"field": "country", "type": "nominal", "scale": {"scheme": "tableau10"}, "legend": null},
+          "tooltip": [
+            {"field": "country", "type": "nominal", "title": "Country"},
+            {"field": "trips_num", "type": "quantitative", "title": "Trips (000s)", "format": ","},
+            {"field": "nights_num", "type": "quantitative", "title": "Nights (000s)", "format": ","},
+            {"field": "spend_num", "type": "quantitative", "title": "Spend ($M)", "format": ","}
+          ]
+        }
       },
-      {"aggregate": [{"op": "sum", "field": "trips_num", "as": "total_trips"}], "groupby": ["region"]}
-    ],
-    "mark": {"type": "arc", "innerRadius": 70},
-    "encoding": {
-      "theta": {"field": "total_trips", "type": "quantitative"},
-      "color": {"field": "region", "type": "nominal", "scale": {"scheme": "tableau10"}, "legend": {"title": "Region"}},
-      "tooltip": [
-        {"field": "region", "type": "nominal", "title": "Region"},
-        {"field": "total_trips", "type": "quantitative", "title": "Trips (000s)", "format": ","}
-      ]
-    }
-  }, {"actions": false});
+      {
+        "mark": {"type": "text", "fontSize": 9, "dy": -10, "color": "#7a746c"},
+        "transform": [{"filter": "datum.spend_num > 1000"}],
+        "encoding": {
+          "x": {"field": "nights_num", "type": "quantitative", "scale": {"type": "log"}},
+          "y": {"field": "spend_num", "type": "quantitative"},
+          "text": {"field": "country", "type": "nominal"}
+        }
+      }
+    ]
+  }, OPT);
 
-  // DIVERGING BAR
+  // ── 5. DIVERGING BAR ──────────────────────────────────────────
   vegaEmbed('#diverging', {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 500, "height": 380,
+    "width": "container", "height": 400,
     "data": {"url": DATA},
     "transform": [
       {"filter": "datum.country !== 'Other Asia' && datum.country !== 'Other Europe' && datum.country !== 'Other Countries'"},
       {"calculate": "toNumber(datum.trips_change_pct)", "as": "change"},
       {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "change", "order": "descending"}]}
     ],
-    "mark": "bar",
+    "layer": [
+      {
+        "mark": "bar",
+        "encoding": {
+          "y": {"field": "country", "type": "nominal", "sort": {"field": "rank", "order": "ascending"}, "title": null, "axis": {"labelFont": "DM Sans", "labelFontSize": 11}},
+          "x": {"field": "change", "type": "quantitative", "title": "% Change in Visitor Trips (2024 to 2025)", "axis": {"labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10}},
+          "color": {
+            "condition": {"test": "datum.change >= 0", "value": "#0d6e78"},
+            "value": "#c0522a"
+          },
+          "tooltip": [
+            {"field": "country", "type": "nominal", "title": "Country"},
+            {"field": "change", "type": "quantitative", "title": "Growth (%)", "format": "+.0f"}
+          ]
+        }
+      },
+      {
+        "mark": {"type": "rule", "color": "#0f0e0c", "strokeWidth": 1},
+        "encoding": {"x": {"datum": 0}}
+      }
+    ]
+  }, OPT);
+
+  // ── 6. AUSTRALIA MAP ──────────────────────────────────────────
+  vegaEmbed('#map-aus', {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container", "height": 340,
+    "projection": {"type": "mercator"},
+    "layer": [
+      {
+        "data": {"url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.geojson", "format": {"type": "json", "property": "features"}},
+        "mark": {"type": "geoshape", "fill": "#d8d2c8", "stroke": "#f2ede4", "strokeWidth": 1}
+      },
+      {
+        "data": {"url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.geojson", "format": {"type": "json", "property": "features"}},
+        "transform": [
+          {"lookup": "properties.STATE_NAME", "from": {"data": {"url": STATE}, "key": "state_full", "fields": ["mar_2026","mar_2019","change_pct","state"]}}
+        ],
+        "mark": {"type": "geoshape", "stroke": "#f2ede4", "strokeWidth": 1},
+        "encoding": {
+          "color": {
+            "field": "mar_2026", "type": "quantitative",
+            "scale": {"scheme": "tealblues"},
+            "legend": {"title": "Arrivals (Mar 2026)", "labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10}
+          },
+          "tooltip": [
+            {"field": "properties.STATE_NAME", "type": "nominal", "title": "State"},
+            {"field": "mar_2026", "type": "quantitative", "title": "Mar 2026 Arrivals", "format": ","},
+            {"field": "mar_2019", "type": "quantitative", "title": "Mar 2019 Arrivals", "format": ","},
+            {"field": "change_pct", "type": "quantitative", "title": "2025→2026 Growth (%)", "format": "+.1f"}
+          ]
+        }
+      }
+    ]
+  }, OPT);
+
+  // ── 7. STATE LINE CHART ───────────────────────────────────────
+  vegaEmbed('#line-states', {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container", "height": 340,
+    "data": {"url": STATE_LONG},
+    "transform": [
+      {"calculate": "toNumber(datum.visitors)", "as": "v"},
+      {"calculate": "toString(datum.year)", "as": "yr"}
+    ],
+    "mark": {"type": "line", "point": {"filled": true, "size": 60}},
     "encoding": {
-      "y": {"field": "country", "type": "nominal", "sort": {"field": "rank", "order": "ascending"}, "title": null},
-      "x": {"field": "change", "type": "quantitative", "title": "% Change in Trips (2024 to 2025)"},
+      "x": {"field": "yr", "type": "ordinal", "title": "Year (March snapshot)", "axis": {"labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10}},
+      "y": {"field": "v", "type": "quantitative", "title": "Short-term Visitor Arrivals", "axis": {"labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10}},
       "color": {
-        "condition": {"test": "datum.change >= 0", "value": "#0a7e8c"},
-        "value": "#c8973a"
+        "field": "state_full", "type": "nominal",
+        "scale": {"scheme": "tableau10"},
+        "legend": {"title": "State", "labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10}
       },
       "tooltip": [
-        {"field": "country", "type": "nominal", "title": "Country"},
-        {"field": "change", "type": "quantitative", "title": "Growth (%)", "format": "+.0f"}
+        {"field": "state_full", "type": "nominal", "title": "State"},
+        {"field": "yr", "type": "nominal", "title": "Year"},
+        {"field": "v", "type": "quantitative", "title": "Arrivals", "format": ","}
       ]
     }
-  }, {"actions": false});
+  }, OPT);
+
+  // ── 8. CONNECTED DOT PLOT ─────────────────────────────────────
+  vegaEmbed('#dot-recovery', {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container", "height": 220,
+    "data": {"url": ARR},
+    "transform": [
+      {"filter": "datum.type === 'arrivals'"},
+      {"filter": "datum.category !== 'Short-term resident returns' && datum.category !== 'Long-term resident returns'"},
+      {"calculate": "toNumber(datum.mar_2019)", "as": "v2019"},
+      {"calculate": "toNumber(datum.mar_2026)", "as": "v2026"}
+    ],
+    "layer": [
+      {
+        "mark": {"type": "rule", "strokeWidth": 2.5, "color": "#d8d2c8"},
+        "encoding": {
+          "y": {"field": "category", "type": "nominal", "title": null, "axis": {"labelFont": "DM Sans", "labelFontSize": 11}},
+          "x": {"field": "v2019", "type": "quantitative", "title": "Number of Arrivals (March)", "axis": {"labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10}},
+          "x2": {"field": "v2026"}
+        }
+      },
+      {
+        "mark": {"type": "point", "filled": true, "size": 140, "opacity": 1},
+        "encoding": {
+          "y": {"field": "category", "type": "nominal"},
+          "x": {"field": "v2019", "type": "quantitative"},
+          "color": {"value": "#b8863c"},
+          "tooltip": [{"field": "category", "type": "nominal"}, {"field": "v2019", "type": "quantitative", "title": "Mar 2019", "format": ","}]
+        }
+      },
+      {
+        "mark": {"type": "point", "filled": true, "size": 140, "opacity": 1},
+        "encoding": {
+          "y": {"field": "category", "type": "nominal"},
+          "x": {"field": "v2026", "type": "quantitative"},
+          "color": {"value": "#0d6e78"},
+          "tooltip": [{"field": "category", "type": "nominal"}, {"field": "v2026", "type": "quantitative", "title": "Mar 2026", "format": ","}]
+        }
+      },
+      {
+        "mark": {"type": "text", "align": "right", "dx": -10, "fontSize": 9, "fontStyle": "italic"},
+        "encoding": {
+          "y": {"field": "category", "type": "nominal"},
+          "x": {"field": "v2019", "type": "quantitative"},
+          "text": {"value": "2019"},
+          "color": {"value": "#b8863c"}
+        }
+      },
+      {
+        "mark": {"type": "text", "align": "left", "dx": 10, "fontSize": 9, "fontStyle": "italic"},
+        "encoding": {
+          "y": {"field": "category", "type": "nominal"},
+          "x": {"field": "v2026", "type": "quantitative"},
+          "text": {"value": "2026"},
+          "color": {"value": "#0d6e78"}
+        }
+      }
+    ]
+  }, OPT);
+
+  // ── 9. GROUPED BAR ────────────────────────────────────────────
+  vegaEmbed('#bar-grouped', {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container", "height": 300,
+    "data": {"url": ARR_LONG},
+    "transform": [
+      {"filter": "datum.type === 'Visitor'"},
+      {"calculate": "toNumber(datum.count)", "as": "count_num"},
+      {"calculate": "toString(datum.year)", "as": "year_str"}
+    ],
+    "mark": {"type": "bar"},
+    "encoding": {
+      "x": {"field": "year_str", "type": "ordinal", "title": "Year (March snapshot)", "axis": {"labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10}},
+      "y": {"field": "count_num", "type": "quantitative", "title": "Arrivals", "axis": {"labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10}},
+      "xOffset": {"field": "category", "type": "nominal"},
+      "color": {
+        "field": "category", "type": "nominal",
+        "scale": {"domain": ["Short-term visitor arrivals","Long-term visitor arrivals"], "range": ["#0d6e78","#b8863c"]},
+        "legend": {"title": "Category", "labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10}
+      },
+      "tooltip": [
+        {"field": "category", "type": "nominal", "title": "Category"},
+        {"field": "year_str", "type": "nominal", "title": "Year"},
+        {"field": "count_num", "type": "quantitative", "title": "Arrivals", "format": ","}
+      ]
+    }
+  }, OPT);
+
 </script>
 </body>
 </html>
