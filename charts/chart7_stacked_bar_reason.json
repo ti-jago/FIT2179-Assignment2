@@ -1,0 +1,62 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Normalised stacked bar chart showing the share of visitor arrivals to Australia by purpose of travel from 2019 to 2025. Normalisation isolates structural shifts from raw volume changes, revealing how holiday travel's share contracted post-pandemic while VFR and education grew. Data source: ABS 3401.0 Table 6.",
+  "width": "container",
+  "height": 320,
+  "data": {
+    "url": "https://raw.githubusercontent.com/ti-jago/FIT2179-Assignment2/refs/heads/main/data/reason_for_journey_annual.csv"
+  },
+  "transform": [
+    { "filter": "datum.year >= 2019 && datum.year <= 2025" },
+    { "filter": "datum.reason !== 'Other & not stated'" },
+    { "calculate": "toNumber(datum.arrivals)", "as": "arrivals_num" },
+    { "calculate": "toString(datum.year)", "as": "year_str" },
+    {
+      "calculate": "datum.reason === 'Holiday' ? 0 : datum.reason === 'Visiting friends/relatives' ? 1 : datum.reason === 'Business' ? 2 : datum.reason === 'Education' ? 3 : datum.reason === 'Convention/conference' ? 4 : 5",
+      "as": "sort_order"
+    }
+  ],
+  "mark": { "type": "bar", "cornerRadiusTopLeft": 2, "cornerRadiusTopRight": 2 },
+  "encoding": {
+    "x": {
+      "field": "year_str",
+      "type": "ordinal",
+      "title": "Year",
+      "axis": { "labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10 }
+    },
+    "y": {
+      "field": "arrivals_num",
+      "type": "quantitative",
+      "title": "Share of Arrivals",
+      "stack": "normalize",
+      "axis": {
+        "labelFont": "DM Sans",
+        "titleFont": "DM Sans",
+        "titleFontSize": 10,
+        "format": ".0%"
+      }
+    },
+    "color": {
+      "field": "reason",
+      "type": "nominal",
+      "sort": { "field": "sort_order", "order": "ascending" },
+      "scale": {
+        "domain": ["Holiday", "Visiting friends/relatives", "Business", "Education", "Convention/conference"],
+        "range": ["#0d6e78", "#b8863c", "#5a9ea8", "#c0522a", "#a89880"]
+      },
+      "legend": {
+        "title": "Reason",
+        "labelFont": "DM Sans",
+        "titleFont": "DM Sans",
+        "titleFontSize": 10,
+        "orient": "right"
+      }
+    },
+    "order": { "field": "sort_order", "type": "quantitative" },
+    "tooltip": [
+      { "field": "reason", "type": "nominal", "title": "Reason" },
+      { "field": "year_str", "type": "nominal", "title": "Year" },
+      { "field": "arrivals_num", "type": "quantitative", "title": "Arrivals", "format": "," }
+    ]
+  }
+}

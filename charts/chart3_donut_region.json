@@ -1,0 +1,42 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Donut chart showing the share of total visitor trips to Australia by world region (2024). Asia-Pacific dominates with over two-thirds of all visits. Data source: Tourism Research Australia, IVS 2024.",
+  "width": "container",
+  "height": 300,
+  "data": {
+    "url": "https://raw.githubusercontent.com/ti-jago/FIT2179-Assignment2/refs/heads/main/data/tourism2024_clean.csv"
+  },
+  "transform": [
+    { "calculate": "toNumber(datum.trips_2024)", "as": "trips_num" },
+    {
+      "calculate": "indexof(['New Zealand'], datum.country) >= 0 ? 'Pacific' : indexof(['Japan','Hong Kong','Singapore','Malaysia','Indonesia','Taiwan','Thailand','Vietnam','Philippines','South Korea','China','India','Other Asia'], datum.country) >= 0 ? 'Asia' : indexof(['United Kingdom','Germany','Scandinavia','France','Italy','Netherlands','Switzerland','Other Europe'], datum.country) >= 0 ? 'Europe' : indexof(['United States of America','Canada'], datum.country) >= 0 ? 'Americas' : 'Other'",
+      "as": "region"
+    },
+    {
+      "aggregate": [{ "op": "sum", "field": "trips_num", "as": "total_trips" }],
+      "groupby": ["region"]
+    }
+  ],
+  "mark": { "type": "arc", "innerRadius": 80, "outerRadius": 130 },
+  "encoding": {
+    "theta": { "field": "total_trips", "type": "quantitative" },
+    "color": {
+      "field": "region",
+      "type": "nominal",
+      "scale": {
+        "domain": ["Asia", "Pacific", "Europe", "Americas", "Other"],
+        "range": ["#0d6e78", "#b8863c", "#5a9ea8", "#c0522a", "#a89880"]
+      },
+      "legend": {
+        "title": "Region",
+        "labelFont": "DM Sans",
+        "titleFont": "DM Sans",
+        "titleFontSize": 10
+      }
+    },
+    "tooltip": [
+      { "field": "region", "type": "nominal", "title": "Region" },
+      { "field": "total_trips", "type": "quantitative", "title": "Trips (000s)", "format": "," }
+    ]
+  }
+}

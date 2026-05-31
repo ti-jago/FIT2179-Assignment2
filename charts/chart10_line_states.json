@@ -1,0 +1,44 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Multi-line chart showing short-term visitor arrivals by Australian state across four March snapshots: 2019 (pre-COVID), 2024, 2025, and 2026. Each line is a state, with points marking each snapshot. Data source: ABS Overseas Arrivals and Departures.",
+  "width": "container",
+  "height": 340,
+  "data": {
+    "url": "https://raw.githubusercontent.com/ti-jago/FIT2179-Assignment2/refs/heads/main/data/visitors_by_state_long.csv"
+  },
+  "transform": [
+    { "calculate": "toNumber(datum.visitors)", "as": "v" },
+    { "calculate": "toString(datum.year)", "as": "yr" }
+  ],
+  "mark": { "type": "line", "point": { "filled": true, "size": 60 } },
+  "encoding": {
+    "x": {
+      "field": "yr",
+      "type": "ordinal",
+      "title": "Year (March snapshot)",
+      "axis": { "labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10 }
+    },
+    "y": {
+      "field": "v",
+      "type": "quantitative",
+      "title": "Short-term Visitor Arrivals",
+      "axis": { "labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10 }
+    },
+    "color": {
+      "field": "state_full",
+      "type": "nominal",
+      "scale": { "scheme": "tableau10" },
+      "legend": {
+        "title": "State",
+        "labelFont": "DM Sans",
+        "titleFont": "DM Sans",
+        "titleFontSize": 10
+      }
+    },
+    "tooltip": [
+      { "field": "state_full", "type": "nominal", "title": "State" },
+      { "field": "yr", "type": "nominal", "title": "Year" },
+      { "field": "v", "type": "quantitative", "title": "Arrivals", "format": "," }
+    ]
+  }
+}

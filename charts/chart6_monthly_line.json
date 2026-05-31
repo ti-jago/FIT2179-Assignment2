@@ -1,0 +1,110 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Multi-line chart showing monthly short-term visitor arrivals to Australia by country from January 2019 to March 2026. Includes a dashed vertical rule marking Australia's border closure in March 2020. Click a country in the legend to highlight it. Data source: ABS 3401.0 Table 5 — Overseas Arrivals and Departures.",
+  "width": "container",
+  "height": 380,
+  "data": {
+    "url": "https://raw.githubusercontent.com/ti-jago/FIT2179-Assignment2/refs/heads/main/data/monthly_arrivals_by_country.csv"
+  },
+  "transform": [
+    { "calculate": "toNumber(datum.arrivals)", "as": "arrivals_num" },
+    { "calculate": "utcParse(datum.date + '-01', '%Y-%m-%d')", "as": "date_parsed" }
+  ],
+  "layer": [
+    {
+      "mark": { "type": "line", "interpolate": "monotone", "strokeWidth": 2 },
+      "params": [
+        {
+          "name": "hover",
+          "select": { "type": "point", "fields": ["country"], "on": "pointerover" },
+          "bind": "legend"
+        }
+      ],
+      "encoding": {
+        "x": {
+          "field": "date_parsed",
+          "type": "temporal",
+          "title": "Month",
+          "axis": {
+            "format": "%Y",
+            "tickCount": "year",
+            "labelFont": "DM Sans",
+            "titleFont": "DM Sans",
+            "titleFontSize": 10,
+            "gridColor": "#e8e2d8"
+          }
+        },
+        "y": {
+          "field": "arrivals_num",
+          "type": "quantitative",
+          "title": "Short-term Visitor Arrivals",
+          "axis": {
+            "labelFont": "DM Sans",
+            "titleFont": "DM Sans",
+            "titleFontSize": 10,
+            "format": ",",
+            "gridColor": "#e8e2d8"
+          }
+        },
+        "color": {
+          "field": "country",
+          "type": "nominal",
+          "scale": { "scheme": "tableau10" },
+          "legend": {
+            "title": "Country",
+            "labelFont": "DM Sans",
+            "titleFont": "DM Sans",
+            "titleFontSize": 10,
+            "orient": "right"
+          }
+        },
+        "opacity": {
+          "condition": { "param": "hover", "value": 1 },
+          "value": 0.2
+        },
+        "strokeWidth": {
+          "condition": { "param": "hover", "value": 3 },
+          "value": 1.5
+        },
+        "tooltip": [
+          { "field": "country", "type": "nominal", "title": "Country" },
+          { "field": "date", "type": "nominal", "title": "Month" },
+          { "field": "arrivals_num", "type": "quantitative", "title": "Arrivals", "format": "," }
+        ]
+      }
+    },
+    {
+      "data": { "values": [{ "x": "2020-03" }] },
+      "transform": [
+        { "calculate": "utcParse(datum.x + '-01', '%Y-%m-%d')", "as": "date_parsed" }
+      ],
+      "mark": {
+        "type": "rule",
+        "color": "#7a746c",
+        "strokeDash": [4, 4],
+        "strokeWidth": 1
+      },
+      "encoding": { "x": { "field": "date_parsed", "type": "temporal" } }
+    },
+    {
+      "data": { "values": [{ "x": "2020-03", "label": "Borders close" }] },
+      "transform": [
+        { "calculate": "utcParse(datum.x + '-01', '%Y-%m-%d')", "as": "date_parsed" }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 4,
+        "dy": -8,
+        "fontSize": 9,
+        "fontStyle": "italic",
+        "color": "#7a746c"
+      },
+      "encoding": {
+        "x": { "field": "date_parsed", "type": "temporal" },
+        "y": { "value": 10 },
+        "text": { "field": "label", "type": "nominal" }
+      }
+    }
+  ]
+}

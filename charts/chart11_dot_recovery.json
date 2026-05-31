@@ -1,0 +1,79 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Custom connected dot plot showing pre-COVID (March 2019) vs current (March 2026) visitor arrival counts by travel category. Gold dot = 2019, teal dot = 2026. A connecting rule line shows direction and magnitude of change. Direct text annotations label each dot. Data source: ABS Overseas Arrivals and Departures.",
+  "width": "container",
+  "height": 220,
+  "data": {
+    "url": "https://raw.githubusercontent.com/ti-jago/FIT2179-Assignment2/refs/heads/main/data/arrivals.csv"
+  },
+  "transform": [
+    { "filter": "datum.type === 'arrivals'" },
+    {
+      "filter": "datum.category !== 'Short-term resident returns' && datum.category !== 'Long-term resident returns'"
+    },
+    { "calculate": "toNumber(datum.mar_2019)", "as": "v2019" },
+    { "calculate": "toNumber(datum.mar_2026)", "as": "v2026" }
+  ],
+  "layer": [
+    {
+      "mark": { "type": "rule", "strokeWidth": 2.5, "color": "#d8d2c8" },
+      "encoding": {
+        "y": {
+          "field": "category",
+          "type": "nominal",
+          "title": null,
+          "axis": { "labelFont": "DM Sans", "labelFontSize": 11 }
+        },
+        "x": {
+          "field": "v2019",
+          "type": "quantitative",
+          "title": "Number of Arrivals (March)",
+          "axis": { "labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10 }
+        },
+        "x2": { "field": "v2026" }
+      }
+    },
+    {
+      "mark": { "type": "point", "filled": true, "size": 140, "opacity": 1 },
+      "encoding": {
+        "y": { "field": "category", "type": "nominal" },
+        "x": { "field": "v2019", "type": "quantitative" },
+        "color": { "value": "#b8863c" },
+        "tooltip": [
+          { "field": "category", "type": "nominal" },
+          { "field": "v2019", "type": "quantitative", "title": "Mar 2019", "format": "," }
+        ]
+      }
+    },
+    {
+      "mark": { "type": "point", "filled": true, "size": 140, "opacity": 1 },
+      "encoding": {
+        "y": { "field": "category", "type": "nominal" },
+        "x": { "field": "v2026", "type": "quantitative" },
+        "color": { "value": "#0d6e78" },
+        "tooltip": [
+          { "field": "category", "type": "nominal" },
+          { "field": "v2026", "type": "quantitative", "title": "Mar 2026", "format": "," }
+        ]
+      }
+    },
+    {
+      "mark": { "type": "text", "align": "right", "dx": -10, "fontSize": 9, "fontStyle": "italic" },
+      "encoding": {
+        "y": { "field": "category", "type": "nominal" },
+        "x": { "field": "v2019", "type": "quantitative" },
+        "text": { "value": "2019" },
+        "color": { "value": "#b8863c" }
+      }
+    },
+    {
+      "mark": { "type": "text", "align": "left", "dx": 10, "fontSize": 9, "fontStyle": "italic" },
+      "encoding": {
+        "y": { "field": "category", "type": "nominal" },
+        "x": { "field": "v2026", "type": "quantitative" },
+        "text": { "value": "2026" },
+        "color": { "value": "#0d6e78" }
+      }
+    }
+  ]
+}

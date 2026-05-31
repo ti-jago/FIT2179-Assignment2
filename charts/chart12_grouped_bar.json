@@ -1,0 +1,49 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Grouped bar chart showing short-term and long-term visitor arrivals to Australia across four March snapshots: 2019, 2024, 2025, and 2026. Each group is a year, with two bars per group for each visitor category. Data source: ABS Overseas Arrivals and Departures.",
+  "width": "container",
+  "height": 300,
+  "data": {
+    "url": "https://raw.githubusercontent.com/ti-jago/FIT2179-Assignment2/refs/heads/main/data/arrivals_long.csv"
+  },
+  "transform": [
+    { "filter": "datum.type === 'Visitor'" },
+    { "calculate": "toNumber(datum.count)", "as": "count_num" },
+    { "calculate": "toString(datum.year)", "as": "year_str" }
+  ],
+  "mark": { "type": "bar" },
+  "encoding": {
+    "x": {
+      "field": "year_str",
+      "type": "ordinal",
+      "title": "Year (March snapshot)",
+      "axis": { "labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10 }
+    },
+    "y": {
+      "field": "count_num",
+      "type": "quantitative",
+      "title": "Arrivals",
+      "axis": { "labelFont": "DM Sans", "titleFont": "DM Sans", "titleFontSize": 10 }
+    },
+    "xOffset": { "field": "category", "type": "nominal" },
+    "color": {
+      "field": "category",
+      "type": "nominal",
+      "scale": {
+        "domain": ["Short-term visitor arrivals", "Long-term visitor arrivals"],
+        "range": ["#0d6e78", "#b8863c"]
+      },
+      "legend": {
+        "title": "Category",
+        "labelFont": "DM Sans",
+        "titleFont": "DM Sans",
+        "titleFontSize": 10
+      }
+    },
+    "tooltip": [
+      { "field": "category", "type": "nominal", "title": "Category" },
+      { "field": "year_str", "type": "nominal", "title": "Year" },
+      { "field": "count_num", "type": "quantitative", "title": "Arrivals", "format": "," }
+    ]
+  }
+}

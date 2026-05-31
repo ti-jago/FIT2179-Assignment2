@@ -1,0 +1,63 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Choropleth world map showing short-term international visitor trips to Australia by country of origin (2024). Data source: Tourism Research Australia, IVS 2024.",
+  "width": "container",
+  "height": 420,
+  "projection": { "type": "naturalEarth1" },
+  "layer": [
+    {
+      "data": {
+        "url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json",
+        "format": { "type": "topojson", "feature": "countries" }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#d8d2c8",
+        "stroke": "#f2ede4",
+        "strokeWidth": 0.5
+      }
+    },
+    {
+      "data": {
+        "url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json",
+        "format": { "type": "topojson", "feature": "countries" }
+      },
+      "transform": [
+        {
+          "lookup": "properties.name",
+          "from": {
+            "data": { "url": "https://raw.githubusercontent.com/ti-jago/FIT2179-Assignment2/refs/heads/main/data/tourism2024_clean.csv" },
+            "key": "country",
+            "fields": ["trips_2024", "spend_2024", "country"]
+          }
+        },
+        { "filter": "datum.trips_2024 != null" },
+        { "calculate": "toNumber(datum.trips_2024)", "as": "trips_num" }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "stroke": "#f2ede4",
+        "strokeWidth": 0.5
+      },
+      "encoding": {
+        "color": {
+          "field": "trips_num",
+          "type": "quantitative",
+          "scale": { "scheme": "tealblues", "type": "log" },
+          "legend": {
+            "title": "Trips (000s)",
+            "labelFont": "DM Sans",
+            "titleFont": "DM Sans",
+            "titleFontSize": 10,
+            "labelFontSize": 9
+          }
+        },
+        "tooltip": [
+          { "field": "country", "type": "nominal", "title": "Country" },
+          { "field": "trips_num", "type": "quantitative", "title": "Trips (000s)", "format": "," },
+          { "field": "spend_2024", "type": "quantitative", "title": "Spend ($M AUD)", "format": "," }
+        ]
+      }
+    }
+  ]
+}

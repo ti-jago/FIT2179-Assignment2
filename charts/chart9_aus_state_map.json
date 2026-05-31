@@ -1,0 +1,59 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Choropleth map of Australia showing short-term international visitor arrivals by state/territory in March 2026. Uses a Mercator projection with GeoJSON state boundaries. Data source: ABS Overseas Arrivals and Departures, March 2026.",
+  "width": "container",
+  "height": 340,
+  "projection": { "type": "mercator" },
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.geojson",
+        "format": { "type": "json", "property": "features" }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#d8d2c8",
+        "stroke": "#f2ede4",
+        "strokeWidth": 1
+      }
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.geojson",
+        "format": { "type": "json", "property": "features" }
+      },
+      "transform": [
+        {
+          "lookup": "properties.STATE_NAME",
+          "from": {
+            "data": {
+              "url": "https://raw.githubusercontent.com/ti-jago/FIT2179-Assignment2/refs/heads/main/data/visitors_by_state.csv"
+            },
+            "key": "state_full",
+            "fields": ["mar_2026", "mar_2019", "change_pct", "state"]
+          }
+        }
+      ],
+      "mark": { "type": "geoshape", "stroke": "#f2ede4", "strokeWidth": 1 },
+      "encoding": {
+        "color": {
+          "field": "mar_2026",
+          "type": "quantitative",
+          "scale": { "scheme": "tealblues" },
+          "legend": {
+            "title": "Arrivals (Mar 2026)",
+            "labelFont": "DM Sans",
+            "titleFont": "DM Sans",
+            "titleFontSize": 10
+          }
+        },
+        "tooltip": [
+          { "field": "properties.STATE_NAME", "type": "nominal", "title": "State" },
+          { "field": "mar_2026", "type": "quantitative", "title": "Mar 2026 Arrivals", "format": "," },
+          { "field": "mar_2019", "type": "quantitative", "title": "Mar 2019 Arrivals", "format": "," },
+          { "field": "change_pct", "type": "quantitative", "title": "2025→2026 Growth (%)", "format": "+.1f" }
+        ]
+      }
+    }
+  ]
+}
